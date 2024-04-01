@@ -588,7 +588,7 @@ async function postConversionTransaction(quantumWallet) {
         let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
         if (result == true) {
             let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, contractAddress, value, true);
-            pendingTransactionsMap.set(quantumWallet.address.toLowerCase(), pendingTxn);
+            pendingTransactionsMap.set(quantumWallet.address.toLowerCase() + currentBlockchainNetwork.index.toString(), pendingTxn);
 
             setTimeout(() => {
                 hideWaitingBox();
