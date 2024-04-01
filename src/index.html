@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src-elem 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline';style-src 'unsafe-inline';script-src 'unsafe-inline' 'unsafe-eval';connect-src * 'self';worker-src *;img-src 'self' data: w3.org/svg/2000">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/fonts/SFPro/stylesheet.css">
+    <link rel="stylesheet" href="assets/fonts/Poppins/stylesheet.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <title data-lang-key="title">Title</title>
+    <link rel="preload" href="assets/svg/eye-outline.svg" as="image">
+    <link rel="preload" href="assets/svg/eye-off-outline.svg" as="image">
+
+    <link rel="preload" href="assets/svg/arrow-back-circle-outline-active.svg" as="image">
+    <link rel="preload" href="assets/svg/refresh-circle-outline-active.svg" as="image">
+    <link rel="preload" href="assets/svg/copy-outline-active.svg" as="image">
+    <link rel="preload" href="assets/svg/refresh-active.svg" as="image">
+    <link rel="preload" href="assets/svg/chevron-back-outline-active.svg" as="image">
+    <link rel="preload" href="assets/svg/chevron-forward-outline-active.svg" as="image">
+    <link rel="preload" href="assets/svg/open-active.svg" as="image">
+
+    <link rel="preload" href="assets/svg/arrow-back-circle-outline-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/refresh-circle-outline-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/copy-outline-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/refresh-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/chevron-back-outline-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/chevron-forward-outline-focus.svg" as="image">
+    <link rel="preload" href="assets/svg/open-focus.svg" as="image">
+</head>
+
+<body>
+    <dialog id="modalOkDialog" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="float:left;display:none;" id="divSuccess"><img src="assets/svg/checkmark-circle-outline.svg" style="width:55px;margin-top:12px;" alt="Success" /></div>
+            <div style="float:left;display:none;" id="divWarn"><img src="assets/svg/warning-outline.svg" style="width:55px;margin-top:12px;" alt="Warning" /></div>
+            <div style="margin-bottom:10px;">
+                <div style="padding-bottom:20px;overflow:auto;"><p id="pDetails" class="scrollbar" tabindex="2">Some text in the Modal..</p></div>
+                <button class="close" data-lang-key="ok" role="button" tabindex="1" id="divModalOk">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalConfirmDialog" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="margin-bottom:30px;">
+                <div><p id="pDetailsConfirm" style="font-weight:bold;overflow:auto" class="scrollbar" tabindex="4">Some text in the Modal..</p></div>
+                <div>
+                    <label data-lang-key="network">Network</label> : <label style="color:green" id="lblNetworkConfirm"></label>
+                </div>
+                <div>
+                    <label data-lang-key="type-the-words">Type the words</label> <span style="color:blue">i agree</span>
+                    <input type="text" style="width:63px;font-size:16px;border-radius:10px;border:1px solid;padding:3px;" id="txtConfirm" tabindex="1" />
+                </div>
+                <div style="margin-top:20px;">
+                    <div class="proceed" data-lang-key="ok" role="button" tabindex="3">
+                        Ok
+                    </div>
+                    <button class="cancel" data-lang-key="cancel" role="button" tabindex="2">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalNetworkDialog" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="margin-bottom:10px;">
+                <h3 data-lang-key="select-network">Select Network</h3>
+                <div id="divNetworkListDialog">
+                    <div style="padding-bottom:20px;" class="network-template">
+                        <label class="tab-label" style="text-align: left;">
+                            <input type="radio" name="network_option" value="[BLOCKCHAIN_NETWORK_INDEX]" class="safety_quiz_option" id="optNetwork[BLOCKCHAIN_NETWORK_INDEX]" tabindex="[TAB_INDEX]">
+                            [BLOCKCHAIN_NETWORK_NAME] (NetworkId [BLOCKCHAIN_NETWORK_ID])
+                        </label>
+                    </div>
+                </div>
+                <button class="oknetwork" data-lang-key="ok" role="button" id="divOkNetwork" tabindex="2">Ok</button>
+                <button class="cancel" data-lang-key="cancel" role="button" id="divCancelNetwork" tabindex="1">Cancel</button>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalWaitDialog" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="float:left;" id="divLoadingModalIcon"><img src="assets/icons/loading.gif" style="width:70px;margin-top:12px;margin-right:10px;" alt="Loading" /></div>
+            <div style="margin-bottom:10px;">
+                <div style="padding-bottom:20px;"><p id="pWaitDetails" class="scrollbar" style="overflow:auto;" tabindex="1">Some text in the Modal..</p></div>
+            </div>
+        </div>
+    </dialog>
+
+    <div style="margin: -10px;">
+        <div class="dropdown" onclick="return showNetworkDialog();" id="divNetworkDropdown" role="button" tabindex="1000" style="display:none;">
+            <div style="width:fit-content;margin-top:4px;float:left;"><span class="networkbox" id="spnNetwork">MAINNET&#x25BC;</span></div>
+        </div>
+
+        <div class="gradient" id="gradient">
+            <div class="logo">
+                <img src="assets/icons/app/dp.png" alt="Title" class="logoimg" id="imgLogo">
+            </div>
+            <div class="animate-character" id="divWalletTitle" data-lang-key="title">Title</div>
+        </div>
+    </div>
+
+    <div class="tabs-content" id="login-content" style="display: none;">
+
+        <div class="content" id="unlockScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="unlock-wallet">Unlock Wallet</div>
+                        <div class="divider"></div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="enter-wallet-password">Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdUnlock" name="password" data-placeholder-key="enter-wallet-password"
+                                           placeholder="Enter a password" tabindex="0" autofocus>
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdUnlock');" data-alt-key="show-password" role="button" tabindex="1" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="unlockWallet();" data-lang-key="unlock" role="button" tabindex="2">
+                            Unlock
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="welcomeScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box">
+                        <div id="welcomeText" class="heading bold large"></div>
+                        <div class="divider"></div>
+                        <div id="infoContainer">
+                            <div class="heading bold medium" id="divInfoPanelTitle">Info Title</div>
+                            <div class="heading bold medium" id="divInfoPanelDetail">Info Detail</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div id="nextButtonWelcomeScreen" class="large_button_container heading large" data-lang-key="next" role="button" onclick="nextInfoStep();" tabindex="25">Next</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="quizScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box">
+                        <div class="safety_question_container"></div>
+                        <div class="heading bold large" id="divSafetyQuizTitle">Safety Quiz</div>
+                        <div class="divider"></div>
+                        <div class="heading bold medium" id="divSafetyQuizSubTitle">Wallet</div>
+                        <div class="tab-name" id="divSafetyQuizQuestion">
+                            What coins or tokens can you send to this wallet ?
+                        </div>
+                        <label class="tab-label safety_quiz_label" style="text-align: left;display:none;cursor:pointer;" id="lblSafetyQuizChoice">
+                            <input type="radio" name="quiz_option" value="" class="safety_quiz_option" tabindex="[TAB_INDEX]" />
+                        </label>
+                        <form id="quizForm" style="display: flex; flex-direction: column; gap: 10px;">
+                        </form>
+                        <div class="divider"></div>
+                        <div class="large_button_container heading large" onclick="submitQuizForm()" data-lang-key="next" role="button" tabindex="399">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="createWalletPasswordScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="set-wallet-password">Set Wallet Password</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" data-lang-key="use-strong-password">
+                            Use a strong and long password. And do not forget it!
+                        </div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="password">Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdPassword" name="password"
+                                           placeholder="Enter a password" data-placeholder-key="enter-a-password" tabindex="1">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdPassword');" data-alt-key="show-password" role="button" tabindex="2" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="retype-password">Retype Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdRetypePassword" name="password"
+                                           placeholder="Retype the password" data-placeholder-key="retype-the-password" tabindex="3">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRetypePassword');" data-alt-key="show-password" role="button" tabindex="4" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="return checkNewPassword();" data-lang-key="next" role="button" tabindex="5">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="createWalletPromptScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="backFromCreateOrRestoreWallet()" tabindex="6">
+
+                    </div>
+                    <div class="roundex-box">
+                        <div class="safety_question_container"></div>
+                        <div class="heading bold large" data-lang-key="create-restore-wallet">Create or Restore Wallet</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" data-lang-key="select-an-option" tabindex="1">
+                            Select an option
+                        </div>
+                        <form id="walletForm" style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optNewWallet').checked  = true;">
+                                <input type="radio" name="wallet_option" value="new_wallet" class="safety_quiz_option" id="optNewWallet" tabindex="2">
+                                <label data-lang-key="create-new-wallet" style="cursor: pointer;">Create New Wallet</label>
+                            </div>
+                            <div class="tab-label" style="text-align: left; cursor: pointer;" onclick="document.getElementById('optRestoreWalletFromSeed').checked = true;">
+                                <input type="radio" name="wallet_option" value="wallet_from_seed" class="safety_quiz_option" id="optRestoreWalletFromSeed" tabindex="3">
+                                <label data-lang-key="restore-wallet-from-seed" style="cursor: pointer;">Restore A Wallet From Seed Phrase</label>
+                            </div>
+                            <div class="tab-label" style="text-align: left; cursor: pointer;" onclick="document.getElementById('optRestoreWalletFromBackupFile').checked = true;">
+                                <input type="radio" name="wallet_option" value="restore_wallet_backup_file" class="safety_quiz_option" id="optRestoreWalletFromBackupFile" tabindex="4">
+                                <label data-lang-key="restore-wallet-from-backup-file" style="cursor: pointer;">Restore A Wallet From a Backup File</label>
+                            </div>
+                        </form>
+                        <div class="divider"></div>
+                        <div class="large_button_container heading large" onclick="walletFormSubmitted()" data-lang-key="next" role="button" tabindex="5">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content" id="newSeedScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container" style="width:95%;">
+                    <div class="back-container" role="button" onclick="backToCreateWalletPromptScreen()" tabindex="5">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="seed-words">Seed Words</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div style="width:100%;text-align:left;" id="divSeedHelp">
+                            <ol>
+                                <li style="margin-bottom:5px;" data-lang-key="seed-words-info-1">Ensure that no one is looking at the screen other than you.</li>
+                                <li style="margin-bottom:5px;" data-lang-key="seed-words-info-2">Ensure that there is no camera pointed at this screen, including from your phone.</li>
+                                <li style="margin-bottom:5px;" data-lang-key="seed-words-info-3">You should save the seed words safely offline and keep multiple copies in a trustworthy and safe location.</li>
+                                <li style="margin-bottom:5px;" data-lang-key="seed-words-info-4">If these seed words are stolen or someone else gets access to them, your wallet is compromised.</li>
+                                <li style="margin-bottom:5px;"><a href="#" style="color:black;text-decoration:underline;" onclick="return showSeedPanel();" data-lang-key="seed-words-show" tabindex="1" id="aRevealSeed" autofocus>Click here to reveal the seed words.</a></li>
+                            </ol>
+                        </div>
+                        <div class="input_container scrollbar seedwrapper" style="overflow:auto;display:none;" id="divSeedPanel">
+                            <div class="tab-content mt-2" style="margin:auto;">
+                                <div class="tab-pane fade active show" id="newSeedScreenPanel" role="tabpanel">
+                                    <div class="divSeedTable">
+                                        <div class="divSeedBody" tabindex="2">
+                                            <div class="seedrowhead1">
+                                                <div class="seedCell">
+                                                    <div>A1</div>
+                                                    <div class="seedrow1" id="divNewSeed0">HELLOWORLD</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A2</div>
+                                                    <div class="seedrow1" id="divNewSeed1">AEROPLANE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A3</div>
+                                                    <div class="seedrow1" id="divNewSeed2">ALRIGHT</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A4</div>
+                                                    <div class="seedrow1" id="divNewSeed3">MOTIVATE</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead2">
+                                                <div class="seedCell">
+                                                    <div>B1</div>
+                                                    <div class="seedrow2" id="divNewSeed4">BICYCLE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B2</div>
+                                                    <div class="seedrow2" id="divNewSeed5">LOOPWARE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B3</div>
+                                                    <div class="seedrow2" id="divNewSeed6">DINGDONG</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B4</div>
+                                                    <div class="seedrow2" id="divNewSeed7">PINGPONG</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead3">
+                                                <div class="seedCell">
+                                                    <div>C1</div>
+                                                    <div class="seedrow3" id="divNewSeed8">PINTHAT</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C2</div>
+                                                    <div class="seedrow3" id="divNewSeed9">POROTECH</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C3</div>
+                                                    <div class="seedrow3" id="divNewSeed10">MYSPIRIN</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C4</div>
+                                                    <div class="seedrow3" id="divNewSeed11">OKFINE</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead4">
+                                                <div class="seedCell">
+                                                    <div>D1</div>
+                                                    <div class="seedrow4" id="divNewSeed12">NAVY</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D2</div>
+                                                    <div class="seedrow4" id="divNewSeed13">ME</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D3</div>
+                                                    <div class="seedrow4" id="divNewSeed14">YES</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D4</div>
+                                                    <div class="seedrow4" id="divNewSeed15">WITHER</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead5">
+                                                <div class="seedCell">
+                                                    <div>E1</div>
+                                                    <div class="seedrow5" id="divNewSeed16">OK</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E2</div>
+                                                    <div class="seedrow5" id="divNewSeed17">HIKE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E3</div>
+                                                    <div class="seedrow5" id="divNewSeed18">HELPWIRE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E4</div>
+                                                    <div class="seedrow5" id="divNewSeed19">CHOCOLATE</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead6">
+                                                <div class="seedCell">
+                                                    <div>F1</div>
+                                                    <div class="seedrow6" id="divNewSeed20">MILKSWEET</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F2</div>
+                                                    <div class="seedrow6" id="divNewSeed21">PIZZA</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F3</div>
+                                                    <div class="seedrow6" id="divNewSeed22">SUGAR</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F4</div>
+                                                    <div class="seedrow6" id="divNewSeed23">HONEY</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead7">
+                                                <div class="seedCell">
+                                                    <div>G1</div>
+                                                    <div class="seedrow7" id="divNewSeed24">PINEAPPLE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G2</div>
+                                                    <div class="seedrow7" id="divNewSeed25">MANGO</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G3</div>
+                                                    <div class="seedrow7" id="divNewSeed26">HOSTLY</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G4</div>
+                                                    <div class="seedrow7" id="divNewSeed27">PINTBUG</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead8">
+                                                <div class="seedCell">
+                                                    <div>H1</div>
+                                                    <div class="seedrow8" id="divNewSeed28">MICROWIN</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H2</div>
+                                                    <div class="seedrow8" id="divNewSeed29">MEGABIG</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H3</div>
+                                                    <div class="seedrow8" id="divNewSeed30">ALRIGHTY</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H4</div>
+                                                    <div class="seedrow8" id="divNewSeed31">WHYNOT</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead9">
+                                                <div class="seedCell">
+                                                    <div>I1</div>
+                                                    <div class="seedrow9" id="divNewSeed32">HELLOWORLD</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I2</div>
+                                                    <div class="seedrow9" id="divNewSeed33">YOGHURT</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I3</div>
+                                                    <div class="seedrow9" id="divNewSeed34">SAUCE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I4</div>
+                                                    <div class="seedrow9" id="divNewSeed35">WHO</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead10">
+                                                <div class="seedCell">
+                                                    <div>J1</div>
+                                                    <div class="seedrow10" id="divNewSeed36">WHOM</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J2</div>
+                                                    <div class="seedrow10" id="divNewSeed37">HOW</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J3</div>
+                                                    <div class="seedrow10" id="divNewSeed38">WHY</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J4</div>
+                                                    <div class="seedrow10" id="divNewSeed39">TAKECARE</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead11">
+                                                <div class="seedCell">
+                                                    <div>K1</div>
+                                                    <div class="seedrow11" id="divNewSeed40">BLITLINE</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K2</div>
+                                                    <div class="seedrow11" id="divNewSeed41">PIGHOPS</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K3</div>
+                                                    <div class="seedrow11" id="divNewSeed42">BUNTMECA</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K4</div>
+                                                    <div class="seedrow11" id="divNewSeed43">HASTILY</div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead12">
+                                                <div class="seedCell">
+                                                    <div>L1</div>
+                                                    <div class="seedrow12" id="divNewSeed44">PATIO</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L2</div>
+                                                    <div class="seedrow12" id="divNewSeed45">LINTPICK</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L3</div>
+                                                    <div class="seedrow12" id="divNewSeed46">NUTCRACK</div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L4</div>
+                                                    <div class="seedrow12" id="divNewSeed47">QWERTY</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- DivTable.com -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+
+                        <div id="divNewSeedButtons" style="display:none;">
+                            <div class="copy-container" role="button" style="float:left;" onclick="copyNewSeed()"  tabindex="3"></div>
+                            <div class="large_button_container heading large" onclick="showVerifySeedPanel()" style="float:right;" id="divNextSeed" data-lang-key="next" role="button" tabindex="4">
+                                Next
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="seedVerifyScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container" style="width:95%;">
+                    <div class="back-container" role="button" onclick="backToSeedScreen()" tabindex="50">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="verify-seed-words">Verify Seed Words</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="input_container scrollbar seedwrapper" style="overflow:auto;" id="divSeedVerifyPanel">
+                            <div class="tab-content mt-2" style="margin:auto;">
+                                <div class="tab-pane fade active show" id="verifySeedScreenPanel" role="tabpanel">
+                                    <div class="divSeedTable">
+                                        <div class="divSeedBody">
+                                            <div class="seedrowhead1">
+                                                <div class="seedCell">
+                                                    <div>A1</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A2</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A3</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A4</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead2">
+                                                <div class="seedCell">
+                                                    <div>B1</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B2</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B3</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B4</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead3">
+                                                <div class="seedCell">
+                                                    <div>C1</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C2</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C3</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C4</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead4">
+                                                <div class="seedCell">
+                                                    <div>D1</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D2</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D3</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D4</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead5">
+                                                <div class="seedCell">
+                                                    <div>E1</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E2</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E3</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E4</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead6">
+                                                <div class="seedCell">
+                                                    <div>F1</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F2</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F3</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F4</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead7">
+                                                <div class="seedCell">
+                                                    <div>G1</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G2</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G3</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G4</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead8">
+                                                <div class="seedCell">
+                                                    <div>H1</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H2</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H3</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H4</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead9">
+                                                <div class="seedCell">
+                                                    <div>I1</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I2</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I3</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I4</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead10">
+                                                <div class="seedCell">
+                                                    <div>J1</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J2</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J3</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J4</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead11">
+                                                <div class="seedCell">
+                                                    <div>K1</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K2</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K3</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K4</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead12">
+                                                <div class="seedCell">
+                                                    <div>L1</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L2</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L3</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L4</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="large_button_container heading large" onclick="verifySeedWords();" style="float:right;" id="divVerifySeedButton" data-lang-key="next" role="button" tabindex="49">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="restoreSeedScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container" style="width:95%;">
+                    <div class="back-container" role="button" onclick="backToCreateWalletPromptScreen()" tabindex="50">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="restore-wallet-from-seed">Restore Wallet From Seed Words</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="input_container scrollbar seedwrapper" style="overflow:auto;" id="divSeedRestorePanel">
+                            <div class="tab-content mt-2" style="margin:auto;">
+                                <div class="tab-pane fade active show" id="restoreSeedScreenPanel" role="tabpanel">
+                                    <div class="divSeedTable">
+                                        <div class="divSeedBody">
+                                            <div class="seedrowhead1">
+                                                <div class="seedCell">
+                                                    <div>A1</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A2</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A3</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>A4</div>
+                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead2">
+                                                <div class="seedCell">
+                                                    <div>B1</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B2</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B3</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>B4</div>
+                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead3">
+                                                <div class="seedCell">
+                                                    <div>C1</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C2</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C3</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>C4</div>
+                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead4">
+                                                <div class="seedCell">
+                                                    <div>D1</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D2</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D3</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>D4</div>
+                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead5">
+                                                <div class="seedCell">
+                                                    <div>E1</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E2</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E3</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>E4</div>
+                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead6">
+                                                <div class="seedCell">
+                                                    <div>F1</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F2</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F3</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>F4</div>
+                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead7">
+                                                <div class="seedCell">
+                                                    <div>G1</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G2</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G3</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>G4</div>
+                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead8">
+                                                <div class="seedCell">
+                                                    <div>H1</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H2</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H3</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>H4</div>
+                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead9">
+                                                <div class="seedCell">
+                                                    <div>I1</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I2</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I3</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>I4</div>
+                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead10">
+                                                <div class="seedCell">
+                                                    <div>J1</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J2</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J3</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>J4</div>
+                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead11">
+                                                <div class="seedCell">
+                                                    <div>K1</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K2</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K3</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>K4</div>
+                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK4"></div>
+                                                </div>
+                                            </div>
+                                            <div class="seedrowhead12">
+                                                <div class="seedCell">
+                                                    <div>L1</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL1"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L2</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL2"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L3</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL3"></div>
+                                                </div>
+                                                <div class="seedCell">
+                                                    <div>L4</div>
+                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="large_button_container heading large" onclick="restoreSeed();" style="float:right;" id="divRestoreSeedButton" data-lang-key="next" role="button" tabindex="49">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="restoreWalletScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="backToCreateWalletPromptScreen()" tabindex="5">
+
+                    </div>
+                    <div class="roundex-box">
+                        <div class="heading bold large" data-lang-key="restore-wallet-from-backup">Restore Wallet From Backup File</div>
+                        <div class="divider"></div>
+                        <div style="float: left; width: fit-content;">
+                            <input type="file" class="custom-file-input" id="filRestoreWallet" tabindex="1">
+                        </div>
+                        <div style="text-align:left;font-size:12px;color:green;" id="divRestoreWalletFilename"></div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="enter-above-wallet-password">Enter the above wallet's password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdRestoreWallet" name="password" data-place-holder-key="enter-above-wallet-password"
+                                           placeholder="Enter the above wallet's password" tabindex="2">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" data-alt-key="show-password" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRestoreWallet');" role="button" tabindex="3"/>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div id="nextButtonRestoreWalletScreen" class="large_button_container heading large" onclick="restoreWalletFromFile();" data-lang-key="open" role="button" tabindex="4">Open</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="verifyWalletPasswordScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="verify-wallet-password">Verify wallet password</div>
+                        <div class="divider"></div>
+                        <div class="input_container">
+                            <div class="tab-name" style="color:black;" data-lang-key="verify-wallet-password-info">
+                                Retype your wallet password, to verify that you remember it. Upon verification, your wallet will be saved.
+                            </div>
+                            <div class="divider"></div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdVerifyWalletPassword" name="password"
+                                           placeholder="Enter wallet password" data-placeholder-key="enter-wallet-password" tabindex="1">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdVerifyWalletPassword');" role="button" tabindex="2"/>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="verifyWalletPassword()" data-lang-key="next" role="button" tabindex="3">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="backupWalletScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box">
+                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet</div>
+                        <div class="heading large">
+                            <p data-lang-key="backup-wallet-info-1">For additional safety, please make sure that you keep backup copies in atleast three different devices offline.</p>
+                            <p data-lang-key="backup-wallet-info-2">And remember you need your wallet password to restore the backup!</p>
+                            <p><a href="#" data-lang-key="backup-wallet-skip" onclick="return showWalletScreen();" style="color:black;cursor:pointer;" tabindex="3">Click here to skip this step.</a></p>
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div id="backupButton" class="large_button_container heading large" onclick="backupCurrentWallet()" data-lang-key="backup" role="button" tabindex="1">Backup</div>
+                            <div id="nextButtonBackupWalletScreen" class="large_button_container heading large" onclick="showWalletScreen()" data-lang-key="next" role="button" style="display:none;" tabindex="2">Next</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs-wallet-content" id="main-content" style="display: none;">
+        <div class="content" id="divMainContent">
+            <div class="center-content home-content" id="HomeScreen">
+                <div class="center-content-rounded-container">
+                    <div class="roundex-box boxeffect">
+                        <div class="wallet-address-container">
+                            <div id="walletAddress" class="tab-name text-wallet-address" style="color: #000000; ">
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row; height: 40px; justify-content: center;">
+                            <div class="copy-container" role="button" onclick="return copyAddress();" tabindex="1">
+
+                            </div>
+                            <div class="scan-container" role="button" style="margin-left:15px;margin-top:-2px;" onclick="return openBlockExplorerAccount();" tabindex="2">
+
+                            </div>
+                            <div class="refresh-container" role="button" style="margin-left:15px;" onclick="refreshAccountBalance();" id="divRefreshBalance" tabindex="3">
+
+                            </div>
+                            <div style="float: left; width: 30px; height: 30px; margin-left:15px;" id="divLoadingBalance">
+                                <img src="assets/icons/loading.gif" style="width:30px;height:30px" />
+                            </div>
+                        </div>
+                        <div class="balance-container" style="display: flex;flex-direction: row;height: 40px;justify-content: center;margin-top:15px;">
+                            <div id="totalBalance" class="heading bold" style="height: 30px;font-size: 20px;margin-top: -15px;color: #35980e;width:fit-content;">
+                                <span style="color:black;" data-lang-key="balance">Balance</span> : <span style="color:green;" id="spnAccountBalance"></span>
+                            </div>
+                        </div>
+                        <div class="divider" style="margin-top: -25px;">
+                        </div>
+                        <div class="buttons-container">
+                            <div class="buttonBox" onclick="showSendScreen();" role="button" tabindex="3">
+                                <div class="button" style="background: #FFB400 !important; border-radius: 10px; align-self: center; min-height: 50px; min-width: 50px; ">
+                                    <img src="assets/svg/arrow-up-outline.svg" alt="Send" style="width: 30px; height: 30px; position: relative; top: 50%; transform: translateY(-50%);">
+                                </div>
+                                <div class="button-name" data-lang-key="send">Send</div>
+                            </div>
+                            <div class="buttonBox" onclick="showReceiveScreen();" role="button" tabindex="4">
+                                <div class="button" style="background: #1DCC70 !important; border-radius: 10px; align-self: center; min-height: 50px; min-width: 50px; ">
+                                    <img src="assets/svg/arrow-down-outline.svg" alt="Receive" style="width: 30px; height: 30px; position: relative; top: 50%; transform: translateY(-50%);">
+                                </div>
+                                <div class="button-name" data-lang-key="receive" role="button">Receive</div>
+                            </div>
+                            <div class="buttonBox" onclick="showTransactionsScreen();" role="button" tabindex="5">
+                                <div class="button" style="background: #55D0F0 !important; border-radius: 10px; align-self: center; min-height: 50px; min-width: 50px; ">
+                                    <img src="assets/svg/txn-outline.svg" alt="Transactions" style="width: 30px; height: 30px; position: relative; top: 50%; transform: translateY(-50%);">
+                                </div>
+                                <div class="button-name" data-lang-key="transactions">Transactions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-content home-content" id="SendScreen" style="margin-top:110px;">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="300">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading bold" data-lang-key="send">Send</div>
+                        <div class="divider"></div>
+                        <div class="tab-name text-wallet-address" style="text-align: left; font-weight: 200" data-lang-key="balance">Balance</div>
+                        <div class="heading bold" style="text-align: left; font-size: 20px; color:green;" id="divBalanceSendScreen"></div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="address-to-send">Address to send to</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500;color:black;"
+                                   autocomplete="off" id="txtSendAddress" name="send_address" data-placeholder-key="address-to-send"
+                                   placeholder="Address to send to" tabindex="301">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="quantity-to-send">Quantity to send</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                   type="number" autocomplete="off" id="txtSendQuantity" name="send_quantity" data-placeholder-key="quantity-to-send"
+                                   placeholder="Quantity to send" tabindex="302">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="enter-wallet-password">Enter Wallet Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdSend" name="password" data-placeholder-key="enter-wallet-password"
+                                           placeholder="Enter the password" tabindex="303">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdSend');" data-alt-key="show-password" role="button" tabindex="304" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div class="large_button_container heading large" onclick="return sendCoins();" data-lang-key="send" role="button" tabindex="305">
+                                Send
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-content home-content" id="ReceiveScreen">
+                <div class="center-content-rounded-container" style="margin-top:110px;">
+                    <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="310" id="divBackReceiveScreen">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading bold" data-lang-key="receive-coins">Receive Coins</div>
+                        <div class="divider"></div>
+                        <div style="color:red" data-lang-key="send-only">Send only DP coins to this address!</div>
+                        <div id="receiveWalletAddress" class="tab-name text-wallet-address" style="text-align: center; font-size: 0.88em;color:black;">
+                        </div>
+                        <div class="copy-container" role="button" style="display: flex; align-self: center;margin-bottom:10px;" onclick="return copyAddressReceiveScreen();" tabindex="311" id="divCopyReceiveScreen">
+
+                        </div>
+                        <div style="text-align: center; max-height: 270px; display: flex; align-items: center; justify-content: center;">
+                            <div id="qrcode">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-content home-content" id="TransactionsScreen" style="margin-top:110px;">
+
+                <div class="center-content-rounded-container" style="width:95%;max-width: 95%;">
+                    <div style="display: flex; margin-bottom: 5px;">
+                        <div class="back-container" role="button" onclick="showWalletScreen();" style="float: left;" tabindex="320">
+
+                        </div>
+                        <div class="refresh-container" role="button" id="divTxnRefreshStatus" onclick="showTransactionsScreen();" tabindex="321">
+
+                        </div>
+                        <div style="float: left; width: 30px; height: 30px; " id="divTxnLoadingStatus">
+                            <img src="assets/icons/loading.gif" style="width:30px;height:30px" />
+                        </div>
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="top_toggle">
+                            <div id="toggle_trans_status_1" class="top_toggle_frame"
+                                 onclick="toggleTransactionStatus(0)" style="cursor: pointer;" role="button" tabindex="322">
+                                <div class="top_toggle_btn" data-lang-key="completed-transactions">Completed Transactions</div>
+                                <div class="top_toggle_btn_line"></div>
+                            </div>
+                            <div id="toggle_trans_status_2" class="top_toggle_frame disabled"
+                                 onclick="toggleTransactionStatus(1)" style="cursor: pointer;" role="button" tabindex="323">
+                                <div class="top_toggle_btn disabled" data-lang-key="pending-transactions">Pending Transactions</div>
+                                <div class="top_toggle_btn_line disabled"></div>
+                            </div>
+                        </div>
+                        <div class="blocks-content scrollbar" style="text-align: left; overflow: auto ;" id="divCompleted">
+                            <table class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th data-lang-key="inout">In/Out</th>
+                                        <th data-lang-key="coins">Coins</th>
+                                        <th data-lang-key="date">Date</th>
+                                        <th data-lang-key="from">From</th>
+                                        <th data-lang-key="to">To</th>
+                                        <th data-lang-key="hash">Hash</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyComplextedTransactions">
+                                    <tr class="completed-txn-in-row">
+                                        <td><img src="assets/svg/arrow-down-circle-outline.svg" style="width:30px;" /></td>
+                                        <td>[VALUE]</td>
+                                        <td>[DATE]</td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[FROM]');">[SHORT_FROM]</a></td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[TO]');">[SHORT_TO]</a></td>
+                                        <td><a href="#" onclick="return OpenScanTxn('[HASH]');">[SHORT_HASH]</a></td>
+                                    </tr>
+                                    <tr class="completed-txn-out-row">
+                                        <td><img src="assets/svg/arrow-up-circle-outline.svg" style="width:30px;" /></td>
+                                        <td>[VALUE]</td>
+                                        <td>[DATE]</td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[FROM]');">[SHORT_FROM]</a></td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[TO]');">[SHORT_TO]</a></td>
+                                        <td><a href="#" onclick="return OpenScanTxn('[HASH]');">[SHORT_HASH]</a></td>
+                                    </tr>
+                                    <tr class="failed-txn-in-row">
+                                        <td>
+                                            <img src="assets/svg/alert-outline.svg" alt="Failed" style="width: 30px;">
+                                            <img src="assets/svg/arrow-down-circle-outline.svg" style="width:30px;" />
+                                        </td>
+                                        <td>[VALUE]</td>
+                                        <td>[DATE]</td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[FROM]');">[SHORT_FROM]</a></td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[TO]');">[SHORT_TO]</a></td>
+                                        <td><a href="#" onclick="return OpenScanTxn('[HASH]');">[SHORT_HASH]</a></td>
+                                    </tr>
+                                    <tr class="failed-txn-out-row">
+                                        <td>
+                                            <img src="assets/svg/alert-outline.svg" alt="Failed" style="width: 30px;">
+                                            <img src="assets/svg/arrow-up-circle-outline.svg" style="width:30px;" />
+                                        </td>
+                                        <td>[VALUE]</td>
+                                        <td>[DATE]</td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[FROM]');">[SHORT_FROM]</a></td>
+                                        <td><a href="#" onclick="return OpenScanAddress('[TO]');">[SHORT_TO]</a></td>
+                                        <td><a href="#" onclick="return OpenScanTxn('[HASH]');">[SHORT_HASH]</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="blocks-content scrollbar disabledhide" style="text-align: left; overflow: auto ;" id="divPending">
+                            <table class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th data-lang-key="inout">In/Out</th>
+                                        <th data-lang-key="coins">Coins</th>
+                                        <th data-lang-key="date">Date</th>
+                                        <th data-lang-key="from">From</th>
+                                        <th data-lang-key="to">To</th>
+                                        <th data-lang-key="hash">Hash</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPendingTransactions">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination-container" style="width: 30%;margin: auto;">
+                            <div class="prev-container" id="divPrevTxnList" onclick="return showPrevTxnPage();" role="button" tabindex="720">
+
+                            </div>
+
+                            <div class="next-container " id="divNextTxnList" onclick="return showNextTxnPage();" role="button" tabindex="721">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-bar" id="tab-bar">
+                <div class="tabbutton" id="tab1" onclick="showWalletListScreen();" style="display: flex;flex-direction: column;" role="button" tabindex="9">
+                    <img class="tab-icon" style="align-self: center;" src="assets/svg/wallet-outline.svg" alt="Wallets Icon">
+                    <div class="tab-name" style="width: fit-content;align-self: center;" data-lang-key="wallets">Wallets</div>
+
+                </div><div class="tabbutton" id="tab2" style="display: flex;flex-direction: column;" onclick="showHelp();" role="button" tabindex="10">
+                    <img class="tab-icon" style="align-self: center;" src="assets/svg/help.svg" alt="Help Icon">
+                    <div class="tab-name" style="width: fit-content;align-self: center;" data-lang-key="help">Help</div>
+
+                </div><div class="tabbutton" id="tab3" style="display: flex;flex-direction: column;" onclick="openBlockExplorer();" role="button" tabindex="11">
+                    <img class="tab-icon" style="align-self: center;" src="assets/svg/keypad.svg" alt="DpScan Icon">
+                    <div class="tab-name" style="width: fit-content;align-self: center;" data-lang-key="block-explorer">Block Explorer</div>
+
+                </div><div class="tabbutton" id="tab4" onclick="showSettingsScreen();" style="display: flex;flex-direction: column;" role="button" tabindex="12">
+                    <img class="tab-icon" style="align-self: center;" src="assets/svg/settings.svg" alt="Settings Icon">
+                    <div class="tab-name" style="width: fit-content;align-self: center;" data-lang-key="settings">Settings</div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div id="settings-content" class="tabs-content" style="display: none;">
+
+        <div class="content" id="settingsScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showWalletScreen()" tabindex="4">
+
+                    </div>
+                    <div class="roundex-box">
+                        <div class="heading bold large" data-lang-key="settings">Settings</div>
+                        <div class="divider"></div>
+                        <div class="input_container">
+                            <div class="vertical-menu">
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return getCoinsScreen1();" data-lang-key="get-coins-for-dogep-tokens" tabindex="1">Get Coins For DogeP Tokens</a>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return showWalletPath();" data-lang-key="wallet-path" tabindex="2">Wallet Path</a>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return showNetworksScreen();" data-lang-key="networks" tabindex="3">Networks</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="networkListScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showSettingsScreen()" tabindex="3">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="wallets">Wallets</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="blocks-content scrollbar" style="text-align: left; overflow: auto ;max-height:380px;" id="divNetworkList" tabindex="1">
+                            <table class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th data-lang-key="id">ID</th>
+                                        <th data-lang-key="name">Name</th>
+                                        <th data-lang-key="scan-api-url">Scan API URL</th>
+                                        <th data-lang-key="txn-api-url">Transaction API URL</th>
+                                        <th data-lang-key="block-explorer-url">Block Explorer URL</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyNetworkRow">
+                                    <tr class="network-row">
+                                        <td>[BLOCKCHAIN_NETWORK_ID]</td>
+                                        <td>[BLOCKCHAIN_NETWORK_NAME]</td>
+                                        <td>[BLOCKCHAIN_SCAN_API_URL]</td>
+                                        <td>[BLOCKCHAIN_TXN_API_URL]</td>
+                                        <td>[BLOCKCHAIN_EXPLORER_API_URL]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="divider"></div>
+                        <div style="align-content:center;"><a href="#" data-lang-key="add-network" onclick="return showAddNetworkScreen();" tabindex="2">Add Network</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="networkAddScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showNetworksScreen()" tabindex="3">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="add-network">Add Network</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="blocks-content scrollbar" style="text-align: left; overflow: auto ;">
+                            <div class="input_container">
+
+                                <div class="heading medium" data-lang-key="enter-network-json">Enter Blockchain Network JSON</div>
+                                <div>
+                                    <textarea id="txtNetworkJSON" style="width: 100%;" rows="9" cols="100" tabindex="1">
+{
+ "scanApiDomain": "scan-example.dpapi.org",
+ "txnApiDomain": "txn-example.dpapi.org",
+ "blockExplorerDomain": "explorer-example.dpscan.app",
+ "blockchainName": "EXAMPLE NET",
+ "networkId": 312354
+}
+</textarea>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="large_button_container heading large" onclick="addNetwork();" style="float:right;" data-lang-key="add" role="button" tabindex="2">
+                            Add
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins1" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showSettingsScreen()"  tabindex="6">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="choose-eth-wallet-option">Choose how you want to access your Ethereum wallet</div>
+                            <form id="conversionTypeForm" style="display: flex; flex-direction: column; gap: 10px;">
+                                <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optSeedPhrase').checked  = true;" role="button">
+                                    <input type="radio" name="ethwallettype" value="seedphrase" class="safety_quiz_option" id="optSeedPhrase" tabindex="1">
+                                    <label data-lang-key="eth-option-seed" style="cursor: pointer;">Using seed phrase (mnemonic)</label>
+                                </div>
+                                <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optPrivateKey').checked  = true;" role="button">
+                                    <input type="radio" name="ethwallettype" value="privatekey" class="safety_quiz_option" id="optPrivateKey" tabindex="2">
+                                    <label data-lang-key="eth-option-private-key" style="cursor: pointer;">Using private key</label>
+                                </div>
+                                <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optKeystore').checked  = true;" role="button">
+                                    <input type="radio" name="ethwallettype" value="keystorejson" class="safety_quiz_option" id="optKeystore" tabindex="3">
+                                    <label data-lang-key="eth-option-keystore" style="cursor: pointer;">Using Keystore JSON File</label>
+                                </div>
+                                <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optManually').checked  = true;" role="button">
+                                    <input type="radio" name="ethwallettype" value="manually" class="safety_quiz_option" id="optManually"  tabindex="4">
+                                    <label data-lang-key="eth-option-manual" style="cursor: pointer;">Manually</label>
+                                </div>
+                            </form>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="getCoinsScreen1Submit()" data-lang-key="next" role="button"  tabindex="5">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins2a" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="getCoinsScreen1()" tabindex="15">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="enter-eth-seed">Enter Your Ethereum Seed Phrase</div>
+                            <div class="divSeedTable">
+                                <div class="divSeedBody">
+                                    <div class="seedrowheadplain">
+                                        <div class="seedCell">
+                                            <div>1</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed1" tabindex="1"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>2</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed2" tabindex="2"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>3</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed3" tabindex="3"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>4</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed4" tabindex="4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="seedrowheadplain">
+                                        <div class="seedCell">
+                                            <div>5</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed5" tabindex="5"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>6</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed6" tabindex="6"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>7</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed7" tabindex="7"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>8</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed8" tabindex="8"></div>
+                                        </div>
+                                    </div>
+                                    <div class="seedrowheadplain">
+                                        <div class="seedCell">
+                                            <div>9</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed9" tabindex="9"/></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>10</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed10" tabindex="10"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>11</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed11" tabindex="11"></div>
+                                        </div>
+                                        <div class="seedCell">
+                                            <div>12</div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed12" tabindex="12"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="select" id="ethAddressList" style="width:100%;">
+                                <select id="sltEthAddresses"  tabindex="13">
+                                    <option value="[ETH_ADDRESS_VALUE]">[ETH_ADDRESS_VALUE] - [ETH_ADDRESS_COINS] coins</option>
+                                </select>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="loadEthAddressesFromSeed();" data-lang-key="next" role="button" tabindex="14" >
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins2b" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="getCoinsScreen1()" tabindex="3">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="enter-eth-key">Enter your Ethereum Private Key</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 200;"
+                                   type="text" autocomplete="off" id="ethPrivateKey" name="ethPrivateKey"
+                                   placeholder="Ethereum Private Key" data-placeholder-key="enter-eth-key" tabindex="1">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="loadEthAddressFromKey()" data-lang-key="next" role="button" tabindex="2">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins2c" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="getCoinsScreen1()" tabindex="5">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="select-eth-key-json">Select your Ethereum Key Store JSON File</div>
+                            <div style="float: left; width: fit-content;">
+                                <input type="file" class="custom-file-input" id="filEthWallet" tabindex="1">
+                            </div>
+                            <div style="text-align:left;font-size:12px;color:green;" id="divEthWalletFilename"></div>
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="enter-password-eth-key-json">Enter Password For Above Key Store File</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdEthKeyJson" name="password"
+                                           placeholder="Enter the password" data-placeholder-key="enter-eth-password" tabindex="2">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdEthKeyJson');" role="button" tabindex="3" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="loadEthAddressFromJson()" data-lang-key="next" role="button" tabindex="4">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins2d" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="getCoinsScreen1()" tabindex="5">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                            <p>
+                                <label data-lang-key="copy-eth-address">Copy your Ethereum Address from</label> <a href="#" onclick="return openSnapshotUrl();">snapshot.dpscan.app</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="enter-eth-address">Enter your Ethereum Address.</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 200;"
+                                   type="text" autocomplete="off" id="txtEthAddressSigning" name="txtEthAddressSigning"
+                                   onchange="showEthSignMessage();"
+                                   onkeypress="showEthSignMessage();"
+                                   onpaste="showEthSignMessage();"
+                                   oninput="showEthSignMessage();"
+                                   placeholder="Ethereum Address"
+                                   data-placeholder-key="enter-eth-address" tabindex="1">
+                            <div id="divEthSignMessage">
+                                <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a>.</div>
+                                <textarea id="txtSignatureMessage" style="width: 100%;" disabled rows="6" cols="100"  tabindex="2">MY ETH ADDRESS IS 0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS 0xa553b8935988e6260b6e3c3ff5b340ee478b504b7166b4881365a9153c80a78c.</textarea>
+                                <div style="display: flex; flex-direction: row; height: 40px; justify-content: center;">
+                                    <div class="copy-container" role="button" style="float:left;" onclick="copyConversionSigningMessage()" tabindex="3"></div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="getCoinsScreen3d()" data-lang-key="next" role="button" tabindex="4">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins3d" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="getCoinsScreen2d()" tabindex="3">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium"><label data-lang-key="paste-signature-info">Paste the signature of the message signed as per instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a></div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 200;"
+                                   type="text" autocomplete="off" id="ethSignature" name="ethSignature" data-placeholder-key="paste-signature"
+                                   placeholder="paste signature" tabindex="1">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="validateEthSignature()" data-lang-key="next" role="button" tabindex="2">
+                            Next
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="getCoins4" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="backFromGetCoinsScreen4()" tabindex="5">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
+                        <div class="divider"></div>
+                        <div class="tab-name" style="color:black;">
+                            <p data-lang-key="verify-conversion-address">
+                                Verify Your Quantum and Ethereum Addresses below before proceeding.
+                            </p>
+                            <p>
+                                <label data-lang-key="eth-address">Ethereum Addres</label>: <br /><span style="color:blue;font-size:12px;" id="divConversionEthAddress"></span><br />
+                                <label data-lang-key="quantum-address">Quantum Address</label>: <span style="color: blue; font-size: 12px;" id="divConversionQuantumAddress"></span><br />
+                                <label data-lang-key="network">Network</label>: <span style="color: green; font-size: 12px;" id="divConversionNetwork">dummy</span>
+                            </p>
+                        </div>
+                        <div class="input_container">
+                            <div class="divider"></div>
+                            <div class="heading medium" data-lang-key="enter-quantum-wallet-password">Enter Quantum Wallet Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdQuantumPasswordConversion" name="password"
+                                           placeholder="Enter the password" data-placeholder-key="enter-wallet-password" tabindex="1">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdQuantumPasswordConversion');" role="button" tabindex="2" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="large_button_container heading large" onclick="getCoinsScreen5()" data-lang-key="submit" role="button" tabindex="3">
+                            Submit
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="wallets-content" class="tabs-content" style="display: none;">
+
+        <div class="center-content home-content" id="WalletsScreen">
+
+            <div class="center-content-rounded-container" style="width:95%;max-width: 95%;">
+                <div class="back-container" role="button" onclick="showWalletScreen();" id="backButtonWalletListScreen">
+
+                </div>
+                <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div>
+                        <div class="heading large" style="float:left;width:fit-content;" data-lang-key="wallets">Wallets</div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="blocks-content scrollbar" style="text-align: left; overflow: auto ;max-height:380px;" id="divWallets">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th data-lang-key="address">Address</th>
+                                    <th data-lang-key="dpscan">DpScan</th>
+                                    <th data-lang-key="backup">Backup</th>
+                                    <th data-lang-key="reveal-seed">Reveal Seed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyWallet">
+                                <tr class="wallet-row">
+                                    <td><a href="#" onclick="setWalletAddressAndShowWalletScreen('[ADDRESS]');" tabindex="[SHORT_ADDRESS_TAB_INDEX]">[SHORT_ADDRESS]</a></td>
+                                    <td>
+                                        <div class="button" style="background: #FF396F !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="OpenScanAddress('[ADDRESS]');" role="button" tabindex="[SCAN_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
+                                            <img src="assets/svg/open.svg" alt="DpScan" style="width: 25px; height: 25px; position: relative; top: 3px;" data-alt-key="dpscan">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="button" style="background: green !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showSpecificWalletBackupScreen('[ADDRESS]');" role="button"  tabindex="[BACKUP_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
+                                            <img src="assets/svg/backup-outline.svg" alt="Backup" style="width: 25px; height: 25px; position: relative; top: 3px;" data-alt-key="backup">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="button" style="background: #ff00db !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showRevealSeedScreen('[ADDRESS]');" role="button"  tabindex="[SEED_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
+                                            <img src="assets/svg/eye-outline.svg" alt="Reveal Seed" style="width: 25px; height: 25px; position: relative; top: 3px;" data-alt-key="reveal-seed">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-container" style="margin: auto;">
+                        <a href="#" onclick="return createOrRestoreWallet();" data-lang-key="create-or-restore-wallet" id="aCreateNewOrRestore">Create New or Restore Existing Wallet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="revealSeedScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container" style="max-width:650px;">
+                    <div class="back-container" role="button" onclick="showWalletListScreen();"  tabindex="6">
+
+                    </div>
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div>
+                            <div class="heading large" style="float:left;width:fit-content;" data-lang-key="seed-words">Seed Words</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="heading medium" id="divRevealSeedAddress" style="font-size:12px;">0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f</div>
+                        <div class="divider"></div>
+                        <div style="width: fit-content; align-self: center;">
+                            <div style="width:100%;text-align:left;" id="divRevealSeedHelp">
+                                <div class="heading medium" data-lang-key="enter-wallet-password">Enter Wallet Password</div>
+                                <div style="width:100%;">
+                                    <div style="float: left; width: 80%;">
+                                        <input class="tab-name"
+                                               style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                               type="password" autocomplete="off" id="pwdRevealSeedScreenPassword" name="password" data-place-holder-key="enter-wallet-password"
+                                               placeholder="Enter the password" tabindex="1">
+                                    </div>
+                                    <div style="float:left">
+                                        <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRevealSeedScreenPassword');" role="button"  tabindex="2"/>
+                                    </div>
+                                </div>
+
+                                <div style="text-align:left;margin-top:30px;">
+                                    <div class="divider"></div>
+                                    <ol>
+                                        <li style="margin-bottom:5px;" data-lang-key="seed-words-info-1">Ensure that no one is looking at the screen other than you.</li>
+                                        <li style="margin-bottom:5px;" data-lang-key="seed-words-info-2">Ensure that there is no camera pointed at this screen, including from your phone.</li>
+                                        <li style="margin-bottom:5px;" data-lang-key="seed-words-info-3">You should save the seed words safely offline and keep multiple copies in a trustworthy and safe location.</li>
+                                        <li style="margin-bottom:5px;" data-lang-key="seed-words-info-4">If these seed words are stolen or someone else gets access to them, your wallet is compromised.</li>
+                                    </ol>
+                                    <div class="divider"></div>
+
+
+                                    <div class="large_button_container heading large" onclick="showRevealSeedPanel()" data-lang-key="reveal" id="divRevealButton" style="float:right;margin-top:10px;" role="button"  tabindex="3">
+                                        Reveal
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="input_container scrollbar seedwrapper" style="overflow:auto;display:none;" id="divRevealSeedPanel">
+                                <div class="tab-content mt-2" style="margin:auto;">
+                                    <div class="tab-pane fade active show" id="revealseedpart" role="tabpanel">
+                                        <div class="divSeedTable">
+                                            <div class="divSeedBody" tabindex="4">
+                                                <div class="seedrowhead1">
+                                                    <div class="seedCell">
+                                                        <div>A1</div>
+                                                        <div class="seedrow1" id="divRevealSeed0">HELLOWORLD</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>A2</div>
+                                                        <div class="seedrow1" id="divRevealSeed1">AEROPLANE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>A3</div>
+                                                        <div class="seedrow1" id="divRevealSeed2">ALRIGHT</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>A4</div>
+                                                        <div class="seedrow1" id="divRevealSeed3">MOTIVATE</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead2">
+                                                    <div class="seedCell">
+                                                        <div>B1</div>
+                                                        <div class="seedrow2" id="divRevealSeed4">BICYCLE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>B2</div>
+                                                        <div class="seedrow2" id="divRevealSeed5">LOOPWARE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>B3</div>
+                                                        <div class="seedrow2" id="divRevealSeed6">DINGDONG</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>B4</div>
+                                                        <div class="seedrow2" id="divRevealSeed7">PINGPONG</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead3">
+                                                    <div class="seedCell">
+                                                        <div>C1</div>
+                                                        <div class="seedrow3" id="divRevealSeed8">PINTHAT</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>C2</div>
+                                                        <div class="seedrow3" id="divRevealSeed9">POROTECH</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>C3</div>
+                                                        <div class="seedrow3" id="divRevealSeed10">MYSPIRIN</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>C4</div>
+                                                        <div class="seedrow3" id="divRevealSeed11">OKFINE</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead4">
+                                                    <div class="seedCell">
+                                                        <div>D1</div>
+                                                        <div class="seedrow4" id="divRevealSeed12">NAVY</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>D2</div>
+                                                        <div class="seedrow4" id="divRevealSeed13">ME</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>D3</div>
+                                                        <div class="seedrow4" id="divRevealSeed14">YES</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>D4</div>
+                                                        <div class="seedrow4" id="divRevealSeed15">WITHER</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead5">
+                                                    <div class="seedCell">
+                                                        <div>E1</div>
+                                                        <div class="seedrow5" id="divRevealSeed16">OK</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>E2</div>
+                                                        <div class="seedrow5" id="divRevealSeed17">HIKE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>E3</div>
+                                                        <div class="seedrow5" id="divRevealSeed18">HELPWIRE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>E4</div>
+                                                        <div class="seedrow5" id="divRevealSeed19">CHOCOLATE</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead6">
+                                                    <div class="seedCell">
+                                                        <div>F1</div>
+                                                        <div class="seedrow6" id="divRevealSeed20">MILKSWEET</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>F2</div>
+                                                        <div class="seedrow6" id="divRevealSeed21">PIZZA</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>F3</div>
+                                                        <div class="seedrow6" id="divRevealSeed22">SUGAR</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>F4</div>
+                                                        <div class="seedrow6" id="divRevealSeed23">HONEY</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead7">
+                                                    <div class="seedCell">
+                                                        <div>G1</div>
+                                                        <div class="seedrow7" id="divRevealSeed24">PINEAPPLE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>G2</div>
+                                                        <div class="seedrow7" id="divRevealSeed25">MANGO</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>G3</div>
+                                                        <div class="seedrow7" id="divRevealSeed26">HOSTLY</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>G4</div>
+                                                        <div class="seedrow7" id="divRevealSeed27">PINTBUG</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead8">
+                                                    <div class="seedCell">
+                                                        <div>H1</div>
+                                                        <div class="seedrow8" id="divRevealSeed28">MICROWIN</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>H2</div>
+                                                        <div class="seedrow8" id="divRevealSeed29">MEGABIG</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>H3</div>
+                                                        <div class="seedrow8" id="divRevealSeed30">ALRIGHTY</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>H4</div>
+                                                        <div class="seedrow8" id="divRevealSeed31">WHYNOT</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead9">
+                                                    <div class="seedCell">
+                                                        <div>I1</div>
+                                                        <div class="seedrow9" id="divRevealSeed32">HELLOWORLD</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>I2</div>
+                                                        <div class="seedrow9" id="divRevealSeed33">YOGHURT</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>I3</div>
+                                                        <div class="seedrow9" id="divRevealSeed34">SAUCE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>I4</div>
+                                                        <div class="seedrow9" id="divRevealSeed35">WHO</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead10">
+                                                    <div class="seedCell">
+                                                        <div>J1</div>
+                                                        <div class="seedrow10" id="divRevealSeed36">WHOM</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>J2</div>
+                                                        <div class="seedrow10" id="divRevealSeed37">HOW</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>J3</div>
+                                                        <div class="seedrow10" id="divRevealSeed38">WHY</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>J4</div>
+                                                        <div class="seedrow10" id="divRevealSeed39">TAKECARE</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead11">
+                                                    <div class="seedCell">
+                                                        <div>K1</div>
+                                                        <div class="seedrow11" id="divRevealSeed40">BLITLINE</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>K2</div>
+                                                        <div class="seedrow11" id="divRevealSeed41">PIGHOPS</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>K3</div>
+                                                        <div class="seedrow11" id="divRevealSeed42">BUNTMECA</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>K4</div>
+                                                        <div class="seedrow11" id="divRevealSeed43">HASTILY</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seedrowhead12">
+                                                    <div class="seedCell">
+                                                        <div>L1</div>
+                                                        <div class="seedrow12" id="divRevealSeed44">PATIO</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>L2</div>
+                                                        <div class="seedrow12" id="divRevealSeed45">LINTPICK</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>L3</div>
+                                                        <div class="seedrow12" id="divRevealSeed46">NUTCRACK</div>
+                                                    </div>
+                                                    <div class="seedCell">
+                                                        <div>L4</div>
+                                                        <div class="seedrow12" id="divRevealSeed47">QWERTY</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="copy-container" role="button" style="float:left;" onclick="copyRevealSeed()" id="divCopyRevealSeed" tabindex="5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content" id="backupSpecificWalletScreen" style="display: none;">
+            <div class="center-content">
+                <div class="center-content-rounded-container" style="max-width: 650px;">
+                    <div class="back-container" role="button" onclick="showWalletListScreen();" tabindex="4">
+
+                    </div>
+                    <div class="roundex-box">
+                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet</div>
+                        <div class="divider"></div>
+                        <div class="heading medium" id="divSpecificBackupAddress" style="font-size:12px;"></div>
+                        <div class="divider"></div>
+                        <div class="heading large">
+                            <p data-lang-key="backup-wallet-info-1">For additional safety, please make sure that you keep backup copies in atleast three different devices offline.</p>
+                            <p data-lang-key="backup-wallet-info-2">And remember you need the password to restore the backup!</p>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="input_container">
+                            <div class="heading medium" data-lang-key="enter-wallet-password">Enter your wallet password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdBackupSpecificWallet" name="password"
+                                           placeholder="Enter the password" data-placeholder-key="enter-wallet-password" tabindex="1">
+                                </div>
+                                <div style="float:left">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" data-alt-key="show-password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdBackupSpecificWallet');" role="button" tabindex="2"/>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <div id="nextButtonSpecificWalletScreen" class="large_button_container heading large" onclick="backupSpecificWallet()" data-lang-key="backup" role="button" tabindex="3">Backup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/util.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="lib/dp/wasm_exec.js"></script>
+    <script src="lib/hybrid-pqc/hybrid-pqc.js"></script>
+    <script src="lib/seedwords/seedwords.js"></script>
+    <script src="js/qrcode.js"></script>
+    <script src="js/bridge.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="lib/conversion/conversion.js"></script>
+    <script src="js/blockchain-network.js"></script>
+    <script src="js/dialog.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/transaction.js"></script>
+    <script src="js/api.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            initApp();
+        });
+
+        window.onerror = (message, source, lineno, colno, error) => {
+            showErrorAndLockup(message);
+        };
+
+        window.addEventListener("unhandledrejection", event => {
+            showErrorAndLockup(message);
+        });
+
+        window.onload = function () {
+            document.getElementById('filRestoreWallet').addEventListener('change', showRestoreWalletLabel);
+        }
+
+        window.onload = function () {
+            document.getElementById('filEthWallet').addEventListener('change', showEthWalletLabel);
+        }
+
+        document.querySelectorAll('[role="button"]').forEach(function (el) {
+            el.addEventListener("keypress", function (e) {
+                if (e.key === 'Enter') {
+                    el.click();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
