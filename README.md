@@ -34,6 +34,14 @@ The CSV file containing the list of Ethereum addresses for Mainnet Snapshot is o
 ### Warning
 Linux (Ubuntu) wallet is not tested!
 
+### Dependencies
+The following dependent files are used:
+
+https://github.com/DogeProtocol/go-dp/releases/download/v2.0.25/webassembly-wasm.tar.gz
+https://github.com/DogeProtocol/hybrid-pqc/releases/download/v0.1.24/hybrid-pqc-wasm.tar.gz
+https://github.com/DogeProtocol/seed-words/archive/refs/tags/v0.0.1.tar.gz
+https://github.com/DogeProtocol/mainnet-erc20-token-address-snapshot/archive/refs/tags/v0.0.1.tar.gz
+
 ## License
 The source code is released under MIT license.
 
