@@ -37,10 +37,10 @@ Linux (Ubuntu) wallet is not tested!
 ### Dependencies
 The following dependent files are used:
 
-https://github.com/DogeProtocol/go-dp/releases/download/v2.0.25/webassembly-wasm.tar.gz
-https://github.com/DogeProtocol/hybrid-pqc/releases/download/v0.1.24/hybrid-pqc-wasm.tar.gz
-https://github.com/DogeProtocol/seed-words/archive/refs/tags/v0.0.1.tar.gz
-https://github.com/DogeProtocol/mainnet-erc20-token-address-snapshot/archive/refs/tags/v0.0.1.tar.gz
+1) https://github.com/DogeProtocol/go-dp/releases/download/v2.0.25/webassembly-wasm.tar.gz
+2) https://github.com/DogeProtocol/hybrid-pqc/releases/download/v0.1.24/hybrid-pqc-wasm.tar.gz
+3) https://github.com/DogeProtocol/seed-words/archive/refs/tags/v0.0.1.tar.gz
+4) https://github.com/DogeProtocol/mainnet-erc20-token-address-snapshot/archive/refs/tags/v0.0.1.tar.gz
 
 ## License
 The source code is released under MIT license.
