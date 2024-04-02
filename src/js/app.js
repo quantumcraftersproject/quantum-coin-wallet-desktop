@@ -236,6 +236,9 @@ async function saveSelectedBlockchainNetwork() {
         document.getElementById("divBalanceSendScreen").textContent = "";
         currentBalance = "";
         await refreshAccountBalance();
+        if (document.getElementById("TransactionsScreen").style.display !== "none") {
+            await refreshTransactionList();
+        }
     }
 }
 
@@ -619,6 +622,7 @@ async function showWalletScreen() {
 }
 
 function showSendScreen() {
+    document.getElementById('divNetworkDropdown').style.display = 'none';
     document.getElementById('HomeScreen').style.display = 'none';
     document.getElementById('SendScreen').style.display = 'block';
     document.getElementById('gradient').style.height = '116px';
@@ -1410,6 +1414,8 @@ async function refreshTransactionList() {
     try {
         document.getElementById('divTxnRefreshStatus').style.display = "none";
         document.getElementById('divTxnLoadingStatus').style.display = "block";
+        document.getElementById('tbodyPendingTransactions').innerHTML = "";
+        document.getElementById('tbodyComplextedTransactions').innerHTML = "";
 
         await refreshTransactionListInner(false);
         await refreshTransactionListInner(true);
