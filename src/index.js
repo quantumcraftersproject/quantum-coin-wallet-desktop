@@ -103,7 +103,7 @@ ipcMain.handle('FileApiReadFile', async (event, data) => {
 ipcMain.handle('EthersApiPhraseToWallets', async (event, data) => {   
     const wallestList = [];
     const mnemonic = ethers.Mnemonic.fromPhrase(data);
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 100; index++) {
         const wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`);
         wallestList.push(wallet);
     }
@@ -114,7 +114,7 @@ ipcMain.handle('EthersApiPhraseToWallets', async (event, data) => {
 ipcMain.handle('EthersApiPhraseToKeyPairs', async (event, data) => {
     const keyList = [];
     const mnemonic = ethers.Mnemonic.fromPhrase(data);
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 100; index++) {
         const wallet = ethers.HDNodeWallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`);
         const keyPair = {
             privateKey: wallet.privateKey,
