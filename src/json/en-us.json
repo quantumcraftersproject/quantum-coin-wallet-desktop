@@ -27,7 +27,7 @@
       },
       {
         "title": "Social Media and Messaging Apps Safety",
-        "desc": "Do not respond to social media and messaging app direct-messages from community members or anyone in general talking about Doge Protocol. They are mosly likely scammers who can trick you and steal your coins or tokens!"
+        "desc": "Do not respond to social media and messaging app direct-messages from community members or anyone in general talking about Doge Protocol. They are most likely scammers who can trick you and steal your coins or tokens!"
       },
       {
         "title": "Wallet Location",
@@ -48,7 +48,7 @@
         "All the above"
       ],
       "correctChoice": 3,
-      "afterQuizInfo": "This is correct. You should only send DogeP Coins to this wallet."
+      "afterQuizInfo": "This is correct. You should only send DP Mainnet coins to this wallet."
     },
     {
       "title": "Lost wallet or password",
@@ -112,11 +112,11 @@
       "use-strong-password": "Use a strong and long password. And do not forget it!",
       "retype-password": "Retype Password",
       "retype-the-password": "Retype the password",
-      "create-restore-wallet": "Create or Restore Wallet",
+      "create-restore-wallet": "Create or Restore Quantum Wallet",
       "select-an-option": "Select an option",
-      "create-new-wallet": "Create New Wallet",
-      "restore-wallet-from-seed": "Restore A Wallet From Seed Words",
-      "restore-wallet-from-backup-file": "Restore A Wallet From a Backup File",
+      "create-new-wallet": "Create New Quantum Wallet",
+      "restore-wallet-from-seed": "Restore A Quantum Wallet From Seed Words",
+      "restore-wallet-from-backup-file": "Restore A Quantum Wallet From a Backup File",
       "seed-words": "Seed Words",
       "seed-words-info-1": "Ensure that no one is looking at the screen other than you.",
       "seed-words-info-2": "Ensure that there is no camera pointed at this screen, including from your phone.",
@@ -124,8 +124,8 @@
       "seed-words-info-4": "If these seed words are stolen or someone else gets access to them, your wallet is compromised.",
       "seed-words-show": "Click here to reveal the seed words.",
       "verify-seed-words": "Verify Seed Words",
-      "verify-wallet-password": "Verify Current Wallet Password",
-      "verify-wallet-password-info": "Retype your current wallet password, to verify that you remember it. Upon verification, your wallet will be saved.",
+      "verify-wallet-password": "Verify Current Quantum Wallet Password",
+      "verify-wallet-password-info": "Retype your current quantum wallet password, to verify that you remember it. Upon verification, your quantum wallet will be saved.",
       "waitWalletSave": "Please wait while your wallet is being saved with strong encryption. This can take upto a minute or so to complete...",
       "walletSaved": "Your wallet has been saved successfully.",
       "backup-wallet": "Backup Wallet",
@@ -134,7 +134,7 @@
       "backup-wallet-skip": "Click here to skip this step.",
       "backupWait": "Please wait while your wallet is being backed up with strong encryption. This can take upto a minute or so to complete...",
       "walletBackedUp": "Your wallet has been backed up successfully. Remember you need your wallet password in order to restore it.",
-      "restore-wallet-from-backup": "Restore Wallet From Backup File",
+      "restore-wallet-from-backup": "Restore Quantum Wallet From Backup File",
       "enter-above-wallet-password": "Enter the above wallet's password",
       "walletFileRestoreWait": "Please wait while your wallet is being decrypted and opened. This can take upto a minute.",
       "waitRevealSeed": "Please wait while your wallet seed words are being decrypted and opened. This can take upto a minute.",

@@ -1,8 +1,8 @@
 {
-  "name": "dpwallet",
-  "productName": "dpwallet",
-  "version": "3.0.0",
-  "description": "Doge Protocol Wallet",
+  "name": "quantumwallet",
+  "productName": "quantumwallet",
+  "version": "[wallet-version]",
+  "description": "Doge Protocol Quantum Wallet",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",

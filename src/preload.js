@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, shell, fs, readline, remote } = require('electron');
+const { contextBridge, ipcRenderer, shell, fs, readline, remote,app } = require('electron');
 
 contextBridge.exposeInMainWorld('StorageApi', {
     SetItem: function (key, value) {
@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('StorageApi', {
         return result;
     }
 });
+
 
 contextBridge.exposeInMainWorld('ClipboardApi', {
     send: (channel, data) => ipcRenderer.invoke(channel, data),
@@ -46,3 +47,8 @@ contextBridge.exposeInMainWorld('FormatApi', {
     handle: (channel, callable, event, data) => ipcRenderer.on(channel, callable(event, data))
 })
 
+
+contextBridge.exposeInMainWorld('AppApi', {
+    send: (channel, data) => ipcRenderer.invoke(channel, data),
+    handle: (channel, callable, event, data) => ipcRenderer.on(channel, callable(event, data))
+})

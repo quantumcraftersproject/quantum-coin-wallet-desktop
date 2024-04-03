@@ -102,6 +102,9 @@ async function initApp() {
         return;
     }
 
+    let appVersion = await GetAppVersion();
+    document.title = langJson.langValues.title + " " + appVersion;
+
     InitAccountsWebAssembly();
     let seedInit = await initializeSeedWordsFromUrl("lib/seedwords/seedwords.txt");
     if (seedInit == false) {
