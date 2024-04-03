@@ -1,7 +1,7 @@
 {
   "name": "quantumwallet",
   "productName": "quantumwallet",
-  "version": "[v3.0.4]",
+  "version": "[v3.0.14]",
   "description": "Doge Protocol Quantum Wallet",
   "main": "src/index.js",
   "scripts": {
