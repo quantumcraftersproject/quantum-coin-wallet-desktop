@@ -1,7 +1,7 @@
 {
   "name": "quantumwallet",
   "productName": "quantumwallet",
-  "artifactName": ${productName}-${version}.${ext}
+  "artifactName": "${productName}-${version}.${ext}"
   "version": "3.0.18",
   "description": "Doge Protocol Quantum Wallet",
   "main": "src/index.js",
