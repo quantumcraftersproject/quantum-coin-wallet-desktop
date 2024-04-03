@@ -1,4 +1,4 @@
-name: Build/release
+name: Windows Release
 
 on:
   push:
@@ -11,12 +11,15 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest,  ubuntu-latest]
+        os: [windows-latest]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
-        
+
+      - name: Set Version Package Json
+        run: cd ${{ github.workspace }} && set RELEASE_VERSION=${GITHUB_REF#refs/*/} && powershell ./buildversion.ps1        
+      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
