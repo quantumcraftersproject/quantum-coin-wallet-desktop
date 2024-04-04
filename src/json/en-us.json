@@ -76,7 +76,7 @@
     }
   ],
     "langValues": {
-      "title": "Doge Protocol Quantum Wallet",
+      "title": "DP Quantum Coin Wallet",
       "next": "Next",
       "ok": "Ok",
       "cancel": "Cancel",
@@ -100,7 +100,7 @@
       "scan": "DpScan",
       "block-explorer":  "Block Explorer",
       "select-network": "Select Network",
-      "enter-wallet-password": "Enter Wallet Password",
+      "enter-wallet-password": "Enter Quantum Wallet Password",
       "enter-a-password": "Enter a password",
       "show-password": "Show Password",
       "password": "Password",
@@ -125,7 +125,7 @@
       "seed-words-show": "Click here to reveal the seed words.",
       "verify-seed-words": "Verify Seed Words",
       "verify-wallet-password": "Verify Current Quantum Wallet Password",
-      "verify-wallet-password-info": "Retype your current quantum wallet password, to verify that you remember it. Upon verification, your quantum wallet will be saved.",
+      "verify-wallet-password-info": "Retype your current quantum wallet password, to verify that you remember it. Upon verification, your wallet will be saved.",
       "waitWalletSave": "Please wait while your wallet is being saved with strong encryption. This can take upto a minute or so to complete...",
       "walletSaved": "Your wallet has been saved successfully.",
       "backup-wallet": "Backup Wallet",

@@ -50,6 +50,10 @@ let currentTxnPageCount = 0;
 let pendingTransactions = [];
 let balanceNotificationMap = new Map(); //address => balance
 let pendingTransactionsMap = new Map(); //address => last made txn
+let autoCompleteInitialized = false;
+let autoCompleteInitializedRestore = false;
+let autoCompleteBoxes = [];
+let autoCompleteBoxesRestore = [];
 
 function InitAccountsWebAssembly() {
     if (!WebAssembly.instantiateStreaming) {
@@ -437,7 +441,26 @@ function showRestoreSeedScreen() {
     document.getElementById("restoreSeedScreen").style.display = "block";
 
     for (i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
-        document.getElementById("txtRestoreSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).value = "";
+        document.getElementById("txtRestoreSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).textContent = "";
+    }
+
+    let seedWordList = getAllSeedWords();
+    if (autoCompleteInitializedRestore == false) {
+        for (var i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
+            let box = document.getElementById("txtRestoreSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase());
+            let myAutoComplete = new AutoCompleteDropdownControl(box);
+            box.tabIndex = i + 1;
+            myAutoComplete.limitToList = true;
+            myAutoComplete.optionValues = seedWordList;
+            myAutoComplete.initialize();
+            autoCompleteBoxesRestore.push(myAutoComplete);
+        }
+        autoCompleteInitializedRestore = true;
+    } else {
+        for (var i = 0; i < autoCompleteBoxesRestore.length; i++) {
+            autoCompleteBoxesRestore[i].setSelectedValue('');
+            autoCompleteBoxesRestore[i].reset();
+        }
     }
 
     document.getElementById('txtRestoreSeedA1').focus();
@@ -470,11 +493,30 @@ function showSeedPanel() {
 
 function showVerifySeedPanel() {
     for (i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
-        document.getElementById("txtSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).value = "";
+        document.getElementById("txtSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).textContent = "";
     }
 
     document.getElementById('seedVerifyScreen').style.display = 'block';    
     document.getElementById('newSeedScreen').style.display = 'none';
+
+    let seedWordList = getAllSeedWords();
+    if (autoCompleteInitialized == false) {
+        for (var i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
+            let box = document.getElementById("txtSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase());
+            let myAutoComplete = new AutoCompleteDropdownControl(box);
+            box.tabIndex = i + 1;
+            myAutoComplete.limitToList = true;
+            myAutoComplete.optionValues = seedWordList;
+            myAutoComplete.initialize();
+            autoCompleteBoxes.push(myAutoComplete);
+        }
+        autoCompleteInitialized = true;
+    } else {
+        for (var i = 0; i < autoCompleteBoxes.length; i++) {
+            autoCompleteBoxes[i].setSelectedValue('');
+            autoCompleteBoxes[i].reset();
+        }
+    }
     document.getElementById('txtSeedA1').focus();
 
     return false;
@@ -483,7 +525,7 @@ function showVerifySeedPanel() {
 function verifySeedWords() {
     var seedWords = new Array(SEED_LENGTH / 2);
     for (i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
-        var seedWord = document.getElementById("txtSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).value;
+        var seedWord = document.getElementById("txtSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).textContent;
         var seedIndexFriedly = getFriendlySeedIndex(i).toUpperCase();
 
         if (seedWord === null || seedWord.length < 2) {
@@ -496,7 +538,7 @@ function verifySeedWords() {
         }
 
         if (verifySeedWord(i, seedWord, tempSeedArray) === false) {
-            return showWarnAlert(langJson.errors.seedMismatch + seedIndexFriedly);
+            return showWarnAlert(langJson.errors.seedMismatch + seedIndexFriedly + " " + seedWord.toUpperCase());
         }
     }
 
@@ -678,7 +720,7 @@ async function encryptAndBackupCurrentWallet() {
 function restoreSeed() {
     var seedWords = new Array(SEED_LENGTH / 2);
     for (i = 0; i < SEED_FRIENDLY_INDEX_ARRAY.length; i++) {
-        var seedWord = document.getElementById("txtRestoreSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).value;
+        var seedWord = document.getElementById("txtRestoreSeed" + SEED_FRIENDLY_INDEX_ARRAY[i].toUpperCase()).textContent;
         var seedIndexFriedly = getFriendlySeedIndex(i).toUpperCase();
 
         if (seedWord === null || seedWord.length < 2) {

@@ -6,6 +6,7 @@ const SEED_HASH = "9289cec415e1d9db8712174987014ebbf3fff570add97793fe400aeb53740
 const SEED_FRIENDLY_INDEX_ARRAY = ['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4', 'c1', 'c2', 'c3', 'c4', 'd1', 'd2', 'd3', 'd4', 'e1', 'e2', 'e3', 'e4', 'f1', 'f2', 'f3', 'f4', 'g1', 'g2', 'g3', 'g4', 'h1', 'h2', 'h3', 'h4', 'i1', 'i2', 'i3', 'i4', 'j1', 'j2', 'j3', 'j4', 'k1', 'k2', 'k3', 'k4', 'l1', 'l2', 'l3', 'l4'];
 var SEED_FRIENDLY_INDEX_REVERSE_ARRAY = [];
 var SEED_INITIALIZED = false;
+const SEED_WORD_LIST = [];
 async function sha256digestMessage(message) {
     const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
     const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8); // hash the message
@@ -60,6 +61,7 @@ async function initializeSeedWordsFromString(seedWordsRaw) {
         seedMapHashMessage = seedMapHashMessage + key + "=" + val + ",";
         SEED_MAP.set(key, val);
         SEED_REVERSE_MAP.set(val, key);
+        SEED_WORD_LIST.push(key);
     }
 
     var seedhashstr = await sha256digestMessage(seedMapHashMessage);
@@ -94,6 +96,9 @@ async function initializeSeedWordsFromString(seedWordsRaw) {
     return true;
 }
 
+function getAllSeedWords() {
+    return SEED_WORD_LIST;
+}
 function getSeedWordFromNumberPair(num1, num2) {
     if (num1 < 0 || num1 > 255 || num2 < 0 || num2 > 255) {
         throw new Error("num2 numbers out of range");

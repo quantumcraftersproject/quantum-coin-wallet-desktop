@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/fonts/SFPro/stylesheet.css">
     <link rel="stylesheet" href="assets/fonts/Poppins/stylesheet.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lib/autocomplete/autocomplete.css">
 
     <title>Title</title>
     <link rel="preload" href="assets/svg/eye-outline.svg" as="image">
@@ -516,7 +517,7 @@
                         <div class="divider"></div>
 
                         <div id="divNewSeedButtons" style="display:none;">
-                            <div class="copy-container" role="button" style="float:left;" onclick="copyNewSeed()"  tabindex="3"></div>
+                            <div class="copy-container" role="button" style="float:left;" onclick="copyNewSeed()" tabindex="3"></div><a href="#" onclick="copyNewSeed()" style="float:left;margin-left:5px;">copy</a>
                             <div class="large_button_container heading large" onclick="showVerifySeedPanel()" style="float:right;" id="divNextSeed" data-lang-key="next" role="button" tabindex="4">
                                 Next
                             </div>
@@ -545,217 +546,217 @@
                                             <div class="seedrowhead1">
                                                 <div class="seedCell">
                                                     <div>A1</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA1"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtSeedA1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A2</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA2"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtSeedA2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A3</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA3"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtSeedA3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A4</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtSeedA4"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtSeedA4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead2">
                                                 <div class="seedCell">
                                                     <div>B1</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB1"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtSeedB1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B2</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB2"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtSeedB2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B3</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB3"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtSeedB3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B4</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtSeedB4"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtSeedB4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead3">
                                                 <div class="seedCell">
                                                     <div>C1</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC1"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtSeedC1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C2</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC2"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtSeedC2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C3</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC3"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtSeedC3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C4</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtSeedC4"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtSeedC4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead4">
                                                 <div class="seedCell">
                                                     <div>D1</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD1"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtSeedD1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D2</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD2"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtSeedD2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D3</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD3"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtSeedD3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D4</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtSeedD4"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtSeedD4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead5">
                                                 <div class="seedCell">
                                                     <div>E1</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE1"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtSeedE1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E2</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE2"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtSeedE2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E3</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE3"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtSeedE3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E4</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtSeedE4"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtSeedE4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead6">
                                                 <div class="seedCell">
                                                     <div>F1</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF1"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtSeedF1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F2</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF2"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtSeedF2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F3</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF3"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtSeedF3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F4</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtSeedF4"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtSeedF4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead7">
                                                 <div class="seedCell">
                                                     <div>G1</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG1"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtSeedG1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G2</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG2"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtSeedG2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G3</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG3"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtSeedG3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G4</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtSeedG4"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtSeedG4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead8">
                                                 <div class="seedCell">
                                                     <div>H1</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH1"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtSeedH1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H2</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH2"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtSeedH2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H3</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH3"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtSeedH3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H4</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtSeedH4"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtSeedH4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead9">
                                                 <div class="seedCell">
                                                     <div>I1</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI1"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtSeedI1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I2</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI2"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtSeedI2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I3</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI3"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtSeedI3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I4</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtSeedI4"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtSeedI4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead10">
                                                 <div class="seedCell">
                                                     <div>J1</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ1"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtSeedJ1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J2</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ2"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtSeedJ2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J3</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ3"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtSeedJ3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J4</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtSeedJ4"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtSeedJ4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead11">
                                                 <div class="seedCell">
                                                     <div>K1</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK1"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtSeedK1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K2</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK2"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtSeedK2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K3</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK3"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtSeedK3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K4</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtSeedK4"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtSeedK4" ></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead12">
                                                 <div class="seedCell">
                                                     <div>L1</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL1"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtSeedL1" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L2</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL2"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtSeedL2" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L3</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL3"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtSeedL3" ></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L4</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtSeedL4"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtSeedL4" ></div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -791,217 +792,217 @@
                                             <div class="seedrowhead1">
                                                 <div class="seedCell">
                                                     <div>A1</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA1"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedA1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A2</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA2"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedA2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A3</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA3"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedA3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>A4</div>
-                                                    <div class="seedrow1"><input type="text" class="seedtextbox" id="txtRestoreSeedA4"></div>
+                                                    <div class="seedrow1"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedA4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead2">
                                                 <div class="seedCell">
                                                     <div>B1</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB1"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedB1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B2</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB2"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedB2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B3</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB3"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedB3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>B4</div>
-                                                    <div class="seedrow2"><input type="text" class="seedtextbox" id="txtRestoreSeedB4"></div>
+                                                    <div class="seedrow2"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedB4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead3">
                                                 <div class="seedCell">
                                                     <div>C1</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC1"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedC1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C2</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC2"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedC2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C3</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC3"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedC3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>C4</div>
-                                                    <div class="seedrow3"><input type="text" class="seedtextbox" id="txtRestoreSeedC4"></div>
+                                                    <div class="seedrow3"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedC4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead4">
                                                 <div class="seedCell">
                                                     <div>D1</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD1"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedD1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D2</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD2"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedD2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D3</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD3"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedD3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>D4</div>
-                                                    <div class="seedrow4"><input type="text" class="seedtextbox" id="txtRestoreSeedD4"></div>
+                                                    <div class="seedrow4"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedD4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead5">
                                                 <div class="seedCell">
                                                     <div>E1</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE1"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedE1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E2</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE2"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedE2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E3</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE3"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedE3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>E4</div>
-                                                    <div class="seedrow5"><input type="text" class="seedtextbox" id="txtRestoreSeedE4"></div>
+                                                    <div class="seedrow5"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedE4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead6">
                                                 <div class="seedCell">
                                                     <div>F1</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF1"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedF1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F2</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF2"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedF2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F3</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF3"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedF3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>F4</div>
-                                                    <div class="seedrow6"><input type="text" class="seedtextbox" id="txtRestoreSeedF4"></div>
+                                                    <div class="seedrow6"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedF4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead7">
                                                 <div class="seedCell">
                                                     <div>G1</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG1"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedG1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G2</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG2"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedG2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G3</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG3"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedG3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>G4</div>
-                                                    <div class="seedrow7"><input type="text" class="seedtextbox" id="txtRestoreSeedG4"></div>
+                                                    <div class="seedrow7"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedG4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead8">
                                                 <div class="seedCell">
                                                     <div>H1</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH1"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedH1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H2</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH2"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedH2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H3</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH3"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedH3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>H4</div>
-                                                    <div class="seedrow8"><input type="text" class="seedtextbox" id="txtRestoreSeedH4"></div>
+                                                    <div class="seedrow8"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedH4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead9">
                                                 <div class="seedCell">
                                                     <div>I1</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI1"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedI1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I2</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI2"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedI2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I3</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI3"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedI3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>I4</div>
-                                                    <div class="seedrow9"><input type="text" class="seedtextbox" id="txtRestoreSeedI4"></div>
+                                                    <div class="seedrow9"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedI4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead10">
                                                 <div class="seedCell">
                                                     <div>J1</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ1"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedJ1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J2</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ2"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedJ2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J3</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ3"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedJ3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>J4</div>
-                                                    <div class="seedrow10"><input type="text" class="seedtextbox" id="txtRestoreSeedJ4"></div>
+                                                    <div class="seedrow10"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedJ4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead11">
                                                 <div class="seedCell">
                                                     <div>K1</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK1"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedK1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K2</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK2"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedK2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K3</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK3"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedK3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>K4</div>
-                                                    <div class="seedrow11"><input type="text" class="seedtextbox" id="txtRestoreSeedK4"></div>
+                                                    <div class="seedrow11"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedK4"></div></div>
                                                 </div>
                                             </div>
                                             <div class="seedrowhead12">
                                                 <div class="seedCell">
                                                     <div>L1</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL1"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedL1"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L2</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL2"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedL2"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L3</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL3"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedL3"></div></div>
                                                 </div>
                                                 <div class="seedCell">
                                                     <div>L4</div>
-                                                    <div class="seedrow12"><input type="text" class="seedtextbox" id="txtRestoreSeedL4"></div>
+                                                    <div class="seedrow12"><div class="entrybox edit-div" contenteditable="true" id="txtRestoreSeedL4"></div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1041,7 +1042,7 @@
                                            placeholder="Enter the above wallet's password" tabindex="2">
                                 </div>
                                 <div style="float:left">
-                                    <img src="assets/svg/eye-outline.svg" data-alt-key="show-password" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRestoreWallet');" role="button" tabindex="3"/>
+                                    <img src="assets/svg/eye-outline.svg" data-alt-key="show-password" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRestoreWallet');" role="button" tabindex="3" />
                                 </div>
                             </div>
                             <div class="divider"></div>
@@ -1073,7 +1074,7 @@
                                            placeholder="Enter wallet password" data-placeholder-key="enter-wallet-password" tabindex="1">
                                 </div>
                                 <div style="float:left">
-                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdVerifyWalletPassword');" role="button" tabindex="2"/>
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdVerifyWalletPassword');" role="button" tabindex="2" />
                                 </div>
                             </div>
                             <div class="divider"></div>
@@ -1483,7 +1484,7 @@
         <div class="content" id="getCoins1" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container">
-                    <div class="back-container" role="button" onclick="showSettingsScreen()"  tabindex="6">
+                    <div class="back-container" role="button" onclick="showSettingsScreen()" tabindex="6">
 
                     </div>
                     <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
@@ -1511,13 +1512,13 @@
                                     <label data-lang-key="eth-option-keystore" style="cursor: pointer;">Using Keystore JSON File</label>
                                 </div>
                                 <div class="tab-label" style="text-align: left;cursor:pointer;" onclick="document.getElementById('optManually').checked  = true;" role="button">
-                                    <input type="radio" name="ethwallettype" value="manually" class="safety_quiz_option" id="optManually"  tabindex="4">
+                                    <input type="radio" name="ethwallettype" value="manually" class="safety_quiz_option" id="optManually" tabindex="4">
                                     <label data-lang-key="eth-option-manual" style="cursor: pointer;">Manually</label>
                                 </div>
                             </form>
                             <div class="divider"></div>
                         </div>
-                        <div class="large_button_container heading large" onclick="getCoinsScreen1Submit()" data-lang-key="next" role="button"  tabindex="5">
+                        <div class="large_button_container heading large" onclick="getCoinsScreen1Submit()" data-lang-key="next" role="button" tabindex="5">
                             Next
                         </div>
                     </div>
@@ -1583,7 +1584,7 @@
                                     <div class="seedrowheadplain">
                                         <div class="seedCell">
                                             <div>9</div>
-                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed9" tabindex="9"/></div>
+                                            <div class="seedrowplain"><input type="text" class="seedtextbox" id="txtEthSeed9" tabindex="9" /></div>
                                         </div>
                                         <div class="seedCell">
                                             <div>10</div>
@@ -1601,13 +1602,13 @@
                                 </div>
                             </div>
                             <div class="select" id="ethAddressList" style="width:100%;">
-                                <select id="sltEthAddresses"  tabindex="13">
+                                <select id="sltEthAddresses" tabindex="13">
                                     <option value="[ETH_ADDRESS_VALUE]">[ETH_ADDRESS_VALUE] - [ETH_ADDRESS_COINS] coins</option>
                                 </select>
                             </div>
                             <div class="divider"></div>
                         </div>
-                        <div class="large_button_container heading large" onclick="loadEthAddressesFromSeed();" data-lang-key="next" role="button" tabindex="14" >
+                        <div class="large_button_container heading large" onclick="loadEthAddressesFromSeed();" data-lang-key="next" role="button" tabindex="14">
                             Next
                         </div>
                     </div>
@@ -1721,7 +1722,7 @@
                                    data-placeholder-key="enter-eth-address" tabindex="1">
                             <div id="divEthSignMessage">
                                 <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a>.</div>
-                                <textarea id="txtSignatureMessage" style="width: 100%;" disabled rows="6" cols="100"  tabindex="2">MY ETH ADDRESS IS 0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS 0xa553b8935988e6260b6e3c3ff5b340ee478b504b7166b4881365a9153c80a78c.</textarea>
+                                <textarea id="txtSignatureMessage" style="width: 100%;" disabled rows="6" cols="100" tabindex="2">MY ETH ADDRESS IS 0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS 0xa553b8935988e6260b6e3c3ff5b340ee478b504b7166b4881365a9153c80a78c.</textarea>
                                 <div style="display: flex; flex-direction: row; height: 40px; justify-content: center;">
                                     <div class="copy-container" role="button" style="float:left;" onclick="copyConversionSigningMessage()" tabindex="3"></div>
                                 </div>
@@ -1844,12 +1845,12 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="button" style="background: green !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showSpecificWalletBackupScreen('[ADDRESS]');" role="button"  tabindex="[BACKUP_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
+                                        <div class="button" style="background: green !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showSpecificWalletBackupScreen('[ADDRESS]');" role="button" tabindex="[BACKUP_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
                                             <img src="assets/svg/backup-outline.svg" alt="Backup" style="width: 25px; height: 25px; position: relative; top: 3px;" data-alt-key="backup">
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="button" style="background: #ff00db !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showRevealSeedScreen('[ADDRESS]');" role="button"  tabindex="[SEED_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
+                                        <div class="button" style="background: #ff00db !important; border-radius: 10px; align-self: center; width: 35px; margin-left: 18px; " onclick="showRevealSeedScreen('[ADDRESS]');" role="button" tabindex="[SEED_TAB_INDEX]" onkeypress="clickOnEnter(event, this);">
                                             <img src="assets/svg/eye-outline.svg" alt="Reveal Seed" style="width: 25px; height: 25px; position: relative; top: 3px;" data-alt-key="reveal-seed">
                                         </div>
                                     </td>
@@ -1868,7 +1869,7 @@
         <div class="content" id="revealSeedScreen" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container" style="max-width:650px;">
-                    <div class="back-container" role="button" onclick="showWalletListScreen();"  tabindex="6">
+                    <div class="back-container" role="button" onclick="showWalletListScreen();" tabindex="6">
 
                     </div>
                     <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
@@ -1889,7 +1890,7 @@
                                                placeholder="Enter the password" tabindex="1">
                                     </div>
                                     <div style="float:left">
-                                        <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRevealSeedScreenPassword');" role="button"  tabindex="2"/>
+                                        <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdRevealSeedScreenPassword');" role="button" tabindex="2" />
                                     </div>
                                 </div>
 
@@ -1904,7 +1905,7 @@
                                     <div class="divider"></div>
 
 
-                                    <div class="large_button_container heading large" onclick="showRevealSeedPanel()" data-lang-key="reveal" id="divRevealButton" style="float:right;margin-top:10px;" role="button"  tabindex="3">
+                                    <div class="large_button_container heading large" onclick="showRevealSeedPanel()" data-lang-key="reveal" id="divRevealButton" style="float:right;margin-top:10px;" role="button" tabindex="3">
                                         Reveal
                                     </div>
 
@@ -2173,7 +2174,7 @@
                                            placeholder="Enter the password" data-placeholder-key="enter-wallet-password" tabindex="1">
                                 </div>
                                 <div style="float:left">
-                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" data-alt-key="show-password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdBackupSpecificWallet');" role="button" tabindex="2"/>
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" data-alt-key="show-password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdBackupSpecificWallet');" role="button" tabindex="2" />
                                 </div>
                             </div>
                             <div class="divider"></div>
@@ -2203,6 +2204,7 @@
     <script src="js/app.js"></script>
     <script src="js/transaction.js"></script>
     <script src="js/api.js"></script>
+    <script src="lib/autocomplete/autocomplete.js"></script>
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {

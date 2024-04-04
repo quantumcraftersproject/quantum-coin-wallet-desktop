@@ -50,3 +50,5 @@ This project uses Ionic icons that are released under MIT License https://github
 This project uses jquery-qrcode that is released under MIT License https://github.com/jeromeetienne/jquery-qrcode
 
 wasm_exec.js is released under BSD-style License https://github.com/golang/go/blob/master/LICENSE
+
+This project uses uses jsautocompletedropdowncontrol released under MIT License https://github.com/IntersoftDev/jsautocompletedropdowncontrol?tab=MIT-1-ov-file#readme
