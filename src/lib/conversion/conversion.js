@@ -41,7 +41,7 @@ async function initConversion() {
 }
 
 function openConversionHelpUrl() {
-    OpenUrl("https://dpdocs.org/conversion-help.html")
+    OpenUrl("https://dpdocs.org/desktop-wallet.html#getting-coins-for-tokens")
     return false;
 }
 
@@ -480,7 +480,7 @@ async function openSnapshotUrl() {
 }
 
 function openConversionSigningHelpUrl() {
-    OpenUrl("https://dpdocs.org/conversion-help-cross-sign.html")
+    OpenUrl("https://dpdocs.org/desktop-wallet.html#getting-coins-for-tokens-manually")
     return false;
 }
 
