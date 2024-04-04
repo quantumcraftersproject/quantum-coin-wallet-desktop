@@ -94,7 +94,7 @@
           "config": {
             "options": {
               "icon": "src/assets/icons/app/icon.png",
-               "executableName": "QuantumWallet",
+               "executableName": "QuantumWallet"
             }
           }
         },
