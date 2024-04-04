@@ -93,7 +93,8 @@
           "name": "@electron-forge/maker-deb",
           "config": {
             "options": {
-              "icon": "src/assets/icons/app/icon.png"
+              "icon": "src/assets/icons/app/icon.png",
+               "executableName": "QuantumWallet",
             }
           }
         },
