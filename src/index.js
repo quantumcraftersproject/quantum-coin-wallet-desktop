@@ -15,7 +15,6 @@ const fs = require('fs');
 const readline = require('readline');
 const { ethers } = require('ethers');
 const { utils, BigNumber, message } = require('ethers');
-
 const crypto = require('crypto');
 const AES_ALGORITHM = 'aes-256-cbc';
 
@@ -76,6 +75,11 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+ipcMain.handle('AppApiGetVersion', async (event, data) => {
+    return app.getVersion();
+})
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

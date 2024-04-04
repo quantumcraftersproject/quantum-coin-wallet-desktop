@@ -1,8 +1,8 @@
 {
-  "name": "dpwallet",
-  "productName": "dpwallet",
-  "version": "3.0.0",
-  "description": "Doge Protocol Wallet",
+  "name": "quantumwallet",
+  "productName": "quantumwallet",
+  "version": "3.0.22",
+  "description": "Doge Protocol Quantum Wallet",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -63,7 +63,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "dpwallet",
+            "name": "quantumwallet",
             "iconUrl": "https://dogeprotocol.org/img/icon.ico",
             "setupIcon": "src/assets/icons/app/icon.ico",
             "loadingGif": "src/assets/icons/loading.gif"
@@ -72,7 +72,7 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "dpwallet",
+            "name": "quantumwallet",
             "icon": "src/assets/icons/app/icon.icns"
           }
         },

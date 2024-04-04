@@ -13,6 +13,11 @@ async function OpenUrl(url) {
     return false;
 }
 
+async function GetAppVersion() {
+    let appVersion = await AppApi.send('AppApiGetVersion', null);
+    return appVersion;
+}
+
 async function ReadFile(seedfile) {
     array = await FileApi.send('FileApiReadFile', seedfile);
     return array;

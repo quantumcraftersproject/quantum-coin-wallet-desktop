@@ -1359,9 +1359,7 @@ select {
     letter-spacing: 0.1em;
     font-weight: bold;
 }
-
-    
-
+   
     .networkbox:hover,
     .networkbox:focus {
         color: #6610f2;
