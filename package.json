@@ -1,8 +1,7 @@
 {
   "name": "quantumwallet",
-  "productName": "QuantumWallet",
-  "executableName": "QuantumWallet",
-  "version": "3.0.24",
+  "productName": "quantumwallet",
+  "version": "3.0.22",
   "description": "Doge Protocol Quantum Wallet",
   "main": "src/index.js",
   "scripts": {
@@ -55,7 +54,6 @@
     "forge": {
       "packagerConfig": {
         "icon": "src/assets/icons/app/icon.ico",
-        "executableName": "QuantumWallet",
         "out": "dist",
         "osxUniversal": {
           "x64ArchFiles": "*"
@@ -65,7 +63,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "QuantumWallet",
+            "name": "quantumwallet",
             "iconUrl": "https://dogeprotocol.org/img/icon.ico",
             "setupIcon": "src/assets/icons/app/icon.ico",
             "loadingGif": "src/assets/icons/loading.gif"
@@ -74,7 +72,7 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "QuantumWallet",
+            "name": "quantumwallet",
             "icon": "src/assets/icons/app/icon.icns"
           }
         },
@@ -85,8 +83,7 @@
           ],
           "config": {
             "options": {
-              "icon": "src/assets/icons/app/icon.png",
-               "name": "QuantumWallet"
+              "icon": "src/assets/icons/app/icon.png"
             }
           }
         },
@@ -94,8 +91,7 @@
           "name": "@electron-forge/maker-deb",
           "config": {
             "options": {
-              "icon": "src/assets/icons/app/icon.png",
-               "name": "QuantumWallet"
+              "icon": "src/assets/icons/app/icon.png"
             }
           }
         },
@@ -103,8 +99,7 @@
           "name": "@electron-forge/maker-rpm",
           "config": {
             "options": {
-              "icon": "src/assets/icons/app/icon.png",
-               "name": "QuantumWallet"
+              "icon": "src/assets/icons/app/icon.png"
             }
           }
         }
