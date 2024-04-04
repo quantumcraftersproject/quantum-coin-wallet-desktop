@@ -55,6 +55,7 @@
     "forge": {
       "packagerConfig": {
         "icon": "src/assets/icons/app/icon.ico",
+        "executableName": "QuantumWallet",
         "out": "dist",
         "osxUniversal": {
           "x64ArchFiles": "*"
@@ -64,7 +65,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "quantumwallet",
+            "name": "QuantumWallet",
             "iconUrl": "https://dogeprotocol.org/img/icon.ico",
             "setupIcon": "src/assets/icons/app/icon.ico",
             "loadingGif": "src/assets/icons/loading.gif"
@@ -73,7 +74,7 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "name": "quantumwallet",
+            "name": "QuantumWallet",
             "icon": "src/assets/icons/app/icon.icns"
           }
         },
