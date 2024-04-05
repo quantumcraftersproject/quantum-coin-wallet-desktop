@@ -2,7 +2,7 @@
   "name": "quantumwallet",
   "productName": "quantumwallet",
   "version": "3.0.25",
-  "description": "Doge Protocol Quantum Wallet",
+  "description": "Doge Protocol Quantum Coin Wallet",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
