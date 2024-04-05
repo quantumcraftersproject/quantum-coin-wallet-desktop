@@ -21,6 +21,7 @@ let myWindow = null
 
 const additionalData = { myKey: 'myValue' }
 const gotTheLock = app.requestSingleInstanceLock(additionalData)
+var filename = "index.html";
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -49,7 +50,7 @@ const createWindow = () => {
     currentWindow = mainWindow;
 
   // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    mainWindow.loadFile(path.join(__dirname, filename));
 
   // Open the DevTools.
    //mainWindow.webContents.openDevTools();
@@ -60,7 +61,7 @@ const createWindow = () => {
 };
 
 if (!gotTheLock) {
-    app.quit();
+    filename = 'instance.html';
 } else {
     app.on('second-instance', (event, commandLine, workingDirectory, additionalData) => {
         // Someone tried to run a second instance, we should focus our window.
@@ -71,11 +72,11 @@ if (!gotTheLock) {
             myWindow.focus();
         }
     })
-
-    app.whenReady().then(() => {
-        createWindow();
-    })
 }
+
+app.whenReady().then(() => {
+    createWindow();
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
