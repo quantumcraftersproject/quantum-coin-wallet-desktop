@@ -836,7 +836,7 @@ button, input[type="submit"], input[type="reset"] {
     font-weight: 900 !important;
     color: #5f00ff;
     margin: auto;
-    width: 50%;
+    width: 0.1%;
 }
 
 table {
