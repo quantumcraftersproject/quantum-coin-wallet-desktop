@@ -1,7 +1,7 @@
-[![Build/release](https://github.com/DogeProtocol/desktop-wallet/actions/workflows/electron-forge-publish.yml/badge.svg)](https://github.com/DogeProtocol/desktop-wallet/actions/workflows/electron-forge-publish.yml)
+[![Build/release](https://github.com/quantumcoinproject/quantum-coin-wallet-desktop/actions/workflows/electron-forge-publish.yml/badge.svg)](https://github.com/quantumcoinproject/quantum-coin-wallet-desktop/actions/workflows/electron-forge-publish.yml)
 
-# Doge Protocol Desktop Wallet
-Doge Protocol Desktop Wallets for Windows, Mac and Linux (Ubuntu) are built using Electron. 
+# Quantum Coin Desktop Wallet
+Quantum Coin Desktop Wallets for Windows, Mac and Linux (Ubuntu) are built using Electron. 
 
 ## Building
 
@@ -20,16 +20,16 @@ Doge Protocol Desktop Wallets for Windows, Mac and Linux (Ubuntu) are built usin
 		npm run publish
 
 ### Hybrid PQC
-The Web Assembly files found under the wasm folder can be generated following the instructions at https://github.com/DogeProtocol/hybrid-pqc
+The Web Assembly files found under the wasm folder can be generated following the instructions at https://github.com/quantumcoinproject/hybrid-pqc
 
 ### Seed Library
-The Seed Javascript Library can be obtained from https://github.com/DogeProtocol/seed-words/releases
+The Seed Javascript Library can be obtained from https://github.com/quantumcoinproject/seed-words/releases
 
 ### GO DP WASM Library
-The libgodp WASM library can be obtained from https://github.com/DogeProtocol/go-dp/releases
+The libgodp WASM library can be obtained from https://github.com/quantumcoinproject/quantum-coin-go/releases
 
 ### Snapshot CSV
-The CSV file containing the list of Ethereum addresses for Mainnet Snapshot is obtained from https://github.com/DogeProtocol/mainnet-erc20-token-address-snapshot/blob/main/dp-snapshot.csv
+The CSV file containing the list of Ethereum addresses for Mainnet Snapshot is obtained from https://github.com/quantumcoinproject/mainnet-erc20-token-address-snapshot/blob/main/dp-snapshot.csv
 
 ### Warning
 Linux (Ubuntu) wallet is not tested!
