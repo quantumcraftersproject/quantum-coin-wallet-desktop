@@ -1,6 +1,6 @@
-const MAX_BLOCKCHAIN_NETWORK_INDEX_KEY = "MaxBlockchainNetworkIndex";
-const DEFAULT_BLOCKCHAIN_NETWORK_INDEX_KEY = "DefaultBlockchainNetworkIndex";
-const BLOCKCHAIN_NETWORK_KEY_PREFIX = "BLOCKCHAIN_NETWORK_";
+const MAX_BLOCKCHAIN_NETWORK_INDEX_KEY = "MaxBlockchainNetworkIndex2";
+const DEFAULT_BLOCKCHAIN_NETWORK_INDEX_KEY = "DefaultBlockchainNetworkIndex2";
+const BLOCKCHAIN_NETWORK_KEY_PREFIX = "BLOCKCHAIN_NETWORK_2_";
 const MAX_BLOCKCHAIN_NETWORKS = 100;
 const URL_REGEX_PATTERN = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
 

@@ -153,7 +153,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
 }
 
 async function postTransaction(txnApiDomain, txnData) {
-    var url = HTTPS + txnApiDomain + "/api/transactions";
+    var url = HTTPS + txnApiDomain + "/transactions";
     if (txnData == null) {
         throw new Error("invalid txnData");
     }
