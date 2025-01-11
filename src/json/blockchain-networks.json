@@ -1,16 +1,9 @@
 {
   "networks": [
     {
-      "scanApiDomain": "t4-scan.dpapi.org",
-      "txnApiDomain": "t4-txn.dpapi.org",
-      "blockExplorerDomain": "t4.scan.quantumcoin.org",
-      "blockchainName": "TESTNET T4",
-      "networkId": 310324
-    },
-    {
-      "scanApiDomain": "scan.dpapi.org",
-      "txnApiDomain": "relaywrite.quantumcoin.org",
-      "blockExplorerDomain": "scan.quantumcoin.org",
+      "scanApiDomain": "app-relayread.quantumcoinapi.com",
+      "txnApiDomain": "app-relaywrite.quantumcoinapi.com",
+      "blockExplorerDomain": "quantumscan.com",
       "blockchainName": "MAINNET",
       "networkId": 123123
     }

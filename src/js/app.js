@@ -45,7 +45,7 @@ let completedTxnInRowTemplate = "";
 let completedTxnOutRowTemplate = "";
 let failedTxnInRowTemplate = "";
 let failedTxnOutRowTemplate = "";
-let currentTxnPageIndex = -1;
+let currentTxnPageIndex = 0;
 let currentTxnPageCount = 0;
 let pendingTransactions = [];
 let balanceNotificationMap = new Map(); //address => balance
@@ -1449,21 +1449,25 @@ async function showTransactionsScreen() {
     document.getElementById('divNextTxnList').style.display = "block";
 
     document.getElementById('tbodyComplextedTransactions').innerHTML = '';
-    currentTxnPageIndex = -1;
+    currentTxnPageIndex = 0;
     await refreshTransactionList();
 
     return false;
 }
 
 async function refreshTransactionList() {
+    return await refreshTransactionListWithContext(false);
+}
+
+async function refreshTransactionListWithContext(isPrev) {
     try {
         document.getElementById('divTxnRefreshStatus').style.display = "none";
         document.getElementById('divTxnLoadingStatus').style.display = "block";
         document.getElementById('tbodyPendingTransactions').innerHTML = "";
         document.getElementById('tbodyComplextedTransactions').innerHTML = "";
 
-        await refreshTransactionListInner(false);
-        await refreshTransactionListInner(true);
+        await refreshTransactionListInner(false, isPrev);
+        //await refreshTransactionListInner(true, isPrev);
 
         setTimeout(() => {
             document.getElementById('divTxnRefreshStatus').style.display = "block";
@@ -1481,8 +1485,8 @@ async function refreshTransactionList() {
     }
 }
 
-async function refreshTransactionListInner(isPending) {
-    let pageIndex = (isPending) ? -1 : currentTxnPageIndex;
+async function refreshTransactionListInner(isPending, isPrev) {
+    let pageIndex = (isPending) ? 0 : currentTxnPageIndex;
     let tableBody = "";
     let currAddressLower = currentWalletAddress.toLowerCase();
     
@@ -1493,7 +1497,7 @@ async function refreshTransactionListInner(isPending) {
             document.getElementById('tbodyPendingTransactions').innerHTML = tableBody;
         } else {
             document.getElementById('tbodyComplextedTransactions').innerHTML = "";
-            currentTxnPageIndex = -1;                       
+            currentTxnPageIndex = 0;                       
         } 
         return;
     }
@@ -1519,10 +1523,18 @@ async function refreshTransactionListInner(isPending) {
             }
         }
         txnRow = txnRow.replaceAll("[FROM]", htmlEncode(txn.from));
-        txnRow = txnRow.replaceAll("[TO]", htmlEncode(txn.to));
+
+        if (txn.to !== null) { //to address can be null for smart-contract creation transactions
+            txnRow = txnRow.replaceAll("[TO]", htmlEncode(txn.to));
+            txnRow = txnRow.replaceAll("[SHORT_TO]", getShortAddress(txn.to));
+        } else {
+            txnRow = txnRow.replaceAll("[TO]", "");
+            txnRow = txnRow.replaceAll("[SHORT_TO]", "");
+        }        
+
         txnRow = txnRow.replaceAll("[HASH]", htmlEncode(txn.hash));
         txnRow = txnRow.replaceAll("[SHORT_FROM]", getShortAddress(txn.from));
-        txnRow = txnRow.replaceAll("[SHORT_TO]", getShortAddress(txn.to));
+        
         txnRow = txnRow.replaceAll("[SHORT_HASH]", getShortAddress(txn.hash));
         txnRow = txnRow.replaceAll("[DATE]", htmlEncode(txn.createdAt.toLocaleString()));
         txnRow = txnRow.replaceAll("[VALUE]", htmlEncode(txn.value.toString()));
@@ -1536,8 +1548,8 @@ async function refreshTransactionListInner(isPending) {
         }
     }
 
-    if (!isPending) {
-        if (currentTxnPageIndex == -1) {
+    if (!isPending && !isPrev) {
+        if (currentTxnPageIndex == 0) {
             currentTxnPageIndex = txnListDetails.pageCount;
         } else {
             currentTxnPageIndex = currentTxnPageIndex + 1;
@@ -1593,7 +1605,7 @@ async function showPrevTxnPage() {
         showWarnAlert(langJson.errors.noMoreTxns);
         return;
     }
-    await refreshTransactionList();
+    await refreshTransactionListWithContext(true);
 }
 
 async function showNextTxnPage() {

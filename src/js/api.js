@@ -23,7 +23,7 @@ class TransactionDetails {
 }
 
 async function getAccountDetails(scanApiDomain, address) {    
-    var url = HTTPS + scanApiDomain + "/api/accounts/" + address + "/balance";
+    var url = HTTPS + scanApiDomain + "/account/" + address;
     let nonce = 0;
     let balance = "0";
 
@@ -41,11 +41,11 @@ async function getAccountDetails(scanApiDomain, address) {
             }
         }
 
-        if (result._Balance != null) {
-            if (isLargeNumber(result._Balance) == false) {
+        if (result.balance != null) {
+            if (isLargeNumber(result.balance) == false) {
                 throw new Error(langJson.errors.invalidApiResponse);
             } else {
-                balance = result._Balance;
+                balance = result.balance;
             }
         }
     }
@@ -66,18 +66,16 @@ async function getPendingTransactionDetails(scanApiDomain, address, pageIndex) {
 
 async function getTransactionDetails(scanApiDomain, address, pageIndex, isPending) {
     var url;
-
     if (isPending) {
-        url = HTTPS + scanApiDomain + "/api/accounts/" + address + "/pending/txn/page/" + pageIndex;
+        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     } else {
-        url = HTTPS + scanApiDomain + "/api/accounts/" + address + "/txn/page/" + pageIndex;
+        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     }
-    
     const response = await fetch(url);
 
     const jsonObj = await response.json();
-    const result = jsonObj.result;
-    const pageCountString = jsonObj.pageCount;
+    const result = jsonObj;
+    const pageCountString = result.pageCount;
 
     if (result == null || pageCountString == null) {
         throw new Error("invalid result");
@@ -88,7 +86,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
         throw new Error("invalid pageCount");
     }
 
-    if (result.length == 0 || pageCount == 0) {
+    if (result.items == null || result.items.length == 0 || pageCount == 0) {
         return null;
     }
 
@@ -101,8 +99,12 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
 
     var transactionList = [];
 
-    for (var i = 0; i < result.length; i++) {
-        let txn = result[i];
+    if (Array.isArray(result.items) === false) {
+        return null;
+    }
+
+    for (var i = 0; i < result.items.length; i++) {
+        let txn = result.items[i];
 
         if (txn.hash == null || txn.hash.length < 64 || IsValidAddress(txn.hash) == false) {
             throw new Error("invalid hash");
@@ -112,7 +114,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
             throw new Error("invalid fromAddress");
         }
 
-        if (txn.to == null || txn.to.length < 64 || IsValidAddress(txn.to) == false) {
+        if (txn.to !== null &&  (txn.to.length < 64 || IsValidAddress(txn.to) == false)) {
             throw new Error("invalid toAddress");
         }
 
@@ -120,23 +122,15 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
             throw new Error("invalid date");
         }
 
-
         let txnDateString = (txn.createdAt.includes("UTC") || txn.createdAt.endsWith("Z")) ? txn.createdAt : txn.createdAt + 'Z';
         let txnDate = new Date(txnDateString);
 
         if (txn.value == null || isHex(txn.value) == false) {
             throw new Error("invalid value");
         }
-
-        let status = true;
-        if (txn.receipt == null || txn.receipt.status == null) {
-            stats = true;
-        } else {
-            if (txn.receipt.status.toString() == "1") {
-                status = true;
-            } else {
-                status = false;
-            }                
+        let status = false;
+        if (txn.status !== null && txn.status == "0x1") {
+            status = true;
         }
 
         let txnValue = await hexWeiToEthFormatted(txn.value);
@@ -148,7 +142,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
         transactionList: transactionList,
         pageCount: pageCount
     }
-
+    
     return transactionListDetails;
 }
 
