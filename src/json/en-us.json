@@ -236,7 +236,7 @@
       "amountLarge": "The amount you are trying to send is more than the available balance.",
       "ethAddr": "Please enter a valid Ethereum address.",
       "quantumAddr": "Please enter a valid address.",
-      "noMoreTxns": "There are no transactions to show.",
+      "noMoreTxns": "There are no more transactions to show.",
       "internetDisconnected": "The server might be busy or your internet connection may be having problems. Please check your internet connection and try again after a few minutes.",
       "unexpectedError":  "An unexpected error occurred."
     }

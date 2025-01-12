@@ -1604,11 +1604,17 @@ async function showPrevTxnPage() {
     } else if (currentTxnPageIndex == 1) {
         showWarnAlert(langJson.errors.noMoreTxns);
         return;
+    } else if (currentTxnPageIndex == 0 && currentTxnPageCount > 0) {
+        currentTxnPageIndex = currentTxnPageCount - 1;
     }
     await refreshTransactionListWithContext(true);
 }
 
 async function showNextTxnPage() {
+    if (currentTxnPageIndex == 0 || currentTxnPageIndex == currentTxnPageCount) {
+        showWarnAlert(langJson.errors.noMoreTxns);
+        return;
+    }
     currentTxnPageIndex = currentTxnPageIndex + 1;
     await refreshTransactionList();
 }

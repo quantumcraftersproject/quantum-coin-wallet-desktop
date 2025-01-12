@@ -66,11 +66,13 @@ async function getPendingTransactionDetails(scanApiDomain, address, pageIndex) {
 
 async function getTransactionDetails(scanApiDomain, address, pageIndex, isPending) {
     var url;
+    
     if (isPending) {
         url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     } else {
         url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     }
+    
     const response = await fetch(url);
 
     const jsonObj = await response.json();
