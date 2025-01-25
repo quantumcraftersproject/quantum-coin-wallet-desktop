@@ -23,11 +23,11 @@
       },
       {
         "title": "Email Safety",
-        "desc": "Do not reply to or open attachments, links or images in emails that talks about Doge Protocol coins, tokens or wallets. They are most likely scams that can result in your coins and tokens getting stolen!"
+        "desc": "Do not reply to or open attachments, links or images in emails that talks about Quantum Coin, tokens or wallets. They are most likely scams that can result in your coins and tokens getting stolen!"
       },
       {
         "title": "Social Media and Messaging Apps Safety",
-        "desc": "Do not respond to social media and messaging app direct-messages from community members or anyone in general talking about Doge Protocol. They are most likely scammers who can trick you and steal your coins or tokens!"
+        "desc": "Do not respond to social media and messaging app direct-messages from community members or anyone in general talking about Quantum Coin. They are most likely scammers who can trick you and steal your coins or tokens!"
       },
       {
         "title": "Wallet Location",
@@ -44,17 +44,17 @@
       "choices": [
         "Ethereum",
         "DogeP ERC20 Tokens",
-        "DP Mainnet Coins",
+        "Quantum Coins",
         "All the above"
       ],
       "correctChoice": 3,
-      "afterQuizInfo": "This is correct. You should only send DP Mainnet coins to this wallet."
+      "afterQuizInfo": "This is correct. You should only send Quantum Coins to this wallet."
     },
     {
       "title": "Lost wallet or password",
       "question": "If you lost your wallet or password, who can help recover?",
       "choices": [
-        "Doge Protocol Community",
+        "Quantum Coin Community",
         "Customer Support Team",
         "Dev",
         "No one"
@@ -76,7 +76,7 @@
     }
   ],
     "langValues": {
-      "title": "Quantum Coin",
+      "title": "Quantum Coin (Q)",
       "next": "Next",
       "ok": "Ok",
       "cancel": "Cancel",
@@ -97,7 +97,7 @@
       "settings": "Settings",
       "unlock": "Unlock",
       "unlock-wallet": "Unlock Wallet",
-      "scan": "DpScan",
+      "scan": "Scan",
       "block-explorer":  "Block Explorer",
       "select-network": "Select Network",
       "enter-wallet-password": "Enter Quantum Wallet Password",
@@ -142,7 +142,7 @@
       "open": "Open",
       "total-balance": "Balance",
       "help": "Help",
-      "dpscan": "DpScan",
+      "dpscan": "Scan",
       "address": "Address",
       "coins": "Coins",
       "reveal-seed": "Reveal Seed",
@@ -192,7 +192,7 @@
       "quantity-to-send": "Quantity to send",
       "sendRequest": "Your request to send coins has been added to the queue for processing. Transaction: [TRANSACTION_HASH]",
       "receive-coins": "Receive Coins",
-      "send-only": "Send only DP coins to this address!",
+      "send-only": "Send only Quantum Coins to this address!",
       "inout": "In/Out",
       "date": "Date",
       "from": "From",
@@ -236,7 +236,7 @@
       "amountLarge": "The amount you are trying to send is more than the available balance.",
       "ethAddr": "Please enter a valid Ethereum address.",
       "quantumAddr": "Please enter a valid address.",
-      "noMoreTxns": "There are no transactions to show.",
+      "noMoreTxns": "There are no more transactions to show.",
       "internetDisconnected": "The server might be busy or your internet connection may be having problems. Please check your internet connection and try again after a few minutes.",
       "unexpectedError":  "An unexpected error occurred."
     }

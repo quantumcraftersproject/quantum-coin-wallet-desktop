@@ -39,7 +39,7 @@
     "win": {
       "target": "nsis",
       "icon": "src/assets/icons/app/icon.ico",
-      "appId": "Doge Protocol Wallet"
+      "appId": "Quantum Coin Wallet"
     }
   },
   "devDependencies": {
