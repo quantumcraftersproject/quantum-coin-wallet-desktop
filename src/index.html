@@ -1847,13 +1847,22 @@
                         </div>
                         <div class="input_container">
                             <div class="divider"></div>
+                            <div class="input_container" id="divCurrentNonceConversion">
+                                <div data-lang-key="current-nonce" style="text-align: left;">Current Nonce</div>
+                                <input class="tab-name"
+                                       style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                       type="number" autocomplete="off" id="txtCurrentNonceConversion" name="current_nonce" data-placeholder-key="current-nonce"
+                                       placeholder="Current Nonce" tabindex="1" maxlength="6">
+                                <div class="divider"></div>
+                            </div>
+                            <div class="divider"></div>
                             <div class="heading medium" data-lang-key="enter-quantum-wallet-password">Enter Quantum Wallet Password</div>
                             <div style="width:100%;">
                                 <div style="float: left; width: 80%;">
                                     <input class="tab-name"
                                            style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                            type="password" autocomplete="off" id="pwdQuantumPasswordConversion" name="password"
-                                           placeholder="Enter the password" data-placeholder-key="enter-wallet-password" tabindex="1">
+                                           placeholder="Enter the password" data-placeholder-key="enter-wallet-password" tabindex="2">
                                 </div>
                                 <div style="float:left">
                                     <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdQuantumPasswordConversion');" role="button" tabindex="2" />
@@ -1864,6 +1873,25 @@
                         <div class="large_button_container heading large" onclick="getCoinsScreen5()" data-lang-key="submit" role="button" tabindex="3">
                             Submit
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="center-content home-content" id="OfflineSignConversionScreen" style="margin-top:110px;">
+            <div class="center-content-rounded-container">
+                <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="heading bold" data-lang-key="signed-transaction-details">Signed Transaction Details</div>
+                    <div class="divider"></div>
+                    <div class="input_container">
+                            <textarea id="txtSignedConversionTransaction" style="width: 100%;" disabled rows="15" cols="100" tabindex="1">
+
+                             </textarea>
+                        <div class="copy-container" role="button" style="float:left;" onclick="copySignedConversionTransaction()" id="divCopySignedConversionTransaction" tabindex="2"></div>
+                        <div class="divider"></div>
+                    </div>
+                    <div class="large_button_container heading large" onclick="cleanupConversion()" data-lang-key="ok" role="button" tabindex="3">
+                        Ok
                     </div>
                 </div>
             </div>

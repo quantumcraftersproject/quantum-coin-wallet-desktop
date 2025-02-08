@@ -689,6 +689,7 @@ async function showSendScreen() {
     document.getElementById('gradient').style.height = '116px';
     document.getElementById("txtSendAddress").value = "";
     document.getElementById("txtSendQuantity").value = "";
+    document.getElementById("txtCurrentNonce").value = "";
     document.getElementById("pwdSend").value = "";
     document.getElementById("txtSendAddress").focus();
 
@@ -1829,4 +1830,8 @@ async function signOfflineTxnSend(quantumWallet) {
         hideWaitingBox();
         showWarnAlert(langJson.errors.walletOpenError.replace(STORAGE_PATH_TEMPLATE, STORAGE_PATH) + " " + error)
     }
+}
+
+async function copySignedSendTransaction() {
+    await WriteTextToClipboard(document.getElementById('txtSignedSendTransaction').value);
 }
