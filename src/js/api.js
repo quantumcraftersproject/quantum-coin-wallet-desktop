@@ -68,7 +68,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
     var url;
     
     if (isPending) {
-        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
+        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/pending/" + pageIndex;
     } else {
         url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     }
