@@ -54,6 +54,7 @@ let autoCompleteInitialized = false;
 let autoCompleteInitializedRestore = false;
 let autoCompleteBoxes = [];
 let autoCompleteBoxesRestore = [];
+let isFirstTimeAccountRefresh = true;
 
 function InitAccountsWebAssembly() {
     if (!WebAssembly.instantiateStreaming) {
@@ -1192,7 +1193,7 @@ async function refreshAccountBalance() {
             document.getElementById("divBalanceSendScreen").textContent = currentBalance;
             balanceNotificationMap.set(currentWalletAddress.toLowerCase(), currentBalance);
         }
-        
+
         setTimeout(() => {
             document.getElementById("divRefreshBalance").style.display = "block";
             document.getElementById("divLoadingBalance").style.display = "none";
@@ -1203,7 +1204,11 @@ async function refreshAccountBalance() {
         document.getElementById("divRefreshBalance").style.display = "block";
         document.getElementById("divLoadingBalance").style.display = "none";
         isRefreshingBalance = false;
-        showWarnAlert(error);
+        if (isNetworkError(error)) {
+            showWarnAlert(langJson.errors.internetDisconnected);
+        } else {
+            showWarnAlert(langJson.errors.invalidApiResponse);
+        }
     }
 }
 
@@ -1243,6 +1248,7 @@ async function refreshAccountBalanceBackground() {
         document.getElementById("divRefreshBalance").style.display = "block";
         document.getElementById("divLoadingBalance").style.display = "none";
         isRefreshingBalance = false;
+        isFirstTimeAccountRefresh = false;
         setTimeout(refreshAccountBalanceBackground, 10.0 * 1000);
     }
     catch (error) {
@@ -1252,6 +1258,15 @@ async function refreshAccountBalanceBackground() {
         let backoffJitterDelay = Math.random() * (60 - 20) + 20;
         setTimeout(refreshAccountBalanceBackground, backoffJitterDelay * 1000);
         isRefreshingBalance = false;
+
+        if (isFirstTimeAccountRefresh == true) { //Show error only when wallet screen displayed first time after the app is opened
+            isFirstTimeAccountRefresh = false;
+            if (isNetworkError(error)) {
+                showWarnAlert(langJson.errors.internetDisconnected);
+            } else {
+                showWarnAlert(langJson.errors.invalidApiResponse);
+            }
+        }        
     }
 }
 
@@ -1467,7 +1482,7 @@ async function refreshTransactionListWithContext(isPrev) {
         document.getElementById('tbodyComplextedTransactions').innerHTML = "";
 
         await refreshTransactionListInner(false, isPrev);
-        //await refreshTransactionListInner(true, isPrev);
+        await refreshTransactionListInner(true, false);
 
         setTimeout(() => {
             document.getElementById('divTxnRefreshStatus').style.display = "block";
@@ -1482,6 +1497,11 @@ async function refreshTransactionListWithContext(isPrev) {
         } else {
             showWarnAlert(langJson.errors.invalidApiResponse);
         }
+
+        setTimeout(() => {
+            document.getElementById('divTxnRefreshStatus').style.display = "block";
+            document.getElementById('divTxnLoadingStatus').style.display = "none";
+        }, "500");
     }
 }
 
