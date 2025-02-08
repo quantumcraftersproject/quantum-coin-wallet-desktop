@@ -660,9 +660,9 @@ async function signOfflineConversionTransaction(quantumWallet) {
         }
     }
 
-    var currentNonce = document.getElementById("txtCurrentNonce").value;
+    var currentNonce = document.getElementById("txtCurrentNonceConversion").value;
     let tempNonce = parseInt(currentNonce);
-    if (Number.isInteger(tempNonce) == false) {
+    if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
         hideWaitingBox();
         showWarnAlert(langJson.errors.enterCurrentNonce);
         return false;

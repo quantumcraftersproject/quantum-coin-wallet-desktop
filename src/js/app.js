@@ -1102,6 +1102,7 @@ function showSettingsScreen() {
     document.getElementById('revealSeedScreen').style.display = "none";
     document.getElementById('backupSpecificWalletScreen').style.display = "none";
     document.getElementById('getCoins1').style.display = "none";
+    document.getElementById('OfflineSignConversionScreen').style.display = "none";
     document.getElementById('networkListScreen').style.display = "none";
     document.getElementById('divNetworkDropdown').style.display = 'none';
 
@@ -1738,7 +1739,7 @@ async function signOfflineSend() {
     }
 
     let tempNonce = parseInt(currentNonce);
-    if (Number.isInteger(tempNonce) == false) {
+    if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
         showWarnAlert(langJson.errors.enterCurrentNonce);
         return false;
     }
