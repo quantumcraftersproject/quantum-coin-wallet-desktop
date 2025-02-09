@@ -21,7 +21,7 @@ let myWindow = null
 
 const additionalData = { myKey: 'myValue' }
 const gotTheLock = app.requestSingleInstanceLock(additionalData)
-var filename = "index.html";
+var startFilename = "index.html";
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -50,7 +50,7 @@ const createWindow = () => {
     currentWindow = mainWindow;
 
   // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, filename));
+    mainWindow.loadFile(path.join(__dirname, startFilename));
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
@@ -61,7 +61,7 @@ const createWindow = () => {
 };
 
 if (!gotTheLock) {
-    filename = 'instance.html';
+    startFilename = 'instance.html';
 } else {
     app.on('second-instance', (event, commandLine, workingDirectory, additionalData) => {
         // Someone tried to run a second instance, we should focus our window.
@@ -118,7 +118,7 @@ ipcMain.handle('OpenUrlInShell', async (event, data) => {
 })
 
 ipcMain.handle('FileApiReadFile', async (event, data) => {
-    filename = path.join(__dirname, data);
+    let filename = path.join(__dirname, data);
 
     if (fs == null || fs == undefined) {
         return null;
