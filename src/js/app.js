@@ -32,6 +32,7 @@ const BLOCKCHAIN_TXN_API_DOMAIN_TEMPLATE = "[BLOCKCHAIN_TXN_API_URL]";
 const BLOCKCHAIN_EXPLORER_API_DOMAIN_TEMPLATE = "[BLOCKCHAIN_EXPLORER_API_URL]";
 const TRANSACTION_HASH_TEMPLATE = "[TRANSACTION_HASH]";
 const DROPDOWN_TEXT = "&#x25BC;";
+const DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY = "DefaultOfflineTxnSigningSettingKey";
 
 let walletListRowTemplate = "";
 let blockchainNetworkOptionItemTemplate = "";
@@ -646,6 +647,7 @@ async function showWalletScreen() {
     document.getElementById('settings-content').style.display = 'none';
     document.getElementById('wallets-content').style.display = 'none';
     document.getElementById('SendScreen').style.display = 'none';
+    document.getElementById('OfflineSignScreen').style.display = 'none';
     document.getElementById('ReceiveScreen').style.display = 'none';
     document.getElementById('TransactionsScreen').style.display = 'none';
     document.getElementById('backupWalletScreen').style.display = 'none';
@@ -667,13 +669,27 @@ async function showWalletScreen() {
     return false;
 }
 
-function showSendScreen() {
+async function showSendScreen() {
+
+    let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled == true) {
+        document.getElementById("btnOfflineSign").style.display  = "block";
+        document.getElementById("divCurrentNonce").style.display  = "block";
+        document.getElementById("btnSendCoins").style.display  = "none";
+    } else {
+        document.getElementById("btnOfflineSign").style.display  = "none";
+        document.getElementById("divCurrentNonce").style.display  = "none";
+        document.getElementById("btnSendCoins").style.display  = "block";
+    }
+
     document.getElementById('divNetworkDropdown').style.display = 'none';
     document.getElementById('HomeScreen').style.display = 'none';
     document.getElementById('SendScreen').style.display = 'block';
+    document.getElementById('OfflineSignScreen').style.display = 'none';
     document.getElementById('gradient').style.height = '116px';
     document.getElementById("txtSendAddress").value = "";
     document.getElementById("txtSendQuantity").value = "";
+    document.getElementById("txtCurrentNonce").value = "";
     document.getElementById("pwdSend").value = "";
     document.getElementById("txtSendAddress").focus();
 
@@ -1086,6 +1102,7 @@ function showSettingsScreen() {
     document.getElementById('revealSeedScreen').style.display = "none";
     document.getElementById('backupSpecificWalletScreen').style.display = "none";
     document.getElementById('getCoins1').style.display = "none";
+    document.getElementById('OfflineSignConversionScreen').style.display = "none";
     document.getElementById('networkListScreen').style.display = "none";
     document.getElementById('divNetworkDropdown').style.display = 'none';
 
@@ -1653,4 +1670,169 @@ function clickOnEnter(event, object) {
     if (event.keyCode == 13) {
         object.click();
     }
+}
+
+
+async function offlineTxnSigningSetDefaultValue(value) {
+    let itemStoreResult = await storageSetItem(DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY, value);
+    if (itemStoreResult != true) {
+        throw new Error("offlineTxnSigningSetDefaultValue item store failed");
+    }
+
+    return true;
+}
+
+async function offlineTxnSigningGetDefaultValue() {
+    let value = await storageGetItem(DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY);
+    if (value == null) {
+        return false;
+    }
+
+    if (value === "enabled") {
+        return true;
+    }
+
+    return false;
+}
+
+async function saveSelectedOfflineTxnSigningSetting() {
+    const radioButtons = document.querySelectorAll('input[name="optOfflineTxnSigning"]');
+    let selectedValue = "";
+    radioButtons.forEach(function (radioButton) {
+        if (radioButton.checked) {
+            selectedValue = radioButton.value;
+        }
+    });
+    let result = await offlineTxnSigningSetDefaultValue(selectedValue);
+    if (result == false) {
+        showWarnAlert(getGenericError(""));
+    } else {
+        return;
+    }
+}
+
+async function signOfflineSend() {
+    var sendAddress = document.getElementById("txtSendAddress").value;
+    var sendQuantity = document.getElementById("txtSendQuantity").value;
+    var currentNonce = document.getElementById("txtCurrentNonce").value;
+    var sendPassword = document.getElementById("pwdSend").value;
+
+    if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
+        showWarnAlert(langJson.errors.quantumAddr);
+        return false;
+    }
+
+    if (sendQuantity == null || sendQuantity.length < 1) {
+        showWarnAlert(langJson.errors.enterAmount);
+        return false;
+    }
+
+    let okQuantity = await isValidEther(sendQuantity);
+    if (isValidEther(okQuantity) == false) {
+        showWarnAlert(langJson.errors.enterAmount);
+        return false;
+    }
+
+    if (currentNonce == null || currentNonce.length < 1) {
+        showWarnAlert(langJson.errors.enterCurrentNonce);
+        return false;
+    }
+
+    let tempNonce = parseInt(currentNonce);
+    if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
+        showWarnAlert(langJson.errors.enterCurrentNonce);
+        return false;
+    }
+
+    if (sendPassword == null || sendPassword.length < 2) {
+        showWarnAlert(langJson.errors.enterQuantumPassword);
+        return false;
+    }
+
+    let msg = langJson.langValues.signSendConfirm;
+    msg = msg.replace("[SEND_QUANTITY]", sendQuantity);
+    msg = msg.replace("[TO_ADDRESS]", sendAddress);
+    msg = msg.replace("[NONCE]", tempNonce);
+    showConfirmAndExecuteOnConfirm(msg, onSignOfflineSendCoinsConfirm);
+}
+
+async function onSignOfflineSendCoinsConfirm() {
+    showLoadingAndExecuteAsync(langJson.langValues.waitWalletOpen, decryptAndUnlockWalletSignOffline);
+}
+
+async function decryptAndUnlockWalletSignOffline() {
+    var password = document.getElementById("pwdSend").value;
+    try {
+        let quantumWallet = await walletGetByAddress(password, currentWalletAddress);
+        if (quantumWallet == null) {
+            hideWaitingBox();
+            showWarnAlert(getGenericError());
+            return;
+        }
+        signOfflineTxnSend(quantumWallet);
+    }
+    catch (error) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.walletOpenError.replace(STORAGE_PATH_TEMPLATE, STORAGE_PATH) + " " + error)
+        return;
+    }
+    return false;
+}
+
+async function signOfflineTxnSend(quantumWallet) {
+    var sendAddress = document.getElementById("txtSendAddress").value;
+    var sendQuantity = document.getElementById("txtSendQuantity").value;
+    var currentNonce = document.getElementById("txtCurrentNonce").value;
+
+    try {
+        const gas = 21000;
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = parseInt(currentNonce);
+        const contractData = null;
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, sendAddress, sendQuantity, gas, chainId, contractData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            hideWaitingBox();
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, sendAddress, sendQuantity, gas, chainId, contractData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        let currentDate = new Date();
+        var txData = transactionGetData(quantumWallet.address, nonce, sendAddress, sendQuantity, gas, chainId, contractData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        hideWaitingBox();
+        document.getElementById('txtSignedSendTransaction').value = txData;
+        document.getElementById('SendScreen').style.display = "none";
+        document.getElementById('OfflineSignScreen').style.display = "block";
+    }
+    catch (error) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.walletOpenError.replace(STORAGE_PATH_TEMPLATE, STORAGE_PATH) + " " + error)
+    }
+}
+
+async function copySignedSendTransaction() {
+    await WriteTextToClipboard(document.getElementById('txtSignedSendTransaction').value);
 }

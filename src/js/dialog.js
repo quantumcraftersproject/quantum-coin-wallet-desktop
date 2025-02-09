@@ -13,12 +13,17 @@ var spanCancel = document.getElementsByClassName("cancel")[0];
 
 var onConfirmFunc = null;
 
+//Network
 var modalNetwork = document.getElementById("modalNetworkDialog");
-
 var spanNetwork = document.getElementsByClassName("oknetwork")[0];
 var spanCancelNetwork = document.getElementById("divCancelNetwork");
-
 var onCloseFuncNetwork = null;
+
+//Offline Txn Signing
+var modaOfflineTxnSigning = document.getElementById("modalOfflineTxnSigning");
+var btnOkOfflineTxnSigning = document.getElementById("btnOkOfflineTxnSigning");
+var btnCancelOfflineTxnSigning = document.getElementById("btnCancelOfflineTxnSigning");
+var onCloseFuncOfflineTxnSigning = null;
 
 function showAlert(txt) {
     modalOkDialog.style.display = "block";
@@ -133,8 +138,46 @@ spanCancelNetwork.onclick = function () {
     onCloseFuncNetwork = null;
 }
 
+async function showOfflineTxnSettingDialog(f) {
+    var defaultVal = await offlineTxnSigningGetDefaultValue();
+    if (defaultVal == false) {
+        document.getElementById('optOfflineTxnSigningDisabled').checked = true;
+    } else {
+        document.getElementById('optOfflineTxnSigningEnabled').checked = true;
+    }
+    modaOfflineTxnSigning.style.display = "block";
+    modaOfflineTxnSigning.showModal();
+    onCloseFuncOfflineTxnSigning = f;
+    return false;
+}
+
+btnOkOfflineTxnSigning.onclick = function () {
+    modaOfflineTxnSigning.style.display = "none";
+    modaOfflineTxnSigning.close();
+    var offlineTxnSigningValue = document.querySelector('input[name="optOfflineTxnSigning"]:checked')?.value;
+    if (!offlineTxnSigningValue || offlineTxnSigningValue === "") {
+
+    } else {
+        saveSelectedOfflineTxnSigningSetting();
+    }
+
+    if (onCloseFuncOfflineTxnSigning == null) {
+
+    } else {
+        onCloseFuncOfflineTxnSigning();
+        onCloseFuncOfflineTxnSigning = null;
+    }
+}
+
+btnCancelOfflineTxnSigning.onclick = function () {
+    modaOfflineTxnSigning.style.display = "none";
+    modaOfflineTxnSigning.close();
+    onCloseFuncOfflineTxnSigning = null;
+}
+
+
 window.onclick = function (event) {
-    if (event.target == modalOkDialog || event.target == modalConfirm || event.target == modalNetwork) {
+    if (event.target == modalOkDialog || event.target == modalConfirm || event.target == modalNetwork || event.target == modaOfflineTxnSigning) {
         if (modalOkDialog.style.display !== "none") {
             modalNetwork.style.display = "none";
             modalNetwork.close();
@@ -148,6 +191,11 @@ window.onclick = function (event) {
         if (modalNetwork.style.display !== "none") {
             modalNetwork.style.display = "none";
             modalNetwork.close();
+        }
+
+        if (modaOfflineTxnSigning.style.display !== "none") {
+            modaOfflineTxnSigning.style.display = "none";
+            modaOfflineTxnSigning.close();
         }
     }
 }

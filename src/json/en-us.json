@@ -98,7 +98,7 @@
       "unlock": "Unlock",
       "unlock-wallet": "Unlock Wallet",
       "scan": "Scan",
-      "block-explorer":  "Block Explorer",
+      "block-explorer": "Block Explorer",
       "select-network": "Select Network",
       "enter-wallet-password": "Enter Quantum Wallet Password",
       "enter-a-password": "Enter a password",
@@ -199,7 +199,15 @@
       "to": "To",
       "hash": "Hash",
       "block": "Block",
-      "sendConfirm":  "You are sending [SEND_QUANTITY] coins to [TO_ADDRESS]."
+      "sendConfirm": "You are sending [SEND_QUANTITY] coins to [TO_ADDRESS].",
+      "offline-txn-signing": "Offline Transaction Signing",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "sign-offline": "Sign Offline",
+      "current-nonce": "Current Nonce",
+      "nonce-help": "Current Nonce (as shown in the Block Explorer page for your address)",
+      "signed-transaction-details": "Signed Transaction Details",
+      "signSendConfirm": "You are signing a transaction to send [SEND_QUANTITY] coins to [TO_ADDRESS] with nonce [NONCE]."
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",
@@ -238,6 +246,7 @@
       "quantumAddr": "Please enter a valid address.",
       "noMoreTxns": "There are no more transactions to show.",
       "internetDisconnected": "The server might be busy or your internet connection may be having problems. Please check your internet connection and try again after a few minutes.",
-      "unexpectedError":  "An unexpected error occurred."
+      "unexpectedError":  "An unexpected error occurred.",
+      "enterCurrentNonce": "Please enter the current nonce to send correctly."
     }
 }

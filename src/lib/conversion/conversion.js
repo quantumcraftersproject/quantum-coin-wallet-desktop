@@ -280,14 +280,22 @@ function backFromGetCoinsScreen4() {
     }
 }
 
-function getCoinsScreen4() {
+async function getCoinsScreen4() {
     document.getElementById('getCoins2a').style.display = "none";
     document.getElementById('getCoins2b').style.display = "none";
     document.getElementById('getCoins2c').style.display = "none";
     document.getElementById('getCoins3d').style.display = "none";
     document.getElementById('getCoins4').style.display = "block";
 
+    let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled == true) {
+        document.getElementById('divCurrentNonceConversion').style.display = "block";
+    } else {
+        document.getElementById('divCurrentNonceConversion').style.display = "none";
+    }
+
     document.getElementById('pwdQuantumPasswordConversion').value = "";
+    document.getElementById('txtCurrentNonceConversion').value = "0";
     document.getElementById('divConversionEthAddress').textContent = currentConversionEthAddress;
     document.getElementById('divConversionQuantumAddress').textContent = currentWalletAddress;
     document.getElementById('pwdQuantumPasswordConversion').focus();
@@ -331,7 +339,13 @@ async function decryptAndUnlockWalletConversion() {
             showWarnAlert(getGenericError());
             return;
         }
-        postConversionTransaction(quantumWallet);
+        let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+        if (offlineSignEnabled == true) {
+            signOfflineConversionTransaction(quantumWallet);
+        } else {
+            postConversionTransaction(quantumWallet);
+        }
+
     }
     catch (error) {
         hideWaitingBox();
@@ -341,12 +355,10 @@ async function decryptAndUnlockWalletConversion() {
     return false;
 }
 
-async function postConversionTransaction(quantumWallet) {
-
-}
-
 function cleanupConversion() {
     document.getElementById('getCoins4').style.display = "none";
+    document.getElementById('OfflineSignConversionScreen').style.display = "none";
+    document.getElementById('txtCurrentNonceConversion').value = "0";
     ethSeedWordList = "";
     currentConversionEthAddress = "";
     conversionEthKey = "";
@@ -607,4 +619,97 @@ async function postConversionTransaction(quantumWallet) {
             showWarnAlert(langJson.errors.invalidApiResponse);
         }
     }
+}
+
+async function signOfflineConversionTransaction(quantumWallet) {
+    if (conversionMode === ConversionMode.Manual) {
+
+    } else {
+        let msg = getConversionMessageSigning(currentConversionEthAddress.toLowerCase(), currentWalletAddress.toLowerCase());
+        var privateKey = "";
+
+        if (conversionMode === ConversionMode.SeedPhrase) {
+            let walletList = await phraseToWalletsEth(ethSeedWordList);
+            for (let index = 0; index < walletList.length; index++) {
+                let addr = walletList[index].address.toLowerCase();
+                if (addr === currentConversionEthAddress.toLowerCase()) {
+                    privateKey = await getPrivateKeyFromWalletIndex(index);
+                    break;
+                }
+            }
+            if (privateKey == null || privateKey.length == 0) {
+                hideWaitingBox();
+                throw new Error("unexpected key size");
+            }
+        } else if (conversionMode === ConversionMode.DirectPrivateKey) {
+            privateKey = conversionEthKey;
+        } else if (conversionMode === ConversionMode.KeyStoreJson) {
+            privateKey = keyStore.privateKey;
+        } else {
+            hideWaitingBox();
+            throw new Error("unexpected conversionMode");
+        }
+
+        ethSignature = await signEthMessageWithKey(privateKey, msg);
+
+        let verifyOk = await verifyEthSignature(msg, ethSignature, currentConversionEthAddress);
+        if (verifyOk == false) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.ethSigMatch);
+            return false;
+        }
+    }
+
+    var currentNonce = document.getElementById("txtCurrentNonceConversion").value;
+    let tempNonce = parseInt(currentNonce);
+    if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.enterCurrentNonce);
+        return false;
+    }
+
+    try {
+        const abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"OnConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getConversionStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getQuantumAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"}],\"name\":\"setConverted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
+        const contractAddress = "0x0000000000000000000000000000000000000000000000000000000000002000";
+        const gas = 300000;
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = tempNonce;
+        const value = "0.0";
+        const currentDate = new Date();
+
+        //contract data
+        var contractData = transactionGetContractData("requestConversion", abi, currentConversionEthAddress, ethSignature);
+
+        //account txn message
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, contractAddress, value, gas, chainId, contractData);
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            hideWaitingBox();
+            alert("unexpected cryptoVerify failed");
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, contractAddress, value, gas, chainId, contractData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+
+        //account txn data
+        var txData = transactionGetData(quantumWallet.address, nonce, contractAddress, value, gas, chainId, contractData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+
+        hideWaitingBox();
+        document.getElementById('txtSignedConversionTransaction').value = txData;
+        document.getElementById('OfflineSignConversionScreen').style.display = "block";
+        document.getElementById('getCoins4').style.display = "none";
+    }
+    catch (error) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.walletOpenError.replace(STORAGE_PATH_TEMPLATE, STORAGE_PATH) + " " + error)
+    }
+}
+
+async function copySignedConversionTransaction() {
+    await WriteTextToClipboard(document.getElementById('txtSignedConversionTransaction').value);
 }
