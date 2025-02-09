@@ -17,19 +17,16 @@ const { ethers } = require('ethers');
 const { utils, BigNumber, message } = require('ethers');
 const crypto = require('crypto');
 const AES_ALGORITHM = 'aes-256-cbc';
-let myWindow = null
 
 const additionalData = { myKey: 'myValue' }
 const gotTheLock = app.requestSingleInstanceLock(additionalData)
 var startFilename = "index.html";
-
+let currentWindow;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
-
-let currentWindow;
 
 const createWindow = () => {
   // Create the browser window.
@@ -47,7 +44,7 @@ const createWindow = () => {
       autoHideMenuBar: true
   });
 
-    currentWindow = mainWindow;
+  currentWindow = mainWindow;
 
   // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, startFilename));
@@ -65,11 +62,11 @@ if (!gotTheLock) {
 } else {
     app.on('second-instance', (event, commandLine, workingDirectory, additionalData) => {
         // Someone tried to run a second instance, we should focus our window.
-        if (myWindow) {
-            if (myWindow.isMinimized()) {
-                myWindow.restore();
+        if (currentWindow) {
+            if (currentWindow.isMinimized()) {
+                currentWindow.restore();
             }
-            myWindow.focus();
+            currentWindow.focus();
         }
     })
 }
@@ -123,7 +120,6 @@ ipcMain.handle('FileApiReadFile', async (event, data) => {
     if (fs == null || fs == undefined) {
         return null;
     }
-    var fileStream = fs.createReadStream(filename);
 
     return fs.readFileSync(filename).toString();
 })
