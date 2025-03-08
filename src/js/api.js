@@ -1,4 +1,5 @@
 const HTTPS = "https://";
+const HTTP = "http://";
 
 class AccountDetails {
     constructor(address, nonce, balance) {
@@ -22,8 +23,21 @@ class TransactionDetails {
     }
 }
 
-async function getAccountDetails(scanApiDomain, address) {    
-    var url = HTTPS + scanApiDomain + "/account/" + address;
+class AccountTokenDetails {
+    constructor(tokenBalance, contractAddress, name, symbol) {
+        this.tokenBalance = tokenBalance;
+        this.contractAddress = contractAddress;
+        this.name = name;
+        this.symbol = symbol;
+    }
+}
+
+async function getAccountDetails(scanApiDomain, address) {
+    let url = HTTPS;
+    if(scanApiDomain.startsWith("localhost:")) {
+        url = HTTP;
+    }
+    url = url + scanApiDomain + "/account/" + address;
     let nonce = 0;
     let balance = "0";
 
@@ -65,12 +79,15 @@ async function getPendingTransactionDetails(scanApiDomain, address, pageIndex) {
 }
 
 async function getTransactionDetails(scanApiDomain, address, pageIndex, isPending) {
-    var url;
-    
+    let url = HTTPS;
+    if(scanApiDomain.startsWith("localhost:")) {
+        url = HTTP;
+    }
+
     if (isPending) {
-        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/pending/" + pageIndex;
+        url = url + scanApiDomain + "/account/" + address + "/transactions/pending/" + pageIndex;
     } else {
-        url = HTTPS + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
+        url = url + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     }
     
     const response = await fetch(url);
@@ -149,7 +166,11 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
 }
 
 async function postTransaction(txnApiDomain, txnData) {
-    var url = HTTPS + txnApiDomain + "/transactions";
+    let url = HTTPS;
+    if(txnApiDomain.startsWith("localhost:")) {
+        url = HTTP;
+    }
+    url = url + txnApiDomain + "/transactions";
     if (txnData == null) {
         throw new Error("invalid txnData");
     }
@@ -173,3 +194,82 @@ async function postTransaction(txnApiDomain, txnData) {
     return false;
 }
 
+async function listAccountTokens(scanApiDomain, address, pageIndex) {
+    let url = HTTPS;
+    if(scanApiDomain.startsWith("localhost:")) {
+        url = HTTP;
+    }
+    url = url + scanApiDomain + "/account/" + address + "/tokens/" + pageIndex;
+
+    const response = await fetch(url);
+    if (response.status === 404) {
+        return null;
+    }
+
+    const jsonObj = await response.json();
+    const result = jsonObj;
+
+    if (result == null) {
+        throw new Error("invalid result");
+    }
+
+    const pageCountString = result.pageCount;
+    if (pageCountString == null) {
+        throw new Error("invalid result");
+    }
+
+    let pageCount = parseInt(pageCountString);
+    if (isNumber(pageCount) === false || pageCount < 0) {
+        throw new Error("invalid pageCount");
+    }
+
+    if (result.items == null || result.items.length === 0 || pageCount === 0) {
+        return null;
+    }
+
+    if (pageIndex > pageCount) {
+        return  {
+            transactionList: null,
+            pageCount: pageCount
+        };
+    }
+
+    var tokenList = [];
+
+    if (Array.isArray(result.items) === false) {
+        return null;
+    }
+
+    for (var i = 0; i < result.items.length; i++) {
+        let token = result.items[i];
+        let tokenName = "";
+        let tokenSymbol = "";
+
+        if (token.contractAddress == null || token.contractAddress.length < 64 || IsValidAddress(token.contractAddress) === false) {
+            throw new Error("invalid contractAddress");
+        }
+
+        if (token.tokenBalance == null || isHex(token.tokenBalance) === false) {
+            throw new Error("invalid tokenBalance");
+        }
+        let tokenBalance = await hexWeiToEthFormatted(token.tokenBalance);
+
+        if (token.name !== null && (typeof token.name === 'string' || token.name instanceof String)) {
+            tokenName = token.name;
+        }
+
+        if (token.symbol !== null && (typeof token.symbol === 'string' || token.symbol instanceof String)) {
+            tokenSymbol = token.symbol;
+        }
+
+        let tokenDetails = new AccountTokenDetails(tokenBalance, token.contractAddress, tokenName, tokenSymbol);
+        tokenList.push(tokenDetails);
+    }
+
+    const tokenListDetails = {
+        tokenList: tokenList,
+        pageCount: pageCount
+    }
+
+    return tokenListDetails;
+}

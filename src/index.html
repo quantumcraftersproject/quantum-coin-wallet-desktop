@@ -1184,6 +1184,29 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="center-content-rounded-container" id="divAccountTokens" style="display: none">
+                    <div class="roundex-box boxeffect scrollbar" style="overflow-y: auto;overflow-x: auto;max-height: 400px;text-align: left;">
+                        <table class="styled-table">
+                            <thead>
+                            <tr>
+                                <th data-lang-key="symbol">Symbol</th>
+                                <th data-lang-key="balance">Balance</th>
+                                <th data-lang-key="contract">Contract</th>
+                                <th data-lang-key="name">Name</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyAccountTokens">
+                            <tr class="token-list-row">
+                                <td>[TOKEN_SYMBOL]</td>
+                                <td>[TOKEN_BALANCE]</td>
+                                <td><a href="#" onclick="return OpenScanAddress('[TOKEN_CONTRACT]');">[SHORT_CONTRACT]</a></td>
+                                <td>[TOKEN_NAME]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div class="center-content home-content" id="SendScreen" style="margin-top:110px;">

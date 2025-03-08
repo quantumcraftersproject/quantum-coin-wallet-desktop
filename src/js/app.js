@@ -124,7 +124,8 @@ async function initApp() {
     completedTxnInRowTemplate = document.getElementsByClassName("completed-txn-in-row")[0].outerHTML;    
     completedTxnOutRowTemplate = document.getElementsByClassName("completed-txn-out-row")[0].outerHTML;    
     failedTxnInRowTemplate = document.getElementsByClassName("failed-txn-in-row")[0].outerHTML;    
-    failedTxnOutRowTemplate = document.getElementsByClassName("failed-txn-out-row")[0].outerHTML;    
+    failedTxnOutRowTemplate = document.getElementsByClassName("failed-txn-out-row")[0].outerHTML;
+    tokenListRowTemplate = document.getElementsByClassName("token-list-row")[0].outerHTML;
 
     document.getElementById('login-content').style.display = 'none';
     document.getElementById('welcomeScreen').style.display = 'none';
@@ -1199,6 +1200,8 @@ async function refreshAccountBalance() {
             return;
         }
         isRefreshingBalance = true;
+        document.getElementById('divAccountTokens').style.display = 'none';
+        document.getElementById('tbodyAccountTokens').innerHTML = '';
         document.getElementById("divRefreshBalance").style.display = "none";
         document.getElementById("divLoadingBalance").style.display = "block";
         document.getElementById("spnAccountBalance").textContent = "";
@@ -1210,6 +1213,8 @@ async function refreshAccountBalance() {
             document.getElementById("divBalanceSendScreen").textContent = currentBalance;
             balanceNotificationMap.set(currentWalletAddress.toLowerCase(), currentBalance);
         }
+
+        await refreshTokenList();
 
         setTimeout(() => {
             document.getElementById("divRefreshBalance").style.display = "block";
@@ -1224,9 +1229,49 @@ async function refreshAccountBalance() {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
-            showWarnAlert(langJson.errors.invalidApiResponse);
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
     }
+}
+
+async function refreshTokenList() {
+    //refresh token list/balance
+    let tokenListDetails = await listAccountTokens(currentBlockchainNetwork.scanApiDomain, currentWalletAddress, 1); //todo: pagination
+    if (tokenListDetails == null || tokenListDetails.tokenList == null || tokenListDetails.tokenList.length === 0) {
+        return;
+    }
+
+    const maxTokenNameLength = 25;
+    const maxTokenSymbolLength = 6;
+    let tbody = "";
+
+    for (var i = 0; i < tokenListDetails.tokenList.length; i++) {
+        let token = tokenListDetails.tokenList[i];
+        let tokenRow = tokenListRowTemplate;
+        let tokenName = token.name;
+        let tokenSymbol = token.symbol;
+
+        if (tokenName.length > maxTokenNameLength) {
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenName = htmlEncode(tokenName);
+
+        if (tokenSymbol.length > maxTokenSymbolLength) {
+            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenSymbol = htmlEncode(tokenSymbol);
+
+        tokenRow = tokenRow.replace('[TOKEN_SYMBOL]', tokenSymbol);
+        tokenRow = tokenRow.replace('[TOKEN_NAME]', tokenName);
+        tokenRow = tokenRow.replace('[TOKEN_CONTRACT]', token.contractAddress);
+        tokenRow = tokenRow.replace('[SHORT_CONTRACT]', getShortAddress(token.contractAddress));
+        tokenRow = tokenRow.replace('[TOKEN_BALANCE]', token.tokenBalance);
+
+        tbody = tbody + tokenRow;
+    }
+
+    document.getElementById('tbodyAccountTokens').innerHTML = tbody;
+    document.getElementById('divAccountTokens').style.display = '';
 }
 
 async function initRefreshAccountBalanceBackground() {
@@ -1262,6 +1307,7 @@ async function refreshAccountBalanceBackground() {
             document.getElementById("spnAccountBalance").textContent = newBalance;
             document.getElementById("divBalanceSendScreen").textContent = newBalance;
         }
+        await refreshTokenList();
         document.getElementById("divRefreshBalance").style.display = "block";
         document.getElementById("divLoadingBalance").style.display = "none";
         isRefreshingBalance = false;
@@ -1281,7 +1327,7 @@ async function refreshAccountBalanceBackground() {
             if (isNetworkError(error)) {
                 showWarnAlert(langJson.errors.internetDisconnected);
             } else {
-                showWarnAlert(langJson.errors.invalidApiResponse);
+                showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
             }
         }        
     }
@@ -1467,7 +1513,7 @@ async function sendCoinsSubmit(quantumWallet) {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
-            showWarnAlert(langJson.errors.invalidApiResponse);
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
     }
 }
@@ -1512,7 +1558,7 @@ async function refreshTransactionListWithContext(isPrev) {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
-            showWarnAlert(langJson.errors.invalidApiResponse);
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
 
         setTimeout(() => {
