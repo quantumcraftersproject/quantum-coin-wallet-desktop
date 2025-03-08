@@ -210,7 +210,8 @@
       "signSendConfirm": "You are signing a transaction to send [SEND_QUANTITY] coins to [TO_ADDRESS] with nonce [NONCE].",
       "tokenTransfer": "Your request to transfer tokens has been added to the queue for processing. Please check your account balance after 10 minutes. Transaction: [TRANSACTION_HASH]",
       "symbol": "Symbol",
-      "contract": "Contract"
+      "contract": "Contract",
+      "coin-token-to-send": "Coin/Token to send"
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",

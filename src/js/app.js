@@ -33,6 +33,8 @@ const BLOCKCHAIN_EXPLORER_API_DOMAIN_TEMPLATE = "[BLOCKCHAIN_EXPLORER_API_URL]";
 const TRANSACTION_HASH_TEMPLATE = "[TRANSACTION_HASH]";
 const DROPDOWN_TEXT = "&#x25BC;";
 const DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY = "DefaultOfflineTxnSigningSettingKey";
+const maxTokenNameLength = 25;
+const maxTokenSymbolLength = 6;
 
 let walletListRowTemplate = "";
 let blockchainNetworkOptionItemTemplate = "";
@@ -56,6 +58,8 @@ let autoCompleteInitializedRestore = false;
 let autoCompleteBoxes = [];
 let autoCompleteBoxesRestore = [];
 let isFirstTimeAccountRefresh = true;
+let currentWalletTokenList = [];
+let currentAccountDetails = null;
 
 function InitAccountsWebAssembly() {
     if (!WebAssembly.instantiateStreaming) {
@@ -243,7 +247,6 @@ async function saveSelectedBlockchainNetwork() {
     } else {
         await showBlockchainNetworks();
         document.getElementById("spnAccountBalance").textContent = "";
-        document.getElementById("divBalanceSendScreen").textContent = "";
         currentBalance = "";
         await refreshAccountBalance();
         if (document.getElementById("TransactionsScreen").style.display !== "none") {
@@ -670,7 +673,82 @@ async function showWalletScreen() {
     return false;
 }
 
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+        selectElement.remove(i);
+    }
+}
+
+function resetTokenList() {
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    removeOptions(ddlCoinTokenToSend);
+    var option = document.createElement("option");
+    option.text = "Q";
+    option.value = "Q";
+    ddlCoinTokenToSend.add(option);
+}
+
+function populateSendScreen() {
+    resetTokenList();
+    if(currentWalletTokenList == null) {
+        return;
+    }
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+
+    for (var i = 0; i < currentWalletTokenList.length; i++) {
+        let token = currentWalletTokenList[i];
+        let tokenName = token.name;
+        let tokenSymbol = token.symbol;
+        let tokenShortContractAddress = getShortAddress(token.contractAddress);
+
+        if (tokenName.length > maxTokenNameLength) {
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenName = htmlEncode(tokenName);
+
+        if (tokenSymbol.length > maxTokenSymbolLength) {
+            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenSymbol = htmlEncode(tokenSymbol);
+
+        let tokenOption = document.createElement("option");
+        tokenOption.text = tokenName;
+        tokenOption.value = token.contractAddress;
+        ddlCoinTokenToSend.add(tokenOption);
+    }
+}
+
+async function updateInfoSendScreen() {
+    console.log("updateInfoSendScreen");
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    let selectedValue = ddlCoinTokenToSend.value;
+    document.getElementById("divCoinTokenToSend").textContent = "";
+    document.getElementById("divBalanceSendScreen").textContent = "";
+    console.log("updateInfoSendScreen selectedValue = " + selectedValue);
+    if(selectedValue === "Q") {
+        document.getElementById("divCoinTokenToSend").textContent = "QuantumCoin";
+        if(currentAccountDetails !== null) {
+            let newBalance = await weiToEtherFormatted(currentAccountDetails.balance);
+            document.getElementById("divBalanceSendScreen").textContent = newBalance;
+        }
+    } else {
+        for(let i = 0;i < currentWalletTokenList.length;i++) {
+            if(currentWalletTokenList[i].contractAddress === selectedValue) {
+                document.getElementById("divBalanceSendScreen").textContent = currentWalletTokenList[i].tokenBalance;
+                document.getElementById("divCoinTokenToSend").textContent = selectedValue;
+                break;
+            }
+        }
+    }
+
+    return false;
+}
+
 async function showSendScreen() {
+
+    populateSendScreen();
+    await updateInfoSendScreen();
 
     let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
     if (offlineSignEnabled == true) {
@@ -861,7 +939,6 @@ function showWalletListScreen() {
 async function setWalletAddressAndShowWalletScreen(address) {
     currentWalletAddress = address;
     document.getElementById("spnAccountBalance").value = "";
-    document.getElementById("divBalanceSendScreen").value = "";    
     await showWalletScreen();
     await refreshAccountBalance();
 }
@@ -1200,17 +1277,19 @@ async function refreshAccountBalance() {
             return;
         }
         isRefreshingBalance = true;
+
+        currentWalletTokenList = [];
         document.getElementById('divAccountTokens').style.display = 'none';
         document.getElementById('tbodyAccountTokens').innerHTML = '';
         document.getElementById("divRefreshBalance").style.display = "none";
         document.getElementById("divLoadingBalance").style.display = "block";
         document.getElementById("spnAccountBalance").textContent = "";
-        document.getElementById("divBalanceSendScreen").textContent = "";
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
         if (accountDetails != null) {
+            currentAccountDetails = accountDetails;
             currentBalance = await weiToEtherFormatted(accountDetails.balance);
             document.getElementById("spnAccountBalance").textContent = currentBalance;
-            document.getElementById("divBalanceSendScreen").textContent = currentBalance;
             balanceNotificationMap.set(currentWalletAddress.toLowerCase(), currentBalance);
         }
 
@@ -1241,8 +1320,6 @@ async function refreshTokenList() {
         return;
     }
 
-    const maxTokenNameLength = 25;
-    const maxTokenSymbolLength = 6;
     let tbody = "";
 
     for (var i = 0; i < tokenListDetails.tokenList.length; i++) {
@@ -1250,6 +1327,7 @@ async function refreshTokenList() {
         let tokenRow = tokenListRowTemplate;
         let tokenName = token.name;
         let tokenSymbol = token.symbol;
+        let tokenShortContractAddress = getShortAddress(token.contractAddress);
 
         if (tokenName.length > maxTokenNameLength) {
             tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
@@ -1264,7 +1342,7 @@ async function refreshTokenList() {
         tokenRow = tokenRow.replace('[TOKEN_SYMBOL]', tokenSymbol);
         tokenRow = tokenRow.replace('[TOKEN_NAME]', tokenName);
         tokenRow = tokenRow.replace('[TOKEN_CONTRACT]', token.contractAddress);
-        tokenRow = tokenRow.replace('[SHORT_CONTRACT]', getShortAddress(token.contractAddress));
+        tokenRow = tokenRow.replace('[SHORT_CONTRACT]', tokenShortContractAddress);
         tokenRow = tokenRow.replace('[TOKEN_BALANCE]', token.tokenBalance);
 
         tbody = tbody + tokenRow;
@@ -1272,6 +1350,7 @@ async function refreshTokenList() {
 
     document.getElementById('tbodyAccountTokens').innerHTML = tbody;
     document.getElementById('divAccountTokens').style.display = '';
+    currentWalletTokenList = tokenListDetails.tokenList;
 }
 
 async function initRefreshAccountBalanceBackground() {
@@ -1281,6 +1360,7 @@ async function initRefreshAccountBalanceBackground() {
     initAccountBalanceBackgroundStarted = true;
     refreshAccountBalanceBackground();
 }
+
 async function refreshAccountBalanceBackground() {
     try {
         if (isRefreshingBalance == true) {
@@ -1288,11 +1368,13 @@ async function refreshAccountBalanceBackground() {
             return;
         }
         isRefreshingBalance = true;
-        
+        currentWalletTokenList = [];
         document.getElementById("divRefreshBalance").style.display = "none";
         document.getElementById("divLoadingBalance").style.display = "block";
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
         if (accountDetails != null) {
+            currentAccountDetails = accountDetails;
             let curAddrLower = currentWalletAddress.toLowerCase();
             let newBalance = await weiToEtherFormatted(accountDetails.balance);
 
@@ -1305,7 +1387,6 @@ async function refreshAccountBalanceBackground() {
 
             currentBalance = newBalance;
             document.getElementById("spnAccountBalance").textContent = newBalance;
-            document.getElementById("divBalanceSendScreen").textContent = newBalance;
         }
         await refreshTokenList();
         document.getElementById("divRefreshBalance").style.display = "block";
@@ -1455,7 +1536,9 @@ async function sendCoinsSubmit(quantumWallet) {
 
     try {
         //get account balance
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
+        currentAccountDetails = accountDetails;
 
         const gas = 21000;
         const chainId = currentBlockchainNetwork.networkId;

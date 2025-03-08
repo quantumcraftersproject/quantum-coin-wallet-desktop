@@ -1217,14 +1217,26 @@
                     <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
                         <div class="heading bold" data-lang-key="send">Send</div>
                         <div class="divider"></div>
+                        <div class="input_container" id="divTokenList">
+                            <div class="selectwrapper">
+                                <select id="ddlCoinTokenToSend" class="selectbox" tabindex="301" onchange="updateInfoSendScreen();">
+                                    <option value="Q">Q</option>
+                                    <option value="Y2Q">Y2Q</option>
+                                    <option value="hei">Heisen</option>
+                                </select>
+                            </div>
+                            <div id="divCoinTokenToSend" style="font-size: small">0x0000000000000000000000000000000000000000000000000000000000001000</div>
+                            <div class="divider"></div>
+                        </div>
                         <div class="tab-name text-wallet-address" style="text-align: left; font-weight: 200" data-lang-key="balance">Balance</div>
                         <div class="heading bold" style="text-align: left; font-size: 20px; color:green;" id="divBalanceSendScreen"></div>
+                        <div class="divider"></div>
                         <div class="input_container">
                             <div class="heading medium" data-lang-key="address-to-send">Address to send to</div>
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500;color:black;"
                                    autocomplete="off" id="txtSendAddress" name="send_address" data-placeholder-key="address-to-send"
-                                   placeholder="Address to send to" tabindex="301">
+                                   placeholder="Address to send to" tabindex="302">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container">
@@ -1232,7 +1244,7 @@
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                    type="number" autocomplete="off" id="txtSendQuantity" name="send_quantity" data-placeholder-key="quantity-to-send"
-                                   placeholder="Quantity to send" tabindex="302">
+                                   placeholder="Quantity to send" tabindex="303">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container" id="divCurrentNonce">
@@ -1240,7 +1252,7 @@
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                    type="number" autocomplete="off" id="txtCurrentNonce" name="current_nonce" data-placeholder-key="current-nonce"
-                                   placeholder="Current Nonce" tabindex="303" maxlength="6">
+                                   placeholder="Current Nonce" tabindex="304" maxlength="6">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container">
@@ -1250,19 +1262,19 @@
                                     <input class="tab-name"
                                            style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                            type="password" autocomplete="off" id="pwdSend" name="password" data-placeholder-key="enter-wallet-password"
-                                           placeholder="Enter the password" tabindex="304">
+                                           placeholder="Enter the password" tabindex="305">
                                 </div>
                                 <div style="float:left">
-                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdSend');" data-alt-key="show-password" role="button" tabindex="305" />
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdSend');" data-alt-key="show-password" role="button" tabindex="306" />
                                 </div>
                             </div>
                             <div class="divider"></div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <div class="large_button_container heading large" onclick="return sendCoins();" data-lang-key="send" role="button" tabindex="306" id="btnSendCoins">
+                            <div class="large_button_container heading large" onclick="return sendCoins();" data-lang-key="send" role="button" tabindex="307" id="btnSendCoins">
                                 Send
                             </div>
-                            <div class="large_button_container heading large" onclick="return signOfflineSend();" data-lang-key="sign-offline" role="button" tabindex="307" style="margin-left:15px;" id="btnOfflineSign">
+                            <div class="large_button_container heading large" onclick="return signOfflineSend();" data-lang-key="sign-offline" role="button" tabindex="308" style="margin-left:15px;" id="btnOfflineSign">
                                 Offline Sign
                             </div>
                         </div>
