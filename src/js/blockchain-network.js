@@ -9,6 +9,10 @@ var regex = new RegExp('^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2
 var blockchainIndexToNetworkMap = new Map(); //key is index, value is BlockchainNetwork
 
 const isValidDomainName = (supposedDomainName) => {
+    if(/localhost:[0-9]{1,5}/.test(supposedDomainName) === true){
+        return true;
+    }
+
     return /^(?!-)[A-Za-z0-9-]+([\-\.]{1}[a-z0-9]+)*\.[A-Za-z]{2,6}$/i.test(
         supposedDomainName
     );

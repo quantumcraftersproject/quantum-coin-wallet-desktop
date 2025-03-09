@@ -1216,7 +1216,6 @@ table {
 
 
 select {
-    appearance: none;
     outline: 10px red;
     border: 0;
     box-shadow: none;
@@ -1385,4 +1384,27 @@ select {
 
 .blocks-content {
     max-height: calc(100vh - 360px);
+}
+
+
+.selectwrapper {
+    border-radius: 5px;
+    display: inline-block;
+    overflow: hidden;
+    background: #e7e7e7;
+    border: 1px solid #e7e7e7;
+    width: 90%;
+}
+
+.selectbox {
+    border: 10px;
+    box-shadow: none;
+    flex: 1;
+    color: #000000;
+    background-color: #e7e7e7;
+    background-image: none;
+    cursor: pointer;
+    font-size: large;
+    width: 100%;
+    padding: 5px 10px 5px 5px;
 }

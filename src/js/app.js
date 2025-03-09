@@ -33,6 +33,11 @@ const BLOCKCHAIN_EXPLORER_API_DOMAIN_TEMPLATE = "[BLOCKCHAIN_EXPLORER_API_URL]";
 const TRANSACTION_HASH_TEMPLATE = "[TRANSACTION_HASH]";
 const DROPDOWN_TEXT = "&#x25BC;";
 const DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY = "DefaultOfflineTxnSigningSettingKey";
+const maxTokenNameLength = 25;
+const maxTokenSymbolLength = 6;
+const QuantumCoin = "QuantumCoin"
+const COIN_SEND_GAS = 21000;
+const TOKEN_SEND_GAS = 210000;
 
 let walletListRowTemplate = "";
 let blockchainNetworkOptionItemTemplate = "";
@@ -56,6 +61,9 @@ let autoCompleteInitializedRestore = false;
 let autoCompleteBoxes = [];
 let autoCompleteBoxesRestore = [];
 let isFirstTimeAccountRefresh = true;
+let currentWalletTokenList = [];
+let currentAccountDetails = null;
+let offlineSignEnabled = false;
 
 function InitAccountsWebAssembly() {
     if (!WebAssembly.instantiateStreaming) {
@@ -124,7 +132,8 @@ async function initApp() {
     completedTxnInRowTemplate = document.getElementsByClassName("completed-txn-in-row")[0].outerHTML;    
     completedTxnOutRowTemplate = document.getElementsByClassName("completed-txn-out-row")[0].outerHTML;    
     failedTxnInRowTemplate = document.getElementsByClassName("failed-txn-in-row")[0].outerHTML;    
-    failedTxnOutRowTemplate = document.getElementsByClassName("failed-txn-out-row")[0].outerHTML;    
+    failedTxnOutRowTemplate = document.getElementsByClassName("failed-txn-out-row")[0].outerHTML;
+    tokenListRowTemplate = document.getElementsByClassName("token-list-row")[0].outerHTML;
 
     document.getElementById('login-content').style.display = 'none';
     document.getElementById('welcomeScreen').style.display = 'none';
@@ -242,7 +251,6 @@ async function saveSelectedBlockchainNetwork() {
     } else {
         await showBlockchainNetworks();
         document.getElementById("spnAccountBalance").textContent = "";
-        document.getElementById("divBalanceSendScreen").textContent = "";
         currentBalance = "";
         await refreshAccountBalance();
         if (document.getElementById("TransactionsScreen").style.display !== "none") {
@@ -669,10 +677,104 @@ async function showWalletScreen() {
     return false;
 }
 
-async function showSendScreen() {
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+        selectElement.remove(i);
+    }
+}
 
-    let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
-    if (offlineSignEnabled == true) {
+function resetTokenList() {
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    removeOptions(ddlCoinTokenToSend);
+    var option = document.createElement("option");
+    option.text = "Q";
+    option.value = "Q";
+    ddlCoinTokenToSend.add(option);
+    if (offlineSignEnabled === true) {
+        var optOther = document.createElement("option");
+        optOther.text = "(token)";
+        optOther.value = "other";
+        ddlCoinTokenToSend.add(optOther);
+    }
+}
+
+function populateSendScreen() {
+    resetTokenList();
+    if (offlineSignEnabled === true) {
+        return;
+    }
+    if(currentWalletTokenList == null) {
+        return;
+    }
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+
+    for (var i = 0; i < currentWalletTokenList.length; i++) {
+        let token = currentWalletTokenList[i];
+        let tokenName = token.name;
+        let tokenSymbol = token.symbol;
+        let tokenShortContractAddress = getShortAddress(token.contractAddress);
+
+        if (tokenName.length > maxTokenNameLength) {
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenName = htmlEncode(tokenName);
+
+        if (tokenSymbol.length > maxTokenSymbolLength) {
+            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenSymbol = htmlEncode(tokenSymbol);
+
+        let tokenOption = document.createElement("option");
+        tokenOption.text = tokenName;
+        tokenOption.value = token.contractAddress;
+        ddlCoinTokenToSend.add(tokenOption);
+    }
+}
+
+async function updateInfoSendScreen() {
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    let selectedValue = ddlCoinTokenToSend.value;
+    document.getElementById("divCoinTokenToSend").textContent = "";
+    document.getElementById("divCoinTokenToSend").style.display = "";
+    document.getElementById("divBalanceSendScreen").textContent = "";
+    document.getElementById("txtTokenContractAddress").style.display = "none";
+
+    if(selectedValue === "Q") {
+        document.getElementById("divCoinTokenToSend").textContent = QuantumCoin;
+        if(offlineSignEnabled === false) {
+            if (currentAccountDetails !== null) {
+                let newBalance = await weiToEtherFormatted(currentAccountDetails.balance);
+                document.getElementById("divBalanceSendScreen").textContent = newBalance;
+            }
+        }
+    } else {
+        if(offlineSignEnabled === true) {
+            document.getElementById("txtTokenContractAddress").style.display = "";
+            document.getElementById("divCoinTokenToSend").style.display = "none";
+        } else {
+            for (let i = 0; i < currentWalletTokenList.length; i++) {
+                if (currentWalletTokenList[i].contractAddress === selectedValue) {
+                    document.getElementById("divBalanceSendScreen").textContent = currentWalletTokenList[i].tokenBalance;
+                    document.getElementById("divCoinTokenToSend").textContent = selectedValue;
+                    break;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+async function showSendScreen() {
+    offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    ddlCoinTokenToSend.disabled = true;
+    populateSendScreen();
+    await updateInfoSendScreen();
+    ddlCoinTokenToSend.disabled = false;
+
+    if (offlineSignEnabled === true) {
         document.getElementById("btnOfflineSign").style.display  = "block";
         document.getElementById("divCurrentNonce").style.display  = "block";
         document.getElementById("btnSendCoins").style.display  = "none";
@@ -860,7 +962,6 @@ function showWalletListScreen() {
 async function setWalletAddressAndShowWalletScreen(address) {
     currentWalletAddress = address;
     document.getElementById("spnAccountBalance").value = "";
-    document.getElementById("divBalanceSendScreen").value = "";    
     await showWalletScreen();
     await refreshAccountBalance();
 }
@@ -1199,17 +1300,23 @@ async function refreshAccountBalance() {
             return;
         }
         isRefreshingBalance = true;
+
+        currentWalletTokenList = [];
+        document.getElementById('divAccountTokens').style.display = 'none';
+        document.getElementById('tbodyAccountTokens').innerHTML = '';
         document.getElementById("divRefreshBalance").style.display = "none";
         document.getElementById("divLoadingBalance").style.display = "block";
         document.getElementById("spnAccountBalance").textContent = "";
-        document.getElementById("divBalanceSendScreen").textContent = "";
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
         if (accountDetails != null) {
+            currentAccountDetails = accountDetails;
             currentBalance = await weiToEtherFormatted(accountDetails.balance);
             document.getElementById("spnAccountBalance").textContent = currentBalance;
-            document.getElementById("divBalanceSendScreen").textContent = currentBalance;
             balanceNotificationMap.set(currentWalletAddress.toLowerCase(), currentBalance);
         }
+
+        await refreshTokenList();
 
         setTimeout(() => {
             document.getElementById("divRefreshBalance").style.display = "block";
@@ -1224,9 +1331,49 @@ async function refreshAccountBalance() {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
-            showWarnAlert(langJson.errors.invalidApiResponse);
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
     }
+}
+
+async function refreshTokenList() {
+    //refresh token list/balance
+    let tokenListDetails = await listAccountTokens(currentBlockchainNetwork.scanApiDomain, currentWalletAddress, 1); //todo: pagination
+    if (tokenListDetails == null || tokenListDetails.tokenList == null || tokenListDetails.tokenList.length === 0) {
+        return;
+    }
+
+    let tbody = "";
+
+    for (var i = 0; i < tokenListDetails.tokenList.length; i++) {
+        let token = tokenListDetails.tokenList[i];
+        let tokenRow = tokenListRowTemplate;
+        let tokenName = token.name;
+        let tokenSymbol = token.symbol;
+        let tokenShortContractAddress = getShortAddress(token.contractAddress);
+
+        if (tokenName.length > maxTokenNameLength) {
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenName = htmlEncode(tokenName);
+
+        if (tokenSymbol.length > maxTokenSymbolLength) {
+            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
+        }
+        tokenSymbol = htmlEncode(tokenSymbol);
+
+        tokenRow = tokenRow.replace('[TOKEN_SYMBOL]', tokenSymbol);
+        tokenRow = tokenRow.replace('[TOKEN_NAME]', tokenName);
+        tokenRow = tokenRow.replace('[TOKEN_CONTRACT]', token.contractAddress);
+        tokenRow = tokenRow.replace('[SHORT_CONTRACT]', tokenShortContractAddress);
+        tokenRow = tokenRow.replace('[TOKEN_BALANCE]', token.tokenBalance);
+
+        tbody = tbody + tokenRow;
+    }
+
+    document.getElementById('tbodyAccountTokens').innerHTML = tbody;
+    document.getElementById('divAccountTokens').style.display = '';
+    currentWalletTokenList = tokenListDetails.tokenList;
 }
 
 async function initRefreshAccountBalanceBackground() {
@@ -1236,6 +1383,7 @@ async function initRefreshAccountBalanceBackground() {
     initAccountBalanceBackgroundStarted = true;
     refreshAccountBalanceBackground();
 }
+
 async function refreshAccountBalanceBackground() {
     try {
         if (isRefreshingBalance == true) {
@@ -1243,11 +1391,13 @@ async function refreshAccountBalanceBackground() {
             return;
         }
         isRefreshingBalance = true;
-        
+        currentWalletTokenList = [];
         document.getElementById("divRefreshBalance").style.display = "none";
         document.getElementById("divLoadingBalance").style.display = "block";
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
         if (accountDetails != null) {
+            currentAccountDetails = accountDetails;
             let curAddrLower = currentWalletAddress.toLowerCase();
             let newBalance = await weiToEtherFormatted(accountDetails.balance);
 
@@ -1260,8 +1410,8 @@ async function refreshAccountBalanceBackground() {
 
             currentBalance = newBalance;
             document.getElementById("spnAccountBalance").textContent = newBalance;
-            document.getElementById("divBalanceSendScreen").textContent = newBalance;
         }
+        await refreshTokenList();
         document.getElementById("divRefreshBalance").style.display = "block";
         document.getElementById("divLoadingBalance").style.display = "none";
         isRefreshingBalance = false;
@@ -1281,7 +1431,7 @@ async function refreshAccountBalanceBackground() {
             if (isNetworkError(error)) {
                 showWarnAlert(langJson.errors.internetDisconnected);
             } else {
-                showWarnAlert(langJson.errors.invalidApiResponse);
+                showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
             }
         }        
     }
@@ -1336,10 +1486,26 @@ function showBalanceChangeNotification(value) {
     return false;
 }
 
+function getTokenBalance(contactAddress) {
+    if(currentWalletTokenList == null) { {
+        return null;
+    }}
+    for(let i = 0;i < currentWalletTokenList.length;i++) {
+        if(currentWalletTokenList[i].contractAddress === contactAddress) {
+            return currentWalletTokenList[i].tokenBalance;
+        }
+    }
+    return null;
+}
+
 async function sendCoins() {
     var sendAddress = document.getElementById("txtSendAddress").value;
     var sendQuantity = document.getElementById("txtSendQuantity").value;
     var sendPassword = document.getElementById("pwdSend").value;
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    var CoinTokenToSendName = ddlCoinTokenToSend.options[ddlCoinTokenToSend.selectedIndex].text;
+    var contractAddress = document.getElementById("divCoinTokenToSend").textContent;
+    let quantityToSend = "";
 
     if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
         showWarnAlert(langJson.errors.quantumAddr);
@@ -1357,12 +1523,20 @@ async function sendCoins() {
         return false;
     }
 
-    if (currentBalance == "" || currentBalance == null) {
+    if(contractAddress === QuantumCoin) {
+        quantityToSend = currentBalance;
+        CoinTokenToSendName = langJson.langValues.coins;
+    } else {
+        quantityToSend = getTokenBalance(contractAddress);
+        CoinTokenToSendName = langJson.langValues.tokens;
+    }
+
+    if (quantityToSend == null || quantityToSend === "") {
         showWarnAlert(langJson.errors.amountLarge);
         return false;
     }
 
-    let compareResult = await compareEther(sendQuantity, currentBalance);
+    let compareResult = await compareEther(sendQuantity, quantityToSend);
     if (compareResult == 1) {
         showWarnAlert(langJson.errors.amountLarge);
         return false;
@@ -1376,6 +1550,7 @@ async function sendCoins() {
     let msg = langJson.langValues.sendConfirm;
     msg = msg.replace("[SEND_QUANTITY]", sendQuantity);
     msg = msg.replace("[TO_ADDRESS]", sendAddress);
+    msg = msg.replace("[SEND_COINTOKEN]", CoinTokenToSendName); //already htmlEncoded
     showConfirmAndExecuteOnConfirm(msg, onSendCoinsConfirm);
 }
 
@@ -1403,13 +1578,21 @@ async function decryptAndUnlockWalletSend() {
 }
 
 async function sendCoinsSubmit(quantumWallet) {
+    let coinTokenToSend = document.getElementById("divCoinTokenToSend").textContent;
+    if(coinTokenToSend !== QuantumCoin) {
+        await sendTokensSubmit(quantumWallet);
+        return;
+    }
+
     updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
     var sendAddress = document.getElementById("txtSendAddress").value;
     var sendQuantity = document.getElementById("txtSendQuantity").value;
 
     try {
         //get account balance
+        currentAccountDetails = null;
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
+        currentAccountDetails = accountDetails;
 
         const gas = 21000;
         const chainId = currentBlockchainNetwork.networkId;
@@ -1446,7 +1629,7 @@ async function sendCoinsSubmit(quantumWallet) {
             showWarnAlert(langJson.errors.unexpectedError);
             return;
         }
-       
+
         let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
         if (result == true) {
             let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, sendAddress, sendQuantity, true);
@@ -1467,7 +1650,82 @@ async function sendCoinsSubmit(quantumWallet) {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
+        }
+    }
+}
+
+async function sendTokensSubmit(quantumWallet) {
+    updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
+
+    try {
+        //get account balance
+        currentAccountDetails = null;
+        let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
+        currentAccountDetails = accountDetails;
+
+        var sendAddress = document.getElementById("txtSendAddress").value;
+        var sendQuantity = document.getElementById("txtSendQuantity").value;
+        var coinQuantity = "0";
+        var contractAddress = document.getElementById("divCoinTokenToSend").textContent;
+
+        let gas = TOKEN_SEND_GAS;
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = accountDetails.nonce;
+        let sendData = getTokenTransferContractData(sendAddress, sendQuantity);
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        let currentDate = new Date();
+        var txData = transactionGetData(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
+        if (result == true) {
+            let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, contractAddress, coinQuantity, true);
+            pendingTransactionsMap.set(quantumWallet.address.toLowerCase() + currentBlockchainNetwork.index.toString(), pendingTxn);
+
+            setTimeout(() => {
+                hideWaitingBox();
+                showAlertAndExecuteOnClose(langJson.langValues.sendRequest.replace(TRANSACTION_HASH_TEMPLATE, txHashHex), showWalletScreen);
+            }, 1000);
+        } else {
+            hideWaitingBox();
             showWarnAlert(langJson.errors.invalidApiResponse);
+        }
+    }
+    catch (error) {
+        hideWaitingBox();
+
+        if (isNetworkError(error)) {
+            showWarnAlert(langJson.errors.internetDisconnected);
+        } else {
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
     }
 }
@@ -1512,7 +1770,7 @@ async function refreshTransactionListWithContext(isPrev) {
         if (isNetworkError(error)) {
             showWarnAlert(langJson.errors.internetDisconnected);
         } else {
-            showWarnAlert(langJson.errors.invalidApiResponse);
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
 
         setTimeout(() => {
@@ -1716,6 +1974,19 @@ async function signOfflineSend() {
     var sendQuantity = document.getElementById("txtSendQuantity").value;
     var currentNonce = document.getElementById("txtCurrentNonce").value;
     var sendPassword = document.getElementById("pwdSend").value;
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    let selectedValue = ddlCoinTokenToSend.value;
+    let CoinTokenToSendName = "";
+    if(selectedValue === "Q") {
+        CoinTokenToSendName = "coins";
+    } else {
+        let contractAddress = document.getElementById("txtTokenContractAddress").value;
+        if (contractAddress == null || contractAddress.length < 64 || IsValidAddress(contractAddress) == false) {
+            showWarnAlert(langJson.errors.quantumAddr);
+            return false;
+        }
+        CoinTokenToSendName = "tokens";
+    }
 
     if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
         showWarnAlert(langJson.errors.quantumAddr);
@@ -1753,6 +2024,7 @@ async function signOfflineSend() {
     msg = msg.replace("[SEND_QUANTITY]", sendQuantity);
     msg = msg.replace("[TO_ADDRESS]", sendAddress);
     msg = msg.replace("[NONCE]", tempNonce);
+    msg = msg.replace("[SEND_COINTOKEN]", CoinTokenToSendName); //already htmlEncoded
     showConfirmAndExecuteOnConfirm(msg, onSignOfflineSendCoinsConfirm);
 }
 
@@ -1779,13 +2051,77 @@ async function decryptAndUnlockWalletSignOffline() {
     return false;
 }
 
+async function signOfflineTxnSendToken(quantumWallet) {
+    var sendAddress = document.getElementById("txtSendAddress").value;
+    var sendQuantity = document.getElementById("txtSendQuantity").value;
+    var currentNonce = document.getElementById("txtCurrentNonce").value;
+    var coinQuantity = "0";
+    var contractAddress = document.getElementById("txtTokenContractAddress").value;
+
+    let gas = TOKEN_SEND_GAS;
+
+    try {
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = parseInt(currentNonce);
+        let sendData = getTokenTransferContractData(sendAddress, sendQuantity);
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            hideWaitingBox();
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        var txData = transactionGetData(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        hideWaitingBox();
+        document.getElementById('txtSignedSendTransaction').value = txData;
+        document.getElementById('SendScreen').style.display = "none";
+        document.getElementById('OfflineSignScreen').style.display = "block";
+    }
+    catch (error) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.walletOpenError.replace(STORAGE_PATH_TEMPLATE, STORAGE_PATH) + " " + error)
+    }
+}
+
 async function signOfflineTxnSend(quantumWallet) {
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    let selectedValue = ddlCoinTokenToSend.value;
+    if(selectedValue === "Q") {
+
+    } else {
+        await signOfflineTxnSendToken(quantumWallet);
+        return;
+    }
     var sendAddress = document.getElementById("txtSendAddress").value;
     var sendQuantity = document.getElementById("txtSendQuantity").value;
     var currentNonce = document.getElementById("txtCurrentNonce").value;
 
     try {
-        const gas = 21000;
+        const gas = COIN_SEND_GAS;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = parseInt(currentNonce);
         const contractData = null;
@@ -1835,4 +2171,9 @@ async function signOfflineTxnSend(quantumWallet) {
 
 async function copySignedSendTransaction() {
     await WriteTextToClipboard(document.getElementById('txtSignedSendTransaction').value);
+}
+
+async function openOfflineTxnSigningUrl() {
+    await OpenUrl("https://QuantumCoin.org/offline-transaction-signing.html");
+    return false;
 }
