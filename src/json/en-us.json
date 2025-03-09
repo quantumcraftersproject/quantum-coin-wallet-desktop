@@ -207,12 +207,14 @@
       "current-nonce": "Current Nonce",
       "nonce-help": "Current Nonce (as shown in the Block Explorer page for your address)",
       "signed-transaction-details": "Signed Transaction Details",
-      "signSendConfirm": "You are signing a transaction to send [SEND_QUANTITY] coins to [TO_ADDRESS] with nonce [NONCE].",
+      "signSendConfirm": "You are signing a transaction to send [SEND_QUANTITY] [SEND_COINTOKEN] to [TO_ADDRESS] with nonce [NONCE].",
       "tokenTransfer": "Your request to transfer tokens has been added to the queue for processing. Please check your account balance after 10 minutes. Transaction: [TRANSACTION_HASH]",
       "symbol": "Symbol",
       "contract": "Contract",
       "coin-token-to-send": "Coin/Token to send",
-      "tokens": "Tokens"
+      "tokens": "Tokens",
+      "token-contract-address": "Token Contract Address",
+      "offline-txn-help": "Copy the below signed transaction and submit it at: "
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",

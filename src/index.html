@@ -90,6 +90,9 @@
         <div class="modal-content">
             <div style="margin-bottom:10px;">
                 <h3 data-lang-key="offline-txn-signing">Offline Transaction Signing</h3>
+                <div style="margin-bottom:20px;">
+                    <label data-lang-key="help" style="cursor: pointer;">Help</label>: <a href="#" onclick="return openOfflineTxnSigningUrl();">https://QuantumCoin.org/offline-transaction-signing.html</a>
+                </div>
                 <div id="divOfflineTxnSigning">
                     <div style="padding-bottom:20px;" class="network-template">
                         <form id="offlineTxnSigningForm" style="display: flex; flex-direction: column; gap: 10px;">
@@ -1225,6 +1228,11 @@
                                     <option value="hei">Heisen</option>
                                 </select>
                             </div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 400;color:black;"
+                                   autocomplete="off" id="txtTokenContractAddress" name="contract_address" data-placeholder-key="token-contract-address"
+                                   placeholder="token contract address" tabindex="302">
+
                             <div id="divCoinTokenToSend" style="font-size: small">0x0000000000000000000000000000000000000000000000000000000000001000</div>
                             <div class="divider"></div>
                         </div>
@@ -1234,9 +1242,9 @@
                         <div class="input_container">
                             <div class="heading medium" data-lang-key="address-to-send">Address to send to</div>
                             <input class="tab-name"
-                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500;color:black;"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 400;color:black;"
                                    autocomplete="off" id="txtSendAddress" name="send_address" data-placeholder-key="address-to-send"
-                                   placeholder="Address to send to" tabindex="302">
+                                   placeholder="Address to send to" tabindex="303">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container">
@@ -1244,7 +1252,7 @@
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                    type="number" autocomplete="off" id="txtSendQuantity" name="send_quantity" data-placeholder-key="quantity-to-send"
-                                   placeholder="Quantity to send" tabindex="303">
+                                   placeholder="Quantity to send" tabindex="304">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container" id="divCurrentNonce">
@@ -1252,7 +1260,7 @@
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                    type="number" autocomplete="off" id="txtCurrentNonce" name="current_nonce" data-placeholder-key="current-nonce"
-                                   placeholder="Current Nonce" tabindex="304" maxlength="6">
+                                   placeholder="Current Nonce" tabindex="305" maxlength="6">
                             <div class="divider"></div>
                         </div>
                         <div class="input_container">
@@ -1262,19 +1270,19 @@
                                     <input class="tab-name"
                                            style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
                                            type="password" autocomplete="off" id="pwdSend" name="password" data-placeholder-key="enter-wallet-password"
-                                           placeholder="Enter the password" tabindex="305">
+                                           placeholder="Enter the password" tabindex="306">
                                 </div>
                                 <div style="float:left">
-                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdSend');" data-alt-key="show-password" role="button" tabindex="306" />
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdSend');" data-alt-key="show-password" role="button" tabindex="307" />
                                 </div>
                             </div>
                             <div class="divider"></div>
                         </div>
                         <div style="display: flex; justify-content: flex-end;">
-                            <div class="large_button_container heading large" onclick="return sendCoins();" data-lang-key="send" role="button" tabindex="307" id="btnSendCoins">
+                            <div class="large_button_container heading large" onclick="return sendCoins();" data-lang-key="send" role="button" tabindex="308" id="btnSendCoins">
                                 Send
                             </div>
-                            <div class="large_button_container heading large" onclick="return signOfflineSend();" data-lang-key="sign-offline" role="button" tabindex="308" style="margin-left:15px;" id="btnOfflineSign">
+                            <div class="large_button_container heading large" onclick="return signOfflineSend();" data-lang-key="sign-offline" role="button" tabindex="309" style="margin-left:15px;" id="btnOfflineSign">
                                 Offline Sign
                             </div>
                         </div>
@@ -1286,6 +1294,11 @@
                 <div class="center-content-rounded-container">
                     <div class="back-container" role="button" onclick="showSendScreen();" tabindex="3000">
 
+                    </div>
+                    <div class="tab-name" style="color:black;">
+                        <p>
+                            <label data-lang-key="offline-txn-help">Copy the below signed transaction and submit it at: </label> <a href="#" onclick="return openOfflineTxnSigningUrl();">https://QuantumCoin.org/offline-transaction-signing.html</a>
+                        </p>
                     </div>
                     <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
                         <div class="heading bold" data-lang-key="signed-transaction-details">Signed Transaction Details</div>
