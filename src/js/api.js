@@ -44,8 +44,7 @@ async function getAccountDetails(scanApiDomain, address) {
     const response = await fetch(url);
     const jsonObj = await response.json();
     const result = jsonObj.result;
-
-    if (result !== null) {
+    if (result != null) {
         if (result.nonce != null) {
             let tempNonce = parseInt(result.nonce);
             if (Number.isInteger(tempNonce) == true) {
@@ -137,12 +136,15 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
             throw new Error("invalid toAddress");
         }
 
+        let txnDate = "";
         if (txn.createdAt == null || isValidDate(txn.createdAt) == false) {
-            throw new Error("invalid date");
+            if(isPending === false) {
+                throw new Error("invalid date");
+            }
+        } else {
+            let txnDateString = (txn.createdAt.includes("UTC") || txn.createdAt.endsWith("Z")) ? txn.createdAt : txn.createdAt + 'Z';
+            txnDate = new Date(txnDateString);
         }
-
-        let txnDateString = (txn.createdAt.includes("UTC") || txn.createdAt.endsWith("Z")) ? txn.createdAt : txn.createdAt + 'Z';
-        let txnDate = new Date(txnDateString);
 
         if (txn.value == null || isHex(txn.value) == false) {
             throw new Error("invalid value");

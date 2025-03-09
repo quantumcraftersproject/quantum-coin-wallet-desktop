@@ -190,7 +190,7 @@
       "balanceChanged": "Balance changed in wallet",
       "address-to-send": "Address to send to",
       "quantity-to-send": "Quantity to send",
-      "sendRequest": "Your request to send coins has been added to the queue for processing. Transaction: [TRANSACTION_HASH]",
+      "sendRequest": "Your request to send has been added to the queue for processing. Transaction: [TRANSACTION_HASH]",
       "receive-coins": "Receive Coins",
       "send-only": "Send only Quantum Coins to this address!",
       "inout": "In/Out",
@@ -199,7 +199,7 @@
       "to": "To",
       "hash": "Hash",
       "block": "Block",
-      "sendConfirm": "You are sending [SEND_QUANTITY] coins to [TO_ADDRESS].",
+      "sendConfirm": "You are sending [SEND_QUANTITY] [SEND_COINTOKEN] to [TO_ADDRESS].",
       "offline-txn-signing": "Offline Transaction Signing",
       "enabled": "Enabled",
       "disabled": "Disabled",
@@ -211,7 +211,8 @@
       "tokenTransfer": "Your request to transfer tokens has been added to the queue for processing. Please check your account balance after 10 minutes. Transaction: [TRANSACTION_HASH]",
       "symbol": "Symbol",
       "contract": "Contract",
-      "coin-token-to-send": "Coin/Token to send"
+      "coin-token-to-send": "Coin/Token to send",
+      "tokens": "Tokens"
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",

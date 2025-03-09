@@ -35,6 +35,9 @@ const DROPDOWN_TEXT = "&#x25BC;";
 const DEFAULT_OFFLINE_TXN_SIGNING_SETTING_KEY = "DefaultOfflineTxnSigningSettingKey";
 const maxTokenNameLength = 25;
 const maxTokenSymbolLength = 6;
+const QuantumCoin = "QuantumCoin"
+const COIN_SEND_GAS = 21000;
+const TOKEN_SEND_GAS = 210000;
 
 let walletListRowTemplate = "";
 let blockchainNetworkOptionItemTemplate = "";
@@ -720,14 +723,13 @@ function populateSendScreen() {
 }
 
 async function updateInfoSendScreen() {
-    console.log("updateInfoSendScreen");
     let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
     let selectedValue = ddlCoinTokenToSend.value;
     document.getElementById("divCoinTokenToSend").textContent = "";
     document.getElementById("divBalanceSendScreen").textContent = "";
-    console.log("updateInfoSendScreen selectedValue = " + selectedValue);
+
     if(selectedValue === "Q") {
-        document.getElementById("divCoinTokenToSend").textContent = "QuantumCoin";
+        document.getElementById("divCoinTokenToSend").textContent = QuantumCoin;
         if(currentAccountDetails !== null) {
             let newBalance = await weiToEtherFormatted(currentAccountDetails.balance);
             document.getElementById("divBalanceSendScreen").textContent = newBalance;
@@ -746,9 +748,11 @@ async function updateInfoSendScreen() {
 }
 
 async function showSendScreen() {
-
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    ddlCoinTokenToSend.disabled = true;
     populateSendScreen();
     await updateInfoSendScreen();
+    ddlCoinTokenToSend.disabled = false;
 
     let offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
     if (offlineSignEnabled == true) {
@@ -1463,10 +1467,26 @@ function showBalanceChangeNotification(value) {
     return false;
 }
 
+function getTokenBalance(contactAddress) {
+    if(currentWalletTokenList == null) { {
+        return null;
+    }}
+    for(let i = 0;i < currentWalletTokenList.length;i++) {
+        if(currentWalletTokenList[i].contractAddress === contactAddress) {
+            return currentWalletTokenList[i].tokenBalance;
+        }
+    }
+    return null;
+}
+
 async function sendCoins() {
     var sendAddress = document.getElementById("txtSendAddress").value;
     var sendQuantity = document.getElementById("txtSendQuantity").value;
     var sendPassword = document.getElementById("pwdSend").value;
+    let ddlCoinTokenToSend = document.getElementById("ddlCoinTokenToSend");
+    var CoinTokenToSendName = ddlCoinTokenToSend.options[ddlCoinTokenToSend.selectedIndex].text;
+    var contractAddress = document.getElementById("divCoinTokenToSend").textContent;
+    let quantityToSend = "";
 
     if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
         showWarnAlert(langJson.errors.quantumAddr);
@@ -1484,12 +1504,20 @@ async function sendCoins() {
         return false;
     }
 
-    if (currentBalance == "" || currentBalance == null) {
+    if(contractAddress === QuantumCoin) {
+        quantityToSend = currentBalance;
+        CoinTokenToSendName = langJson.langValues.coins;
+    } else {
+        quantityToSend = getTokenBalance(contractAddress);
+        CoinTokenToSendName = langJson.langValues.tokens;
+    }
+
+    if (quantityToSend == null || quantityToSend === "") {
         showWarnAlert(langJson.errors.amountLarge);
         return false;
     }
 
-    let compareResult = await compareEther(sendQuantity, currentBalance);
+    let compareResult = await compareEther(sendQuantity, quantityToSend);
     if (compareResult == 1) {
         showWarnAlert(langJson.errors.amountLarge);
         return false;
@@ -1503,6 +1531,7 @@ async function sendCoins() {
     let msg = langJson.langValues.sendConfirm;
     msg = msg.replace("[SEND_QUANTITY]", sendQuantity);
     msg = msg.replace("[TO_ADDRESS]", sendAddress);
+    msg = msg.replace("[SEND_COINTOKEN]", CoinTokenToSendName); //already htmlEncoded
     showConfirmAndExecuteOnConfirm(msg, onSendCoinsConfirm);
 }
 
@@ -1530,6 +1559,12 @@ async function decryptAndUnlockWalletSend() {
 }
 
 async function sendCoinsSubmit(quantumWallet) {
+    let coinTokenToSend = document.getElementById("divCoinTokenToSend").textContent;
+    if(coinTokenToSend !== QuantumCoin) {
+        await sendTokensSubmit(quantumWallet);
+        return;
+    }
+
     updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
     var sendAddress = document.getElementById("txtSendAddress").value;
     var sendQuantity = document.getElementById("txtSendQuantity").value;
@@ -1575,10 +1610,85 @@ async function sendCoinsSubmit(quantumWallet) {
             showWarnAlert(langJson.errors.unexpectedError);
             return;
         }
-       
+
         let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
         if (result == true) {
             let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, sendAddress, sendQuantity, true);
+            pendingTransactionsMap.set(quantumWallet.address.toLowerCase() + currentBlockchainNetwork.index.toString(), pendingTxn);
+
+            setTimeout(() => {
+                hideWaitingBox();
+                showAlertAndExecuteOnClose(langJson.langValues.sendRequest.replace(TRANSACTION_HASH_TEMPLATE, txHashHex), showWalletScreen);
+            }, 1000);
+        } else {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.invalidApiResponse);
+        }
+    }
+    catch (error) {
+        hideWaitingBox();
+
+        if (isNetworkError(error)) {
+            showWarnAlert(langJson.errors.internetDisconnected);
+        } else {
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
+        }
+    }
+}
+
+async function sendTokensSubmit(quantumWallet) {
+    updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
+
+    try {
+        //get account balance
+        currentAccountDetails = null;
+        let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
+        currentAccountDetails = accountDetails;
+
+        var sendAddress = document.getElementById("txtSendAddress").value;
+        var sendQuantity = document.getElementById("txtSendQuantity").value;
+        var coinQuantity = "0";
+        var contractAddress = document.getElementById("divCoinTokenToSend").textContent;
+
+        let gas = TOKEN_SEND_GAS;
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = accountDetails.nonce;
+        let sendData = getTokenTransferContractData(sendAddress, sendQuantity);
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        let currentDate = new Date();
+        var txData = transactionGetData(quantumWallet.address, nonce, contractAddress, coinQuantity, gas, chainId, sendData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
+        if (result == true) {
+            let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, contractAddress, coinQuantity, true);
             pendingTransactionsMap.set(quantumWallet.address.toLowerCase() + currentBlockchainNetwork.index.toString(), pendingTxn);
 
             setTimeout(() => {
@@ -1914,7 +2024,7 @@ async function signOfflineTxnSend(quantumWallet) {
     var currentNonce = document.getElementById("txtCurrentNonce").value;
 
     try {
-        const gas = 21000;
+        const gas = COIN_SEND_GAS;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = parseInt(currentNonce);
         const contractData = null;
