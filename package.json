@@ -1,7 +1,7 @@
 {
   "name": "quantumwallet",
   "productName": "quantumwallet",
-  "version": "3.0.34",
+  "version": "3.1.0",
   "description": "Quantum Coin",
   "main": "src/index.js",
   "scripts": {

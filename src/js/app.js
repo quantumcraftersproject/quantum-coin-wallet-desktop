@@ -1507,7 +1507,7 @@ async function sendCoins() {
     var contractAddress = document.getElementById("divCoinTokenToSend").textContent;
     let quantityToSend = "";
 
-    if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
+    if (sendAddress == null || sendAddress.length < ADDRESS_LENGTH_CHECK || IsValidAddress(sendAddress) == false) {
         showWarnAlert(langJson.errors.quantumAddr);
         return false;
     }
@@ -1819,7 +1819,7 @@ async function refreshTransactionListInner(isPending, isPrev) {
         }
         txnRow = txnRow.replaceAll("[FROM]", htmlEncode(txn.from));
 
-        if (txn.to !== null) { //to address can be null for smart-contract creation transactions
+        if (txn.to != null) { //to address can be null for smart-contract creation transactions
             txnRow = txnRow.replaceAll("[TO]", htmlEncode(txn.to));
             txnRow = txnRow.replaceAll("[SHORT_TO]", getShortAddress(txn.to));
         } else {
@@ -1981,14 +1981,14 @@ async function signOfflineSend() {
         CoinTokenToSendName = "coins";
     } else {
         let contractAddress = document.getElementById("txtTokenContractAddress").value;
-        if (contractAddress == null || contractAddress.length < 64 || IsValidAddress(contractAddress) == false) {
+        if (contractAddress == null || contractAddress.length < ADDRESS_LENGTH_CHECK || IsValidAddress(contractAddress) == false) {
             showWarnAlert(langJson.errors.quantumAddr);
             return false;
         }
         CoinTokenToSendName = "tokens";
     }
 
-    if (sendAddress == null || sendAddress.length < 64 || IsValidAddress(sendAddress) == false) {
+    if (sendAddress == null || sendAddress.length < ADDRESS_LENGTH_CHECK || IsValidAddress(sendAddress) == false) {
         showWarnAlert(langJson.errors.quantumAddr);
         return false;
     }

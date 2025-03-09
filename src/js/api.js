@@ -1,5 +1,6 @@
 const HTTPS = "https://";
 const HTTP = "http://";
+const ADDRESS_LENGTH_CHECK = 64
 
 class AccountDetails {
     constructor(address, nonce, balance) {
@@ -88,7 +89,7 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
     } else {
         url = url + scanApiDomain + "/account/" + address + "/transactions/" + pageIndex;
     }
-    
+
     const response = await fetch(url);
 
     const jsonObj = await response.json();
@@ -124,15 +125,13 @@ async function getTransactionDetails(scanApiDomain, address, pageIndex, isPendin
     for (var i = 0; i < result.items.length; i++) {
         let txn = result.items[i];
 
-        if (txn.hash == null || txn.hash.length < 64 || IsValidAddress(txn.hash) == false) {
+        if (txn.hash == null || txn.hash.length < ADDRESS_LENGTH_CHECK || IsValidAddress(txn.hash) == false) {
             throw new Error("invalid hash");
         }
-
-        if (txn.from == null || txn.from.length < 64 || IsValidAddress(txn.from) == false) {
+        if (txn.from == null || txn.from.length < ADDRESS_LENGTH_CHECK || IsValidAddress(txn.from) == false) {
             throw new Error("invalid fromAddress");
         }
-
-        if (txn.to !== null &&  (txn.to.length < 64 || IsValidAddress(txn.to) == false)) {
+        if (txn.to != null &&  (txn.to.length < ADDRESS_LENGTH_CHECK || IsValidAddress(txn.to) == false)) {
             throw new Error("invalid toAddress");
         }
 
@@ -247,7 +246,7 @@ async function listAccountTokens(scanApiDomain, address, pageIndex) {
         let tokenName = "";
         let tokenSymbol = "";
 
-        if (token.contractAddress == null || token.contractAddress.length < 64 || IsValidAddress(token.contractAddress) === false) {
+        if (token.contractAddress == null || token.contractAddress.length < ADDRESS_LENGTH_CHECK || IsValidAddress(token.contractAddress) === false) {
             throw new Error("invalid contractAddress");
         }
 
