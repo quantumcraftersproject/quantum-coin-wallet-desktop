@@ -712,18 +712,11 @@ function populateSendScreen() {
     for (var i = 0; i < currentWalletTokenList.length; i++) {
         let token = currentWalletTokenList[i];
         let tokenName = token.name;
-        let tokenSymbol = token.symbol;
-        let tokenShortContractAddress = getShortAddress(token.contractAddress);
 
         if (tokenName.length > maxTokenNameLength) {
-            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "...";
         }
         tokenName = htmlEncode(tokenName);
-
-        if (tokenSymbol.length > maxTokenSymbolLength) {
-            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
-        }
-        tokenSymbol = htmlEncode(tokenSymbol);
 
         let tokenOption = document.createElement("option");
         tokenOption.text = tokenName;
@@ -739,6 +732,12 @@ async function updateInfoSendScreen() {
     document.getElementById("divCoinTokenToSend").style.display = "";
     document.getElementById("divBalanceSendScreen").textContent = "";
     document.getElementById("txtTokenContractAddress").style.display = "none";
+
+    if(offlineSignEnabled == true) {
+        document.getElementById("divSendScreenBalanceBox").style.display = "none";
+    } else {
+        document.getElementById("divSendScreenBalanceBox").style.display = "false";
+    }
 
     if(selectedValue === "Q") {
         document.getElementById("divCoinTokenToSend").textContent = QuantumCoin;
@@ -1353,14 +1352,18 @@ async function refreshTokenList() {
         let tokenShortContractAddress = getShortAddress(token.contractAddress);
 
         if (tokenName.length > maxTokenNameLength) {
-            tokenName = tokenName.substring(0, maxTokenNameLength - 1) + "<span style='color:green'>...</span>";
+            tokenName = tokenName.substring(0, maxTokenNameLength - 1);
+            tokenName = htmlEncode(tokenName) + "<span style='color:green'>...</span>";
+        } else {
+            tokenName = htmlEncode(tokenName);
         }
-        tokenName = htmlEncode(tokenName);
 
         if (tokenSymbol.length > maxTokenSymbolLength) {
-            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1) + "<span style='color:green'>...</span>";
+            tokenSymbol = tokenSymbol.substring(0, maxTokenSymbolLength - 1);
+            tokenSymbol = htmlEncode(tokenSymbol) + "<span style='color:green'>...</span>";
+        } else {
+            tokenSymbol = htmlEncode(tokenSymbol);
         }
-        tokenSymbol = htmlEncode(tokenSymbol);
 
         tokenRow = tokenRow.replace('[TOKEN_SYMBOL]', tokenSymbol);
         tokenRow = tokenRow.replace('[TOKEN_NAME]', tokenName);

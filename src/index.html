@@ -1189,7 +1189,7 @@
                 </div>
 
                 <div class="center-content-rounded-container" id="divAccountTokens" style="display: none">
-                    <div class="roundex-box boxeffect scrollbar" style="overflow-y: auto;overflow-x: auto;max-height: 400px;text-align: left;">
+                    <div class="roundex-box boxeffect scrollbar" style="overflow-y: auto;overflow-x: auto;max-height: 295px;text-align: left;">
                         <table class="styled-table">
                             <thead>
                             <tr>
@@ -1217,7 +1217,7 @@
                     <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="300">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;max-height: 515px;">
                         <div class="heading bold" data-lang-key="send">Send</div>
                         <div class="divider"></div>
                         <div class="input_container" id="divTokenList">
@@ -1236,9 +1236,11 @@
                             <div id="divCoinTokenToSend" style="font-size: small">0x0000000000000000000000000000000000000000000000000000000000001000</div>
                             <div class="divider"></div>
                         </div>
-                        <div class="tab-name text-wallet-address" style="text-align: left; font-weight: 200" data-lang-key="balance">Balance</div>
-                        <div class="heading bold" style="text-align: left; font-size: 20px; color:green;" id="divBalanceSendScreen"></div>
-                        <div class="divider"></div>
+                        <div id="divSendScreenBalanceBox">
+                            <div class="tab-name text-wallet-address" style="text-align: left; font-weight: 200" data-lang-key="balance">Balance</div>
+                            <div class="heading bold" style="text-align: left; font-size: 20px; color:green;" id="divBalanceSendScreen"></div>
+                            <div class="divider"></div>
+                        </div>
                         <div class="input_container">
                             <div class="heading medium" data-lang-key="address-to-send">Address to send to</div>
                             <input class="tab-name"
