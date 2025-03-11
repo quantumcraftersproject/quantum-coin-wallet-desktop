@@ -185,7 +185,15 @@ async function postTransaction(txnApiDomain, txnData) {
     });
 
     if (response == null) {
-        throw new Error("server returned invalid response");
+        throw new Error(langJson.errors.invalidApiResponse);
+    }
+
+    if(response.status == 400) {
+        if (response.statusText == null) {
+            throw new Error(langJson.errors.lowGasError);
+        } else {
+            throw new Error(langJson.errors.lowGasError + " " + response.statusText);
+        }
     }
 
     if (response.status == 200 || response.status == 204) {

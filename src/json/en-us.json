@@ -254,6 +254,7 @@
       "noMoreTxns": "There are no more transactions to show.",
       "internetDisconnected": "The server might be busy or your internet connection may be having problems. Please check your internet connection and try again after a few minutes.",
       "unexpectedError":  "An unexpected error occurred.",
-      "enterCurrentNonce": "Please enter the current nonce to send correctly."
+      "enterCurrentNonce": "Please enter the current nonce to send correctly.",
+      "lowGasError": "An error occurred. Ensure your account has enough coins for gas fee."
     }
 }

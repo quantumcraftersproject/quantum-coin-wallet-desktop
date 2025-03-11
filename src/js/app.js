@@ -37,7 +37,7 @@ const maxTokenNameLength = 25;
 const maxTokenSymbolLength = 6;
 const QuantumCoin = "QuantumCoin"
 const COIN_SEND_GAS = 21000;
-const TOKEN_SEND_GAS = 210000;
+const TOKEN_SEND_GAS = 84000;
 
 let walletListRowTemplate = "";
 let blockchainNetworkOptionItemTemplate = "";
