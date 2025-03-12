@@ -176,12 +176,22 @@ async function initApp() {
         }
     }
 
+    let eulaStatus = await isEulaAccepted()
+    if (eulaStatus == false) {
+        showEula();
+        return;
+    }
+
+    resumePostEula();
+}
+
+async function resumePostEula() {
     let readyStatus = await isMainKeyCreated();
     if (readyStatus == true) {
         showUnlockScreen();
     } else {
         showInfoScreen();
-    }    
+    }
 
     await blockchainNetworksInit();
     await showBlockchainNetworks();
