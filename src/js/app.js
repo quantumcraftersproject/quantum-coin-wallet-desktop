@@ -176,7 +176,7 @@ async function initApp() {
         }
     }
 
-    let eulaStatus = await isEulaAccepted()
+    let eulaStatus = await isEulaAccepted();
     if (eulaStatus == false) {
         showEula();
         return;
