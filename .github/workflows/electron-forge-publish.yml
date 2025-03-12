@@ -1,9 +1,7 @@
 name: Build/release
 
 on:
-  push:
-    tags:
-    - '*'    
+  workflow_dispatch:    
 
 jobs:
   release:
