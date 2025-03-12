@@ -2,10 +2,30 @@
 
 const DERIVED_KEY_SALT = "derivedkeysalt"; //key for key-value of storage
 const ENCRYPTED_MAIN_KEY = "encryptedmainkey"; //key for key-value of storage
+const IS_EULA_ACCEPTED = "eulaaccepted"; //key for key-value of storage
 
 async function storageGetPath() {
     let path = await LocalStorageApi.send('StorageApiGetPath', null);
     return path;
+}
+
+async function isEulaAccepted() {
+    let eula = await storageGetItem(IS_EULA_ACCEPTED);
+    if (eula == null) {
+        return false;
+    }
+    if (eula == "ok") {
+        return true;
+    }
+
+    return false;
+}
+
+async function storeEulaAccepted() {
+    let result = await storageSetItem(IS_EULA_ACCEPTED, "ok");
+    if (result != true) {
+        throw new Error('storeEulaAccepted storageSetItem IS_EULA_ACCEPTED failed.');
+    }
 }
 
 async function isMainKeyCreated() {

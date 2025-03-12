@@ -233,3 +233,19 @@ function hideWaitingBox() {
 function updateWaitingBox(txt) {
     pWaitDetails.innerText = txt;
 }
+
+let modalEulaDialog = document.getElementById("modalEulaDialog");
+function showEula() {
+    modalEulaDialog.style.display = "block";
+    modalEulaDialog.showModal();
+    document.getElementById("divEula").innerHTML = langJson.langValues.eula;
+}
+
+var spanIAgree = document.getElementById("divIAgree");
+
+spanIAgree.onclick = async function () {
+    modalEulaDialog.style.display = "none";
+    modalEulaDialog.close();
+    await storeEulaAccepted();
+    await resumePostEula();
+}
