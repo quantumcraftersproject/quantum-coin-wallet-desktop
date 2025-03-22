@@ -160,8 +160,8 @@
       "enter-network-json": "Enter Blockchain Network JSON",
       "addNetworkWarn": "Adding a compromised or scam network can drain your wallet of all coins and tokens. Are you sure you want to continue?!",
       "networkAdded": "The network has been added. Remember that executing transactions on a compromised or scam network can drain your wallet of all coins and tokens.!",
-      "get-coins-for-tokens": "Get Coins For DogeP Tokens",
-      "get-coins-for-tokens-info": "Get coins for your DogeP tokens. For help and instructions, see documentation at:",
+      "get-coins-for-tokens": "Get Coins or Heisen For DogeP Tokens",
+      "get-coins-for-tokens-info": "Get coins or Heisen for your DogeP tokens. For help and instructions, see documentation at:",
       "choose-eth-wallet-option": "Choose how you want to access your Ethereum wallet",
       "eth-option-seed": "Using seed phrase (mnemonic)",
       "eth-option-private-key": "Using private key",
@@ -176,7 +176,7 @@
       "enter-quantum-wallet-password": "Enter your quantum wallet password",
       "type-the-words": "Type the words",
       "conversionMessage": "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS].",
-      "conversionRequest": "Your request to get the quantum coins has been added to the queue for processing. Please check your account balance after 10 minutes. Transaction: [TRANSACTION_HASH]",
+      "conversionRequest": "Your request has been added to the queue for processing. Please check your account balance after 10 minutes. Transaction: [TRANSACTION_HASH]",
       "pleaseWaitSubmit": "Please wait while your request is being submitted.",
       "enter-eth-key": "Enter your Ethereum Private Key",
       "select-eth-key-json": "Select your Ethereum Key Store File",
@@ -216,7 +216,9 @@
       "token-contract-address": "Token Contract Address",
       "offline-txn-help": "Copy the below signed transaction and submit it at: ",
       "i-agree": "I agree",
-      "eula": "THIS SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+      "eula": "THIS SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+      "get-heisen-for-dogep-tokens": "Get Heisen For DogeP Tokens",
+      "conversionMessageHeisen": "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING HEISEN TOKENS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS]."
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",

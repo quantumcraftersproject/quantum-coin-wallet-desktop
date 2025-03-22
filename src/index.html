@@ -1506,7 +1506,7 @@
                         <div class="input_container">
                             <div class="vertical-menu">
                                 <div class="vertical-menu-item">
-                                    <a href="#" onclick="return getCoinsScreen1();" data-lang-key="get-coins-for-dogep-tokens" tabindex="1">Get Coins For DogeP Tokens</a>
+                                    <a href="#" onclick="return getQuantumCoinsForTokens();" data-lang-key="get-coins-for-dogep-tokens" tabindex="1">Get Coins For DogeP Tokens</a>
                                 </div>
                                 <div class="divider"></div>
                                 <div class="vertical-menu-item">
@@ -1519,6 +1519,10 @@
                                 <div class="divider"></div>
                                 <div class="vertical-menu-item">
                                     <a href="#" onclick="return showOfflineTxnSettingDialog();" data-lang-key="offline-txn-signing" tabindex="4">Offline Transaction Signing</a>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return getHeisenTokens();" data-lang-key="get-heisen-for-dogep-tokens" tabindex="5">Get Heisen Tokens For DogeP Tokens</a>
                                 </div>
                             </div>
                         </div>
@@ -1616,7 +1620,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1661,7 +1665,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1751,7 +1755,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1782,7 +1786,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1826,7 +1830,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                             <p>
                                 <label data-lang-key="copy-eth-address">Copy your Ethereum Address from</label> <a href="#" onclick="return openSnapshotUrl();">snapshot.quantumcoin.org</a>
@@ -1845,7 +1849,7 @@
                                    placeholder="Ethereum Address"
                                    data-placeholder-key="enter-eth-address" tabindex="1">
                             <div id="divEthSignMessage">
-                                <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a>.</div>
+                                <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">Docs</a>.</div>
                                 <textarea id="txtSignatureMessage" style="width: 100%;" disabled rows="6" cols="100" tabindex="2">MY ETH ADDRESS IS 0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS 0xa553b8935988e6260b6e3c3ff5b340ee478b504b7166b4881365a9153c80a78c.</textarea>
                                 <div style="display: flex; flex-direction: row; height: 40px; justify-content: center;">
                                     <div class="copy-container" role="button" style="float:left;" onclick="copyConversionSigningMessage()" tabindex="3"></div>
@@ -1872,12 +1876,12 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
                             <div class="divider"></div>
-                            <div class="heading medium"><label data-lang-key="paste-signature-info">Paste the signature of the message signed as per instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a></div>
+                            <div class="heading medium"><label data-lang-key="paste-signature-info">Paste the signature of the message signed as per instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">Docs</a></div>
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 200;"
                                    type="text" autocomplete="off" id="ethSignature" name="ethSignature" data-placeholder-key="paste-signature"

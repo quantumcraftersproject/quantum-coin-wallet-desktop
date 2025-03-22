@@ -1928,7 +1928,7 @@ async function showNextTxnPage() {
 }
 
 async function showHelp() {
-    OpenUrl("https://dpdocs.org");
+    OpenUrl("https://QuantumCoin.org");
     return false;
 }
 
