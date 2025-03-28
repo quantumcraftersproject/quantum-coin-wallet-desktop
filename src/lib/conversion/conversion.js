@@ -21,7 +21,12 @@ var heisenAddressMap = new Map();
 
 var conversionContext = "q";
 
-const CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS]."
+const CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS].";
+
+const TOKEN_CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING TOKENS FOR QUANTUM CONTRACT [QUANTUM_CONTRACT_ADDRESS] FOR MY TOKENS IN ETHEREUM CONTRACT [ETH_CONTRACT_ADDRESS] IS [QUANTUM_ADDRESS].";
+var HEISEN_CONTRACT_ADDRESS = "0xe8ea8beb86e714ef2bde0afac17d6e45d1c35e48f312d6dc12c4fdb90d9e8a3d";
+var TOKEN_CONVERSION_CONTRACT_ADDRESS = "0x90b6b4e9cF99255a7a527F0e8E5a9a8669Af4a8B56B030353127f809292f0632";
+var DOGEP_CONTRACT_ADDRESS = "0xe7eaec9bca79d537539c00c58ae93117fb7280b9";
 
 async function initConversion() {
     const response = await fetch("./lib/conversion/dp.csv");
@@ -229,7 +234,7 @@ async function loadEthAddressesFromSeed() {
             }
         }
         if (conversionWallets.length == 0) {
-            showWarnAlert(langJson.langValues.noEthConversionWallets);
+            showWarnAlert(langJson.errors.noEthConversionWallets);
             return;
         }
         if (conversionWallets.length == 1) {
@@ -358,10 +363,16 @@ async function getCoinsScreen4() {
 
 function getConversionMessageSigning(ethAddr, quantumAddr) {
     var msg = CONVERSION_MESSAGE_TEMPLATE;
+    if(conversionContext === "h") {
+        msg = TOKEN_CONVERSION_MESSAGE_TEMPLATE;
+        msg = msg.replace("[QUANTUM_CONTRACT_ADDRESS]", HEISEN_CONTRACT_ADDRESS.toLowerCase())
+        msg = msg.replace("[ETH_CONTRACT_ADDRESS]", DOGEP_CONTRACT_ADDRESS.toLowerCase())
+    }
     msg = msg.replace("[ETH_ADDRESS]", ethAddr.toLowerCase())
     msg = msg.replace("[QUANTUM_ADDRESS]", quantumAddr.toLowerCase())
     return msg;
 }
+
 function getConversionMessageDisplay(ethAddr, quantumAddr) {
     var msg = langJson.langValues.conversionMessage;
     if (conversionContext === "h") {
@@ -639,8 +650,7 @@ async function postConversionTransaction(quantumWallet) {
         var contractAddress = "0x0000000000000000000000000000000000000000000000000000000000002000";
 
         if(conversionContext === "h") {
-            abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"submitterAddress\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"burnProof\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"OnSubmitBurnProof\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"BurnProofs\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ConversionRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getBurnProof\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getBurnProofsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getConversionRequest\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"internalType\":\"structTokenConversionContract.ConversionRequest\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getConversionRequestsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"burnProof\",\"type\":\"string\"}],\"name\":\"submitBurnProof\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
-            contractAddress = "";
+            contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
         }
 
         const gas = 300000;
@@ -747,8 +757,7 @@ async function signOfflineConversionTransaction(quantumWallet) {
         var contractAddress = "0x0000000000000000000000000000000000000000000000000000000000002000";
 
         if(conversionContext === "h") {
-            abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"submitterAddress\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"burnProof\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"OnSubmitBurnProof\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"BurnProofs\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ConversionRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getBurnProof\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getBurnProofsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getConversionRequest\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"internalType\":\"structTokenConversionContract.ConversionRequest\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getConversionRequestsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"burnProof\",\"type\":\"string\"}],\"name\":\"submitBurnProof\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
-            contractAddress = "";
+            contractAddress = HEISEN_CONTRACT_ADDRESS;
         }
 
         const gas = 300000;
