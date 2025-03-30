@@ -183,6 +183,41 @@ async function initApp() {
     }
 
     resumePostEula();
+    resizeBoxes();
+}
+
+function resizeBoxes() {
+    let maxHeight = "";
+    let tokensMaxHeight = "";
+
+    if(screen.height >= 1024) {
+        maxHeight = "520px";
+        tokensMaxHeight = "295px";
+    } else if(screen.height >= 960) {
+        maxHeight = "515px";
+        tokensMaxHeight = "295px";
+    } else if(screen.height >= 900) {
+        maxHeight = "500px";
+        tokensMaxHeight = "295px";
+    } else if(screen.height >= 800) {
+        maxHeight = "450px";
+        tokensMaxHeight = "295px";
+    } else if(screen.height >= 768) {
+        maxHeight = "430px";
+        tokensMaxHeight = "225px";
+    } else if(screen.height >= 720) {
+        maxHeight = "380px";
+        tokensMaxHeight = "180px";
+    } else {
+        maxHeight = "275px";
+        tokensMaxHeight = "60px";
+    }
+
+    document.getElementById("divMainScreenTokens").style.maxHeight = tokensMaxHeight;
+    let elements = document.getElementsByClassName("roundex-box");
+    for(let i =0; i < elements.length;i++){
+        elements[i].style.maxHeight  = maxHeight;
+    }
 }
 
 async function resumePostEula() {
@@ -669,6 +704,7 @@ async function showWalletScreen() {
     document.getElementById('ReceiveScreen').style.display = 'none';
     document.getElementById('TransactionsScreen').style.display = 'none';
     document.getElementById('backupWalletScreen').style.display = 'none';
+    document.getElementById('ValidatorScreen').style.display = 'none';
 
     document.getElementById('main-content').style.display = 'block';
     document.getElementById('divMainContent').style.display = 'block';
@@ -1204,6 +1240,7 @@ async function openBlockExplorerAccount() {
 }
 
 function showSettingsScreen() {
+    document.getElementById('ahrefWalletPath').focus();
     document.getElementById('gradient').style.height = '116px';
     document.getElementById('login-content').style.display = "none";
     document.getElementById('main-content').style.display = "none";

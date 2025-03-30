@@ -218,7 +218,12 @@
       "i-agree": "I agree",
       "eula": "THIS SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
       "get-heisen-for-dogep-tokens": "Get Heisen For DogeP Tokens",
-      "conversionMessageHeisen": "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING HEISEN TOKENS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS]."
+      "conversionMessageHeisen": "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING HEISEN TOKENS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS].",
+      "validator-help": "Use these options only if you want to run a validator node or if you are already running one. You can check your validation status at: ",
+      "validator": "Validator",
+      "validator-address": "Validator Address",
+      "coins-to-deposit": "Coins to deposit",
+      "validator-options": "Validator Options"
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",
