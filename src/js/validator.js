@@ -40,8 +40,8 @@ async function updateValidatorScreen() {
     document.getElementById("divValidatorScreenPassword").style.display = "none";
     document.getElementById("divValidatorButton").style.display = "none";
 
-    let ddlCoinTokenToSend = document.getElementById("ddlValidatorOptions");
-    let selectedValue = ddlCoinTokenToSend.value;
+    let ddlValidatorOptions = document.getElementById("ddlValidatorOptions");
+    let selectedValue = ddlValidatorOptions.value;
 
     if(selectedValue === "none") {
 
@@ -80,7 +80,54 @@ async function updateValidatorScreen() {
 }
 
 function validation() {
+    let ddlValidatorOptions = document.getElementById("ddlValidatorOptions");
+    let selectedValue = ddlValidatorOptions.value;
 
+    if(selectedValue === "newdeposit") {
+        newDeposit();
+    } else if(selectedValue === "increasedeposit") {
+
+    } else if(selectedValue === "initiatepartialwithdrawal") {
+
+    } else if(selectedValue === "completepartialwithdrawal") {
+
+    } else if(selectedValue === "pausevalidation") {
+
+    } else if(selectedValue === "resumevalidation") {
+
+    } else {
+
+    }
+}
+
+async function newDeposit() {
+    let validatorAddress = document.getElementById("txtValidatorAddress").value;
+    let validatorDepositCoins = document.getElementById("txtValidatorDepositCoins").value;
+
+    if (validatorAddress == null || validatorAddress.length < ADDRESS_LENGTH_CHECK || IsValidAddress(validatorAddress) == false) {
+        showWarnAlert(langJson.errors.quantumAddr);
+        return false;
+    }
+
+    if (currentWalletAddress.toLowerCase().trim() === validatorAddress.toLowerCase().trim()) {
+        showWarnAlert(langJson.errors.validatorDepositorAddress);
+        return false;
+    }
+
+    if (validatorDepositCoins == null || validatorDepositCoins.length < 1) {
+        showWarnAlert(langJson.errors.enterAmount);
+        return false;
+    }
+
+    let okQuantity = await isValidEther(validatorDepositCoins);
+    if (isValidEther(okQuantity) == false) {
+        showWarnAlert(langJson.errors.enterAmount);
+        return false;
+    }
+
+    let msg = langJson.langValues.sendConfirm;
+    msg = msg.replace("[QUANTITY]", validatorNewDepositConfirm);
+    showConfirmAndExecuteOnConfirm(msg, okNewDepositConfirm);
 }
 
 function signOfflineValidation() {

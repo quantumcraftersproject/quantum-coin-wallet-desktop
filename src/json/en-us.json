@@ -223,7 +223,8 @@
       "validator": "Validator",
       "validator-address": "Validator Address",
       "coins-to-deposit": "Coins to deposit",
-      "validator-options": "Validator Options"
+      "validator-options": "Validator Options",
+      "validatorNewDepositConfirm": "You are depositing [QUANTITY] coins to become a validator."
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",
@@ -264,6 +265,7 @@
       "internetDisconnected": "The server might be busy or your internet connection may be having problems. Please check your internet connection and try again after a few minutes.",
       "unexpectedError":  "An unexpected error occurred.",
       "enterCurrentNonce": "Please enter the current nonce to send correctly.",
-      "lowGasError": "An error occurred. Ensure your account has enough coins for gas fee."
+      "lowGasError": "An error occurred. Ensure your account has enough coins for gas fee.",
+      "validatorDepositorAddress": "Validator address cannot be the same as depositor address"
     }
 }
