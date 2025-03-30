@@ -419,7 +419,7 @@ async function sendCoinsSubmit(quantumWallet) {
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);
         currentAccountDetails = accountDetails;
 
-        const gas = 21000;
+        const gas = COIN_SEND_GAS;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = accountDetails.nonce;
         const contractData = null;

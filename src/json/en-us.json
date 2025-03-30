@@ -190,7 +190,7 @@
       "balanceChanged": "Balance changed in wallet",
       "address-to-send": "Address to send to",
       "quantity-to-send": "Quantity to send",
-      "sendRequest": "Your request to send has been added to the queue for processing. Transaction: [TRANSACTION_HASH]",
+      "sendRequest": "Your request has been added to the queue for processing. Transaction: [TRANSACTION_HASH]",
       "receive-coins": "Receive Coins",
       "send-only": "Send only Quantum Coins to this address!",
       "inout": "In/Out",
@@ -224,7 +224,12 @@
       "validator-address": "Validator Address",
       "coins-to-deposit": "Coins to deposit",
       "validator-options": "Validator Options",
-      "validatorNewDepositConfirm": "You are depositing [QUANTITY] coins to become a validator."
+      "validatorNewDepositConfirm": "You are depositing [QUANTITY] coins to become a validator. If you do not run a validator node, you might get slashings and loose the deposited coins.",
+      "validatorIncreaseDepositConfirm": "You are depositing [QUANTITY] more coins to your validator account. If your validator node is not running, you might get slashings and loose the deposited coins.",
+      "validatorInitiatePartialWithdrawalConfirm": "You are initiating withdrawal of [QUANTITY] coins from your validator account.",
+      "validatorCompletePartialWithdrawalConfirm": "You are completing withdrawal of a previous withdrawal request from your validator account.",
+      "validatorPauseValidationConfirm": "You are pausing validation.",
+      "validatorResumeValidationConfirm": "You are resuming validation. If your validator node is not running, you might get slashings and loose the deposited coins."
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",
