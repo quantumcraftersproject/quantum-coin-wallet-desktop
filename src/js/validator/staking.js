@@ -10,9 +10,9 @@ function getNewDepositContractData(validatorAddress) {
 	return bytes;
 }
 
-function getIncreaseDepositContractData(amount) {
+function getIncreaseDepositContractData() {
 	var method = "increaseDeposit";
-	var contractData = SingleAmountArgumentMethod(method, STAKING_ABI, amount)
+	var contractData = NoArgumentMethod(method, STAKING_ABI)
 	var bytes = [];
 	for (var i = 0; i < contractData.length; ++i) {
 		bytes.push(contractData.charCodeAt(i));

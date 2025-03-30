@@ -229,7 +229,8 @@
       "validatorInitiatePartialWithdrawalConfirm": "You are initiating withdrawal of [QUANTITY] coins from your validator account.",
       "validatorCompletePartialWithdrawalConfirm": "You are completing withdrawal of a previous withdrawal request from your validator account.",
       "validatorPauseValidationConfirm": "You are pausing validation.",
-      "validatorResumeValidationConfirm": "You are resuming validation. If your validator node is not running, you might get slashings and loose the deposited coins."
+      "validatorResumeValidationConfirm": "You are resuming validation. If your validator node is not running, you might get slashings and loose the deposited coins.",
+      "quantity": "Quantity"
     },
     "errors": {
       "error": "An unexpected error occurred. Immediately backup the wallet folder at [STORAGE_PATH]. [ERROR]",

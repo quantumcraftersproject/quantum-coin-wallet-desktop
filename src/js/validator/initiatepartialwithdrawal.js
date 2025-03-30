@@ -62,8 +62,9 @@ async function initiatePartialWithdrawalConfirmSubmit(quantumWallet) {
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = accountDetails.nonce;
         const contractData = getInitiatePartialWithdrawalContractData(validatorDepositCoins);
+        const value = "0";
 
-        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData)
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData)
         if (txSigningHash == null) {
             hideWaitingBox();
             showWarnAlert(langJson.errors.unexpectedError);
@@ -77,7 +78,7 @@ async function initiatePartialWithdrawalConfirmSubmit(quantumWallet) {
             return;
         }
 
-        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData,
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData,
             base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
         if (txHashHex == null) {
             hideWaitingBox();
@@ -87,7 +88,7 @@ async function initiatePartialWithdrawalConfirmSubmit(quantumWallet) {
 
         //account txn data
         let currentDate = new Date();
-        var txData = transactionGetData(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        var txData = transactionGetData(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
         if (txData == null) {
             hideWaitingBox();
             showWarnAlert(langJson.errors.unexpectedError);
@@ -96,7 +97,7 @@ async function initiatePartialWithdrawalConfirmSubmit(quantumWallet) {
 
         let result = await postTransaction(currentBlockchainNetwork.txnApiDomain, txData);
         if (result == true) {
-            let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, true);
+            let pendingTxn = new TransactionDetails(txHashHex, currentDate, quantumWallet.address, STAKING_CONTRACT_ADDRESS, value, true);
             pendingTransactionsMap.set(quantumWallet.address.toLowerCase() + currentBlockchainNetwork.index.toString(), pendingTxn);
 
             setTimeout(() => {
