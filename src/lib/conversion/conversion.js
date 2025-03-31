@@ -5,6 +5,8 @@ const ConversionMode = {
     Manual: 'manual'
 };
 
+const CONVERSION_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000000000000000000000002000";
+
 var conversionAddressMap = new Map();
 var ethAddressListSelectOptionTemplate = "";
 var ethSeedWordList = "";
@@ -17,7 +19,18 @@ var ethSignature = "";
 
 var conversionMode = "";
 
-const CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS]."
+var heisenAddressMap = new Map();
+
+var conversionContext = "q";
+
+const CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS [QUANTUM_ADDRESS].";
+
+const TOKEN_CONVERSION_MESSAGE_TEMPLATE = "MY ETH ADDRESS IS [ETH_ADDRESS]. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING TOKENS FOR QUANTUM CONTRACT [QUANTUM_CONTRACT_ADDRESS] FOR MY TOKENS IN ETHEREUM CONTRACT [ETH_CONTRACT_ADDRESS] IS [QUANTUM_ADDRESS].";
+var HEISEN_CONTRACT_ADDRESS = "0xe8ea8beb86e714ef2bde0afac17d6e45d1c35e48f312d6dc12c4fdb90d9e8a3d";
+var TOKEN_CONVERSION_CONTRACT_ADDRESS = "0x90b6b4e9cF99255a7a527F0e8E5a9a8669Af4a8B56B030353127f809292f0632";
+
+var DOGEP_CONTRACT_ADDRESS = "0xe7eaec9bca79d537539c00c58ae93117fb7280b9";
+
 async function initConversion() {
     const response = await fetch("./lib/conversion/dp.csv");
     if (response.ok != true) {
@@ -38,11 +51,43 @@ async function initConversion() {
     }
 
     ethAddressListSelectOptionTemplate = document.getElementById("sltEthAddresses").innerHTML;
+
+    await initHeisenConversion();
+}
+
+async function initHeisenConversion() {
+    const response = await fetch("./lib/conversion/heisen.csv");
+    if (response.ok != true) {
+        showWarnAlert(getGenericError("conversion"));
+        return false;
+    }
+    var filedata = await response.text();
+
+    var lines = filedata.split("\n");
+    for (i in lines) {
+        var columns = lines[i].split(",");
+        let item = {
+            address: columns[0],
+            tokenCount: columns[1],
+            coinCount: columns[1]
+        }
+        heisenAddressMap.set(columns[0].toLowerCase(), item);
+    }
 }
 
 function openConversionHelpUrl() {
-    OpenUrl("https://dpdocs.org/desktop-wallet.html#getting-coins-for-tokens")
+    OpenUrl("https://quantumcoin.org/desktop-wallet.html#getting-coins-for-tokens")
     return false;
+}
+
+function getHeisenTokens() {
+    conversionContext = "h";
+    getCoinsScreen1();
+}
+
+function getQuantumCoinsForTokens() {
+    conversionContext = "q";
+    getCoinsScreen1();
 }
 
 function getCoinsScreen1() {
@@ -180,14 +225,19 @@ async function loadEthAddressesFromSeed() {
     try {
         let walletList = await phraseToWalletsEth(ethSeedWordList);
         conversionWallets = [];
+        var mapToUse = conversionAddressMap;
+        if(conversionContext === "h") {
+            mapToUse = heisenAddressMap;
+        }
+
         for (let index = 0; index < walletList.length; index++) {
             let addr = walletList[index].address.toLowerCase();
-            if (conversionAddressMap.has(addr)) {
-                conversionWallets.push(conversionAddressMap.get(addr));
+            if (mapToUse.has(addr)) {
+                conversionWallets.push(mapToUse.get(addr));
             }
         }
         if (conversionWallets.length == 0) {
-            showWarnAlert(langJson.langValues.noEthConversionWallets);
+            showWarnAlert(langJson.errors.noEthConversionWallets);
             return;
         }
         if (conversionWallets.length == 1) {
@@ -229,7 +279,12 @@ function showEthSignMessage() {
         return;
     }
 
-    if (conversionAddressMap.has(currentConversionEthAddress.toLowerCase()) == false) {
+    var mapToUse = conversionAddressMap;
+    if(conversionContext === "h") {
+        mapToUse = heisenAddressMap;
+    }
+
+    if (mapToUse.has(currentConversionEthAddress.toLowerCase()) == false) {
         return;
     }
 
@@ -251,7 +306,13 @@ function getCoinsScreen3d() {
         showWarnAlert(langJson.errors.ethAddr);
         return false;
     }
-    if (conversionAddressMap.has(ethAddrSigning.toLowerCase()) == false) {
+
+    var mapToUse = conversionAddressMap;
+    if(conversionContext === "h") {
+        mapToUse = heisenAddressMap;
+    }
+
+    if (mapToUse.has(ethAddrSigning.toLowerCase()) == false) {
         showWarnAlert(langJson.errors.noEthConversionWallet);
         return false;
     }
@@ -305,12 +366,21 @@ async function getCoinsScreen4() {
 
 function getConversionMessageSigning(ethAddr, quantumAddr) {
     var msg = CONVERSION_MESSAGE_TEMPLATE;
+    if(conversionContext === "h") {
+        msg = TOKEN_CONVERSION_MESSAGE_TEMPLATE;
+        msg = msg.replace("[QUANTUM_CONTRACT_ADDRESS]", HEISEN_CONTRACT_ADDRESS.toLowerCase())
+        msg = msg.replace("[ETH_CONTRACT_ADDRESS]", DOGEP_CONTRACT_ADDRESS.toLowerCase())
+    }
     msg = msg.replace("[ETH_ADDRESS]", ethAddr.toLowerCase())
     msg = msg.replace("[QUANTUM_ADDRESS]", quantumAddr.toLowerCase())
     return msg;
 }
+
 function getConversionMessageDisplay(ethAddr, quantumAddr) {
     var msg = langJson.langValues.conversionMessage;
+    if (conversionContext === "h") {
+        msg = langJson.langValues.conversionMessageHeisen;
+    }
     msg = msg.replace("[ETH_ADDRESS]", ethAddr.toLowerCase())
     msg = msg.replace("[QUANTUM_ADDRESS]", quantumAddr.toLowerCase())
     return msg;
@@ -383,7 +453,13 @@ async function loadEthAddressFromKey() {
     try {
         let wallet = await walletEthFromKey(conversionEthKey);
         let addr = wallet.address.toLowerCase();
-        if (conversionAddressMap.has(addr) == false) {
+
+        var mapToUse = conversionAddressMap;
+        if(conversionContext === "h") {
+            mapToUse = heisenAddressMap;
+        }
+
+        if (mapToUse.has(addr) == false) {
             showWarnAlert(langJson.errors.noEthConversionWallet);
             return;
         }
@@ -451,7 +527,13 @@ async function processEthJsonFile(walletJson, walletPassword) {
     try {
         let keyStore = await keyStoreAccountEthFromJson(walletJson, walletPassword);
         let addr = keyStore.address.toLowerCase();
-        if (conversionAddressMap.has(addr) == false) {
+
+        var mapToUse = conversionAddressMap;
+        if(conversionContext === "h") {
+            mapToUse = heisenAddressMap;
+        }
+
+        if (mapToUse.has(addr) == false) {
             hideWaitingBox();
             showWarnAlert(langJson.errors.noEthConversionWallet);
             return;
@@ -492,7 +574,7 @@ async function openSnapshotUrl() {
 }
 
 function openConversionSigningHelpUrl() {
-    OpenUrl("https://dpdocs.org/desktop-wallet.html#getting-coins-for-tokens-manually")
+    OpenUrl("https://quantumcoin.org/desktop-wallet.html#getting-coins-for-tokens-manually")
     return false;
 }
 
@@ -567,8 +649,13 @@ async function postConversionTransaction(quantumWallet) {
         //get account balance
         let accountDetails = await getAccountDetails(currentBlockchainNetwork.scanApiDomain, currentWalletAddress);        
 
-        const abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"OnConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getConversionStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getQuantumAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"}],\"name\":\"setConverted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
-        const contractAddress = "0x0000000000000000000000000000000000000000000000000000000000002000";
+        var abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"OnConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getConversionStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getQuantumAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"}],\"name\":\"setConverted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
+        var contractAddress = CONVERSION_CONTRACT_ADDRESS;
+
+        if(conversionContext === "h") {
+            contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
+        }
+
         const gas = 300000;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = accountDetails.nonce;
@@ -669,8 +756,13 @@ async function signOfflineConversionTransaction(quantumWallet) {
     }
 
     try {
-        const abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"OnConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getConversionStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getQuantumAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"}],\"name\":\"setConverted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
-        const contractAddress = "0x0000000000000000000000000000000000000000000000000000000000002000";
+        var abi = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"OnConversion\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"ethereumSignature\",\"type\":\"string\"}],\"name\":\"OnRequestConversion\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getConversionStatus\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"}],\"name\":\"getQuantumAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ethAddress\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"ethSignature\",\"type\":\"string\"}],\"name\":\"requestConversion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"ethAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quantumAddress\",\"type\":\"address\"}],\"name\":\"setConverted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]";
+        var contractAddress = CONVERSION_CONTRACT_ADDRESS;
+
+        if(conversionContext === "h") {
+            contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
+        }
+
         const gas = 300000;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = tempNonce;
