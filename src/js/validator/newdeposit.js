@@ -26,6 +26,21 @@ async function newDeposit() {
         return false;
     }
 
+    offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled === true) {
+        let currentNonce = document.getElementById("txtCurrentNonceValidator").value;
+        if (currentNonce == null || currentNonce.length < 1) {
+            showWarnAlert(langJson.errors.enterCurrentNonce);
+            return false;
+        }
+
+        let tempNonce = parseInt(currentNonce);
+        if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
+            showWarnAlert(langJson.errors.enterCurrentNonce);
+            return false;
+        }
+    }
+
     if (password == null || password.length < 2) {
         showWarnAlert(langJson.errors.enterQuantumPassword);
         return false;
@@ -60,6 +75,12 @@ async function decryptAndUnlockWalletNewDeposit() {
 }
 
 async function newDepositSubmit(quantumWallet) {
+    offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled === true) {
+        await newDepositOfflineSign(quantumWallet);
+        return;
+    }
+
     updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
     let validatorAddress = document.getElementById("txtValidatorAddress").value;
     let validatorDepositCoins = document.getElementById("txtValidatorDepositCoins").value;
@@ -128,5 +149,58 @@ async function newDepositSubmit(quantumWallet) {
         } else {
             showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
         }
+    }
+}
+
+async function newDepositOfflineSign(quantumWallet) {
+    updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
+    let validatorAddress = document.getElementById("txtValidatorAddress").value;
+    let validatorDepositCoins = document.getElementById("txtValidatorDepositCoins").value;
+    let currentNonce = document.getElementById("txtCurrentNonceValidator").value;
+
+    try {
+        const gas = NEW_DEPOSIT_GAS;
+        const chainId = currentBlockchainNetwork.networkId;
+        const contractData = getNewDepositContractData(validatorAddress);
+        const nonce = parseInt(currentNonce);
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        var txData = transactionGetData(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, validatorDepositCoins, gas, chainId, contractData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        hideWaitingBox();
+        await showOfflineSignatureDialog(txData);
+    }
+    catch (error) {
+        hideWaitingBox();
+        showWarnAlert(langJson.errors.genericError + ' ' + error);
     }
 }

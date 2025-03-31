@@ -50,7 +50,7 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, startFilename));
 
   // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     if (process.platform === 'win32') {
         app.setAppUserModelId('Quantum Coin Wallet');

@@ -177,7 +177,7 @@ btnCancelOfflineTxnSigning.onclick = function () {
 
 
 window.onclick = function (event) {
-    if (event.target == modalOkDialog || event.target == modalConfirm || event.target == modalNetwork || event.target == modaOfflineTxnSigning) {
+    if (event.target == modalOkDialog || event.target == modalConfirm || event.target == modalNetwork || event.target == modaOfflineTxnSigning || event.target == modalOfflineSignature) {
         if (modalOkDialog.style.display !== "none") {
             modalNetwork.style.display = "none";
             modalNetwork.close();
@@ -248,4 +248,29 @@ spanIAgree.onclick = async function () {
     modalEulaDialog.close();
     await storeEulaAccepted();
     await resumePostEula();
+}
+
+//Offline Signature
+var modalOfflineSignature = document.getElementById("modalOfflineSignature");
+var btnOkOfflineSignature = document.getElementById("btnOkOfflineSignature");
+var onCloseFuncOfflineSignature = null;
+
+async function showOfflineSignatureDialog(txData, f) {
+    document.getElementById('txtOfflineSignature').value = txData;
+    modalOfflineSignature.style.display = "block";
+    modalOfflineSignature.showModal();
+    onCloseFuncOfflineSignature = f;
+    return false;
+}
+
+btnOkOfflineSignature.onclick = function () {
+    modalOfflineSignature.style.display = "none";
+    modalOfflineSignature.close();
+
+    if (onCloseFuncOfflineSignature == null) {
+
+    } else {
+        onCloseFuncOfflineSignature();
+        onCloseFuncOfflineSignature = null;
+    }
 }

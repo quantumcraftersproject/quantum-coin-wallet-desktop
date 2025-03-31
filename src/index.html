@@ -139,6 +139,28 @@
         </div>
     </dialog>
 
+    <dialog id="modalOfflineSignature" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="margin-bottom:10px;">
+                <h3 data-lang-key="offline-txn-signing">Offline Transaction Signing</h3>
+                <div style="margin-bottom:20px;">
+                    <p>
+                        <label data-lang-key="offline-txn-help">Copy the below signed transaction and submit it at: </label> <a tabindex="4" href="#" onclick="return openOfflineTxnSigningUrl();">https://QuantumCoin.org/offline-transaction-signing.html</a>
+                    </p>
+                </div>
+                <div id="divOfflineSignature">
+                    <div style="padding-bottom:20px;" class="network-template">
+                           <textarea id="txtOfflineSignature" style="width: 100%;" disabled rows="15" cols="100" tabindex="1">
+
+                           </textarea>
+                        <div class="copy-container" role="button" style="float:left;" onclick="copyOfflineSignature()" id="divOfflineSignatureCopy" tabindex="2"></div>
+                    </div>
+                </div>
+                <button class="oknetwork" data-lang-key="ok" role="button" id="btnOkOfflineSignature" tabindex="3">Ok</button>
+            </div>
+        </div>
+    </dialog>
+
     <div style="margin: -10px;">
         <div class="dropdown" onclick="return showNetworkDialog();" id="divNetworkDropdown" role="button" tabindex="1000" style="display:none;">
             <div style="width:fit-content;margin-top:4px;float:left;"><span class="networkbox" id="spnNetwork">MAINNET&#x25BC;</span></div>
@@ -1469,7 +1491,7 @@
 
             <div class="center-content home-content" id="ValidatorScreen" style="margin-top:110px;">
                 <div class="center-content-rounded-container">
-                    <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="2308">
+                    <div class="back-container" role="button" onclick="showSettingsScreen();" tabindex="2308">
 
                     </div>
                     <div class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
@@ -1538,7 +1560,7 @@
                             <div class="large_button_container heading large" onclick="return validation();" data-lang-key="submit" role="button" tabindex="2306" id="btnValidation" style="float:right;">
                                 Submit
                             </div>
-                            <div class="large_button_container heading large" onclick="return signOfflineValidation();" data-lang-key="sign-offline" role="button" tabindex="2307" style="margin-left:15px;float:right;" id="btnOfflineValidation">
+                            <div class="large_button_container heading large" onclick="return validation();" data-lang-key="sign-offline" role="button" tabindex="2307" style="margin-left:15px;float:right;" id="btnOfflineValidation">
                                 Offline Sign
                             </div>
                         </div>

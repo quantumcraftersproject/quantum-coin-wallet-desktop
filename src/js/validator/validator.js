@@ -102,8 +102,6 @@ function validation() {
     }
 }
 
-
-function signOfflineValidation() {
-
+async function copyOfflineSignature() {
+    await WriteTextToClipboard(document.getElementById('txtOfflineSignature').value);
 }
-

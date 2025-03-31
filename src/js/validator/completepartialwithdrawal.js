@@ -1,6 +1,21 @@
 const COMPLETE_PARTIAL_WITHDRAWAL_GAS = 50000;
 
 async function completePartialWithdrawal() {
+    offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled === true) {
+        let currentNonce = document.getElementById("txtCurrentNonceValidator").value;
+        if (currentNonce == null || currentNonce.length < 1) {
+            showWarnAlert(langJson.errors.enterCurrentNonce);
+            return false;
+        }
+
+        let tempNonce = parseInt(currentNonce);
+        if (Number.isInteger(tempNonce) == false || tempNonce < 0) {
+            showWarnAlert(langJson.errors.enterCurrentNonce);
+            return false;
+        }
+    }
+
     var password = document.getElementById("pwdValidator").value;
 
     if (password == null || password.length < 2) {
@@ -36,6 +51,12 @@ async function decryptAndUnlockWalletCompletePartialWithdrawal() {
 }
 
 async function completePartialWithdrawalSubmit(quantumWallet) {
+    offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
+    if (offlineSignEnabled === true) {
+        await completePartialWithdrawalOfflineSign(quantumWallet);
+        return;
+    }
+
     updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
 
     try {
@@ -94,6 +115,62 @@ async function completePartialWithdrawalSubmit(quantumWallet) {
             hideWaitingBox();
             showWarnAlert(langJson.errors.invalidApiResponse);
         }
+    }
+    catch (error) {
+        hideWaitingBox();
+
+        if (isNetworkError(error)) {
+            showWarnAlert(langJson.errors.internetDisconnected);
+        } else {
+            showWarnAlert(langJson.errors.invalidApiResponse + ' ' + error);
+        }
+    }
+}
+
+async function completePartialWithdrawalOfflineSign(quantumWallet) {
+    updateWaitingBox(langJson.langValues.pleaseWaitSubmit);
+    let currentNonce = document.getElementById("txtCurrentNonceValidator").value;
+
+    try {
+        const gas = COMPLETE_PARTIAL_WITHDRAWAL_GAS;
+        const chainId = currentBlockchainNetwork.networkId;
+        const nonce = parseInt(currentNonce);
+        const contractData = getCompletePartialWithdrawalContractData();
+        const value = "0.0";
+
+        var txSigningHash = transactionGetSigningHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData)
+        if (txSigningHash == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        var quantumSig = walletSign(quantumWallet, txSigningHash);
+
+        var verifyResult = cryptoVerify(txSigningHash, quantumSig, base64ToBytes(quantumWallet.getPublicKey()));
+        if (verifyResult == false) {
+            return;
+        }
+
+        var txHashHex = transactionGetTransactionHash(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData,
+            base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txHashHex == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        //account txn data
+        let currentDate = new Date();
+        var txData = transactionGetData(quantumWallet.address, nonce, STAKING_CONTRACT_ADDRESS, value, gas, chainId, contractData, base64ToBytes(quantumWallet.getPublicKey()), quantumSig);
+        if (txData == null) {
+            hideWaitingBox();
+            showWarnAlert(langJson.errors.unexpectedError);
+            return;
+        }
+
+        hideWaitingBox();
+        await showOfflineSignatureDialog(txData);
     }
     catch (error) {
         hideWaitingBox();

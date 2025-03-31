@@ -1137,9 +1137,10 @@ function showSettingsScreen() {
     document.getElementById('OfflineSignConversionScreen').style.display = "none";
     document.getElementById('networkListScreen').style.display = "none";
     document.getElementById('divNetworkDropdown').style.display = 'none';
+    document.getElementById('ValidatorScreen').style.display = "none";
 
     document.getElementById('settings-content').style.display = "block";
-    document.getElementById('settingsScreen').style.display = "block";    
+    document.getElementById('settingsScreen').style.display = "block";
 
     return false;
 }

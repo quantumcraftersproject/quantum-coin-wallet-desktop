@@ -272,6 +272,7 @@
       "unexpectedError":  "An unexpected error occurred.",
       "enterCurrentNonce": "Please enter the current nonce to send correctly.",
       "lowGasError": "An error occurred. Ensure your account has enough coins for gas fee.",
-      "validatorDepositorAddress": "Validator address cannot be the same as depositor address"
+      "validatorDepositorAddress": "Validator address cannot be the same as depositor address",
+      "genericError": "An error occurred."
     }
 }
