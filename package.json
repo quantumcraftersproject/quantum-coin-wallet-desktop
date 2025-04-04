@@ -1,7 +1,7 @@
 {
   "name": "quantumwallet",
   "productName": "quantumwallet",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Quantum Coin",
   "main": "src/index.js",
   "scripts": {
@@ -56,7 +56,7 @@
         "name": "quantumwallet",
         "appCategoryType": "public.app-category.developer-tools",
         "appCopyright": "Copyright © 2025 Quantum Crafters LLC",
-        "appVersion": "3.1.4",
+        "appVersion": "3.1.5",
         "asar": true,
         "icon": "src/assets/icons/app/icon.ico",
         "out": "dist",
