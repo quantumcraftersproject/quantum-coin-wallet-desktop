@@ -18,11 +18,11 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Download Wallet
-        run: curl -k https://quantumcrafters.org/download/quantumwallet-3.1.4.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.4.Setup.exe --create-dirs
+        run: curl -k https://quantumcrafters.org/download/quantumwallet-3.1.5.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.5.Setup.exe --create-dirs
       
       - name: Create Release
         run: |
-          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.4.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.4.Setup.txt
+          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.5.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.5.Setup.txt
           
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
