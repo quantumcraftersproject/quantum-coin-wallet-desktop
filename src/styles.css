@@ -182,21 +182,7 @@ button, input[type="submit"], input[type="reset"] {
     margin-top:5px;
 }
 
-.roundex-box {
-    padding: 10px;
-    background: #ffffff;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    backdrop-filter: blur(32px);
-    box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.3);
-}
-
-.roundex-box-small {
+.roundex-box, .roundex-box-small, .roundex-box-middle {
     padding: 10px;
     background: #ffffff;
     border-radius: 10px;

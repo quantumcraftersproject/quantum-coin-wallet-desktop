@@ -187,27 +187,35 @@ async function initApp() {
 function resizeBoxes() {
     let maxHeight = "";
     let tokensMaxHeight = "";
+    let maxHeightMiddle = "";
 
     if(screen.height >= 1024) {
         maxHeight = "520px";
+        maxHeightMiddle = "550px";
         tokensMaxHeight = "295px";
     } else if(screen.height >= 960) {
         maxHeight = "515px";
+        maxHeightMiddle = "545px";
         tokensMaxHeight = "295px";
     } else if(screen.height >= 900) {
         maxHeight = "500px";
+        maxHeightMiddle = "530px";
         tokensMaxHeight = "295px";
     } else if(screen.height >= 800) {
         maxHeight = "450px";
+        maxHeightMiddle = "495px";
         tokensMaxHeight = "295px";
     } else if(screen.height >= 768) {
         maxHeight = "430px";
+        maxHeightMiddle = "480px";
         tokensMaxHeight = "225px";
     } else if(screen.height >= 720) {
         maxHeight = "380px";
+        maxHeightMiddle = "450px";
         tokensMaxHeight = "180px";
     } else {
         maxHeight = "275px";
+        maxHeightMiddle = "325px";
         tokensMaxHeight = "60px";
     }
 
@@ -215,6 +223,11 @@ function resizeBoxes() {
     let elements = document.getElementsByClassName("roundex-box");
     for(let i =0; i < elements.length;i++){
         elements[i].style.maxHeight  = maxHeight;
+    }
+
+    elements = document.getElementsByClassName("roundex-box-middle");
+    for(let i =0; i < elements.length;i++){
+        elements[i].style.maxHeight  = maxHeightMiddle;
     }
 }
 
@@ -1179,6 +1192,7 @@ function backToSeedScreen() {
     document.getElementById('newSeedScreen').style.display = 'block';
     document.getElementById("divSeedPanel").style.display = "none";
     document.getElementById("divSeedHelp").style.display = "block";
+    document.getElementById("divNewSeedButtons").style.display = "none";
 }
 
 function loadQRcode(qrString) {
