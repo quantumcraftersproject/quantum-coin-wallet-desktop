@@ -108,7 +108,7 @@
             <div style="margin-bottom:10px;">
                 <h3 data-lang-key="offline-txn-signing">Offline Transaction Signing</h3>
                 <div style="margin-bottom:20px;">
-                    <label data-lang-key="help" style="cursor: pointer;">Help</label>: <a href="#" onclick="return openOfflineTxnSigningUrl();">https://QuantumCoin.org/offline-transaction-signing.html</a>
+                    <label data-lang-key="help" style="cursor: pointer;">Help</label>: <a href="#" onclick="return openOfflineTxnSigningUrl();">QuantumCoin.org/offline-transaction-signing.html</a>
                 </div>
                 <div id="divOfflineTxnSigning">
                     <div style="padding-bottom:20px;" class="network-template">
@@ -135,6 +135,28 @@
             <div style="float:left;" id="divLoadingModalIcon"><img src="assets/icons/loading.gif" style="width:70px;margin-top:12px;margin-right:10px;" alt="Loading" /></div>
             <div style="margin-bottom:10px;">
                 <div style="padding-bottom:20px;"><p id="pWaitDetails" class="scrollbar" style="overflow:auto;" tabindex="1">Some text in the Modal..</p></div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalOfflineSignature" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div style="margin-bottom:10px;">
+                <h3 data-lang-key="offline-txn-signing">Offline Transaction Signing</h3>
+                <div style="margin-bottom:20px;">
+                    <p>
+                        <label data-lang-key="offline-txn-help">Copy the below signed transaction and submit it at: </label> <a tabindex="4" href="#" onclick="return openOfflineTxnSigningUrl();">https://QuantumCoin.org/offline-transaction-signing.html</a>
+                    </p>
+                </div>
+                <div id="divOfflineSignature">
+                    <div style="padding-bottom:20px;" class="network-template">
+                           <textarea id="txtOfflineSignature" style="width: 100%;" disabled rows="15" cols="100" tabindex="1">
+
+                           </textarea>
+                        <div class="copy-container" role="button" style="float:left;" onclick="copyOfflineSignature()" id="divOfflineSignatureCopy" tabindex="2"></div>
+                    </div>
+                </div>
+                <button class="oknetwork" data-lang-key="ok" role="button" id="btnOkOfflineSignature" tabindex="3">Ok</button>
             </div>
         </div>
     </dialog>
@@ -205,7 +227,7 @@
         <div class="content" id="quizScreen" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container">
-                    <div class="roundex-box">
+                    <div class="roundex-box-middle">
                         <div class="safety_question_container"></div>
                         <div class="heading bold large" id="divSafetyQuizTitle">Safety Quiz</div>
                         <div class="divider"></div>
@@ -230,7 +252,7 @@
         <div class="content" id="createWalletPasswordScreen" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container">
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box-middle" style="padding-top: 15px; padding-bottom: 15px;">
                         <div class="heading large" data-lang-key="set-wallet-password">Set Wallet Password</div>
                         <div class="divider"></div>
                         <div class="tab-name" data-lang-key="use-strong-password">
@@ -317,7 +339,7 @@
                     <div class="back-container" role="button" onclick="backToCreateWalletPromptScreen()" tabindex="5">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box-middle" style="padding-top: 15px; padding-bottom: 15px;">
                         <div>
                             <div class="heading large" style="float:left;width:fit-content;" data-lang-key="seed-words">Seed Words</div>
                         </div>
@@ -577,7 +599,7 @@
                     <div class="back-container" role="button" onclick="backToSeedScreen()" tabindex="50">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box-middle" style="padding-top: 15px; padding-bottom: 15px;">
                         <div>
                             <div class="heading large" style="float:left;width:fit-content;" data-lang-key="verify-seed-words">Verify Seed Words</div>
                         </div>
@@ -823,7 +845,7 @@
                     <div class="back-container" role="button" onclick="backToCreateWalletPromptScreen()" tabindex="50">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box-middle" style="padding-top: 15px; padding-bottom: 15px;">
                         <div>
                             <div class="heading large" style="float:left;width:fit-content;" data-lang-key="restore-wallet-from-seed">Restore Wallet From Seed Words</div>
                         </div>
@@ -1134,8 +1156,8 @@
         <div class="content" id="backupWalletScreen" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container">
-                    <div class="roundex-box">
-                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet</div>
+                    <div class="roundex-box-middle scrollbar">
+                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet1</div>
                         <div class="heading large">
                             <p data-lang-key="backup-wallet-info-1">For additional safety, please make sure that you keep backup copies in atleast three different devices offline.</p>
                             <p data-lang-key="backup-wallet-info-2">And remember you need your wallet password to restore the backup!</p>
@@ -1206,7 +1228,7 @@
                 </div>
 
                 <div class="center-content-rounded-container" id="divAccountTokens" style="display: none">
-                    <div class="roundex-box boxeffect scrollbar" style="overflow-y: auto;overflow-x: auto;max-height: 295px;text-align: left;">
+                    <div class="roundex-box-small boxeffect scrollbar" id="divMainScreenTokens" style="overflow-y: auto;overflow-x: auto;max-height: 295px;text-align: left;">
                         <table class="styled-table">
                             <thead>
                             <tr>
@@ -1234,7 +1256,7 @@
                     <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="300">
 
                     </div>
-                    <div class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;max-height: 515px;">
+                    <div id="divSendScreenInner" class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
                         <div class="heading bold" data-lang-key="send">Send</div>
                         <div class="divider"></div>
                         <div class="input_container" id="divTokenList">
@@ -1337,7 +1359,7 @@
                     <div class="back-container" role="button" onclick="showWalletScreen();" tabindex="310" id="divBackReceiveScreen">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
                         <div class="heading bold" data-lang-key="receive-coins">Receive Coins</div>
                         <div class="divider"></div>
                         <div style="color:red" data-lang-key="send-only">Send only DP coins to this address!</div>
@@ -1467,6 +1489,85 @@
                 </div>
             </div>
 
+            <div class="center-content home-content" id="ValidatorScreen" style="margin-top:110px;">
+                <div class="center-content-rounded-container">
+                    <div class="back-container" role="button" onclick="showSettingsScreen();" tabindex="2308">
+
+                    </div>
+                    <div class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
+                        <div class="heading bold" data-lang-key="validator">Validator</div>
+                        <div class="tab-name" style="color:black;">
+                                <div class="divider"></div>
+                                <label data-lang-key="validator-help">Use the following options to manage your validation. Use these options only if you want to run a validator node or if you are already running one.
+                                    You can check your validation status at: </label><a href="#" onclick="return openValidatorPage();" id="ahrefValidatorPage" tabindex="2309">link here</a>
+                        </div>
+
+                        <div class="input_container" id="divValidatorOptions">
+                            <div class="selectwrapper">
+                                <select id="ddlValidatorOptions" class="selectbox" tabindex="2300" onchange="updateValidatorScreen();">
+                                    <option value="none">(select an option)</option>
+                                    <option value="newdeposit">New Validator Deposit</option>
+                                    <option value="increasedeposit">Increase Deposit</option>
+                                    <option value="initiatepartialwithdrawal">Initiate Partial Withdrawal</option>
+                                    <option value="completepartialwithdrawal">Complete Partial Withdrawal</option>
+                                    <option value="pausevalidation">Pause Validation</option>
+                                    <option value="resumevalidation">Resume Validation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input_container" id="divValidatorAddress">
+                            <div class="heading medium" data-lang-key="validator-address">Validator Address</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 400;color:black;"
+                                   autocomplete="off" id="txtValidatorAddress" name="validator_address" data-placeholder-key="validator-address"
+                                   placeholder="Validator Address" tabindex="2301">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container" id="divValidatorDepositCoins">
+                            <div class="heading medium" data-lang-key="quantity">Quantity</div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                   type="number" autocomplete="off" id="txtValidatorDepositCoins" name="validator_deposit_coins" data-placeholder-key="quantity"
+                                   placeholder="Quantity" tabindex="2302">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container" id="divCurrentNonceValidator">
+                            <div data-lang-key="nonce-help" style="text-align: left;"></div>
+                            <input class="tab-name"
+                                   style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                   type="number" autocomplete="off" id="txtCurrentNonceValidator" name="current_nonce_validator" data-placeholder-key="current-nonce"
+                                   placeholder="Current Nonce" tabindex="2303" maxlength="6">
+                            <div class="divider"></div>
+                        </div>
+                        <div class="input_container" id="divValidatorScreenPassword">
+                            <div class="heading medium" data-lang-key="enter-wallet-password">Enter Wallet Password</div>
+                            <div style="width:100%;">
+                                <div style="float: left; width: 80%;margin-top:5px;">
+                                    <input class="tab-name"
+                                           style="text-align: left; width: 100%; border: none; outline: none; font-weight: 500; color: black; letter-spacing: 0.11em;"
+                                           type="password" autocomplete="off" id="pwdValidator" name="password" data-placeholder-key="enter-wallet-password"
+                                           placeholder="Enter the password" tabindex="2304">
+                                </div>
+                                <div style="float:left;margin-top:5px;">
+                                    <img src="assets/svg/eye-outline.svg" alt="Show Password" style="cursor:pointer;width:20px;" onclick="togglePasswordBox(this, 'pwdValidator');" data-alt-key="show-password" role="button" tabindex="2305" />
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="divider"></div>
+                        <div style="display: flex; justify-content: flex-end;" id="divValidatorButton">
+
+                            <div class="large_button_container heading large" onclick="return validation();" data-lang-key="submit" role="button" tabindex="2306" id="btnValidation" style="float:right;">
+                                Submit
+                            </div>
+                            <div class="large_button_container heading large" onclick="return validation();" data-lang-key="sign-offline" role="button" tabindex="2307" style="margin-left:15px;float:right;" id="btnOfflineValidation">
+                                Offline Sign
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="tab-bar" id="tab-bar">
                 <div class="tabbutton" id="tab1" onclick="showWalletListScreen();" style="display: flex;flex-direction: column;" role="button" tabindex="9">
                     <img class="tab-icon" style="align-self: center;" src="assets/svg/wallet-outline.svg" alt="Wallets Icon">
@@ -1497,28 +1598,36 @@
         <div class="content" id="settingsScreen" style="display: none;">
             <div class="center-content">
                 <div class="center-content-rounded-container">
-                    <div class="back-container" role="button" onclick="showWalletScreen()" tabindex="5">
+                    <div class="back-container" role="button" onclick="showWalletScreen()" tabindex="4006">
 
                     </div>
-                    <div class="roundex-box">
+                    <div class="roundex-box scrollbar" style="overflow-y: auto;overflow-x: auto;">
                         <div class="heading bold large" data-lang-key="settings">Settings</div>
                         <div class="divider"></div>
                         <div class="input_container">
                             <div class="vertical-menu">
                                 <div class="vertical-menu-item">
-                                    <a href="#" onclick="return getCoinsScreen1();" data-lang-key="get-coins-for-dogep-tokens" tabindex="1">Get Coins For DogeP Tokens</a>
+                                    <a href="#" onclick="return showWalletPath();" data-lang-key="wallet-path" tabindex="4000" id="ahrefWalletPath">Wallet Path</a>
                                 </div>
                                 <div class="divider"></div>
                                 <div class="vertical-menu-item">
-                                    <a href="#" onclick="return showWalletPath();" data-lang-key="wallet-path" tabindex="2">Wallet Path</a>
+                                    <a href="#" onclick="return showNetworksScreen();" data-lang-key="networks" tabindex="4001">Networks</a>
                                 </div>
                                 <div class="divider"></div>
                                 <div class="vertical-menu-item">
-                                    <a href="#" onclick="return showNetworksScreen();" data-lang-key="networks" tabindex="3">Networks</a>
+                                    <a href="#" onclick="return showOfflineTxnSettingDialog();" data-lang-key="offline-txn-signing" tabindex="4002">Offline Transaction Signing</a>
                                 </div>
                                 <div class="divider"></div>
                                 <div class="vertical-menu-item">
-                                    <a href="#" onclick="return showOfflineTxnSettingDialog();" data-lang-key="offline-txn-signing" tabindex="4">Offline Transaction Signing</a>
+                                    <a href="#" onclick="return showValidatorScreen();" data-lang-key="validator-options" tabindex="4003">Validator Options</a>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return getQuantumCoinsForTokens();" data-lang-key="get-coins-for-dogep-tokens" tabindex="4004">Get Coins For DogeP Tokens</a>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="vertical-menu-item">
+                                    <a href="#" onclick="return getHeisenTokens();" data-lang-key="get-heisen-for-dogep-tokens" tabindex="4005">Get Heisen Tokens For DogeP Tokens</a>
                                 </div>
                             </div>
                         </div>
@@ -1611,12 +1720,12 @@
                     <div class="back-container" role="button" onclick="showSettingsScreen()" tabindex="6">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
                         <div class="heading large" data-lang-key="get-coins-for-tokens">Get Coins For DogeP Tokens</div>
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1661,7 +1770,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1751,7 +1860,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1782,7 +1891,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
@@ -1826,7 +1935,7 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                             <p>
                                 <label data-lang-key="copy-eth-address">Copy your Ethereum Address from</label> <a href="#" onclick="return openSnapshotUrl();">snapshot.quantumcoin.org</a>
@@ -1845,7 +1954,7 @@
                                    placeholder="Ethereum Address"
                                    data-placeholder-key="enter-eth-address" tabindex="1">
                             <div id="divEthSignMessage">
-                                <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a>.</div>
+                                <div class="heading medium"><label data-lang-key="copy-message">Copy the following message and get it signed following instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">Docs</a>.</div>
                                 <textarea id="txtSignatureMessage" style="width: 100%;" disabled rows="6" cols="100" tabindex="2">MY ETH ADDRESS IS 0xAa044ccF6BAD46F0de9fb4dF6b7d9fF02D2e195f. I AGREE THAT MY CORRESPONDING QUANTUM ADDRESS FOR GETTING COINS FOR MY DOGEP TOKENS IS 0xa553b8935988e6260b6e3c3ff5b340ee478b504b7166b4881365a9153c80a78c.</textarea>
                                 <div style="display: flex; flex-direction: row; height: 40px; justify-content: center;">
                                     <div class="copy-container" role="button" style="float:left;" onclick="copyConversionSigningMessage()" tabindex="3"></div>
@@ -1872,12 +1981,12 @@
                         <div class="divider"></div>
                         <div class="tab-name" style="color:black;">
                             <p>
-                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">DpDocs</a>
+                                <label data-lang-key="get-coins-for-tokens-info">Get coins for your DogeP tokens. For help and instructions, see documentation at:</label> <a href="#" onclick="return openConversionHelpUrl();">Docs</a>
                             </p>
                         </div>
                         <div class="input_container">
                             <div class="divider"></div>
-                            <div class="heading medium"><label data-lang-key="paste-signature-info">Paste the signature of the message signed as per instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">DpDocs</a></div>
+                            <div class="heading medium"><label data-lang-key="paste-signature-info">Paste the signature of the message signed as per instructions at</label> <a href="#" onclick="return openConversionSigningHelpUrl();">Docs</a></div>
                             <input class="tab-name"
                                    style="text-align: left; width: 100%; border: none; outline: none; font-weight: 200;"
                                    type="text" autocomplete="off" id="ethSignature" name="ethSignature" data-placeholder-key="paste-signature"
@@ -2024,7 +2133,7 @@
                     <div class="back-container" role="button" onclick="showWalletListScreen();" tabindex="6">
 
                     </div>
-                    <div class="roundex-box" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div class="roundex-box-middle scrollbar" style="padding-top: 15px; padding-bottom: 15px;overflow-y: auto;overflow-x:auto;">
                         <div>
                             <div class="heading large" style="float:left;width:fit-content;" data-lang-key="seed-words">Seed Words</div>
                         </div>
@@ -2306,8 +2415,8 @@
                     <div class="back-container" role="button" onclick="showWalletListScreen();" tabindex="4">
 
                     </div>
-                    <div class="roundex-box">
-                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet</div>
+                    <div class="roundex-box-middle scrollbar" style="padding-top: 15px;padding-bottom: 15px;overflow-y: auto;overflow-x: auto;">
+                        <div class="heading bold large" data-lang-key="backup-wallet">Backup Wallet2</div>
                         <div class="divider"></div>
                         <div class="heading medium" id="divSpecificBackupAddress" style="font-size:12px;"></div>
                         <div class="divider"></div>
@@ -2354,10 +2463,19 @@
     <script src="js/blockchain-network.js"></script>
     <script src="js/dialog.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/send.js"></script>
     <script src="js/transaction.js"></script>
     <script src="js/api.js"></script>
     <script src="lib/autocomplete/autocomplete.js"></script>
     <script src="js/token.js"></script>
+    <script src="js/validator/staking.js"></script>
+    <script src="js/validator/validator.js"></script>
+    <script src="js/validator/completepartialwithdrawal.js"></script>
+    <script src="js/validator/increasedeposit.js"></script>
+    <script src="js/validator/initiatepartialwithdrawal.js"></script>
+    <script src="js/validator/newdeposit.js"></script>
+    <script src="js/validator/pausevalidation.js"></script>
+    <script src="js/validator/resumevalidation.js"></script>
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
@@ -2387,6 +2505,7 @@
                 }
             });
         });
+
     </script>
 
 </body>

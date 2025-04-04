@@ -182,7 +182,7 @@ button, input[type="submit"], input[type="reset"] {
     margin-top:5px;
 }
 
-.roundex-box {
+.roundex-box, .roundex-box-small, .roundex-box-middle {
     padding: 10px;
     background: #ffffff;
     border-radius: 10px;
@@ -195,7 +195,6 @@ button, input[type="submit"], input[type="reset"] {
     backdrop-filter: blur(32px);
     box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.3);
 }
-
 
 .text-wallet-address {
     font-family: "Poppins", sans-serif;
@@ -1400,7 +1399,7 @@ select {
 }
 
 .selectbox {
-    border: 10px;
+    border: 2px;
     box-shadow: none;
     flex: 1;
     color: #000000;
@@ -1410,4 +1409,9 @@ select {
     font-size: large;
     width: 100%;
     padding: 5px 10px 5px 5px;
+}
+
+.selectbox:focus {
+    border-color: #000000;
+    border-style: outset;
 }
