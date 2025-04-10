@@ -656,7 +656,7 @@ async function postConversionTransaction(quantumWallet) {
             contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
         }
 
-        const gas = 300000;
+        const gas = 100000;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = accountDetails.nonce;
         const value = "0.0";
@@ -763,7 +763,7 @@ async function signOfflineConversionTransaction(quantumWallet) {
             contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
         }
 
-        const gas = 300000;
+        const gas = 100000;
         const chainId = currentBlockchainNetwork.networkId;
         const nonce = tempNonce;
         const value = "0.0";
