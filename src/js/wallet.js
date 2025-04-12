@@ -143,15 +143,15 @@ async function walletSave(wallet, passphrase) {
         return false;
     }
 
-    let indexStoreResult = await storageSetItem(MAX_WALLET_INDEX_KEY, maxWalletIndex.toString());
-    if (indexStoreResult != true) {
-        return false;
-    }
-
     let walletJson = JSON.stringify(wallet);
     
     let walletStoreResult = await storageSetSecureItem(passphrase, key, walletJson);
     if (walletStoreResult != true) {
+        return false;
+    }
+
+    let indexStoreResult = await storageSetItem(MAX_WALLET_INDEX_KEY, maxWalletIndex.toString());
+    if (indexStoreResult != true) {
         return false;
     }
 
