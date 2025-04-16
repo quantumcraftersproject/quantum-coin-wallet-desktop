@@ -1,4 +1,4 @@
-const NEW_DEPOSIT_GAS = 50000;
+const NEW_DEPOSIT_GAS = 100000;
 
 async function newDeposit() {
     let validatorAddress = document.getElementById("txtValidatorAddress").value;

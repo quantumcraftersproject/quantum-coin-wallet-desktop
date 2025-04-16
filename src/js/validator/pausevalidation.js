@@ -1,4 +1,4 @@
-const PAUSE_VALIDATION_GAS = 50000;
+const PAUSE_VALIDATION_GAS = 100000;
 
 async function pauseValidation() {
     offlineSignEnabled = await offlineTxnSigningGetDefaultValue();

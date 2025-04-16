@@ -1,4 +1,4 @@
-const RESUME_VALIDATION_GAS = 50000;
+const RESUME_VALIDATION_GAS = 100000;
 
 async function resumeValidation() {
     offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
