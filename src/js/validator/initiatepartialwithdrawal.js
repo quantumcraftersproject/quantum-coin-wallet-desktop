@@ -1,4 +1,4 @@
-const INITIATE_PARTIAL_WITHDRAWAL_GAS = 50000;
+const INITIATE_PARTIAL_WITHDRAWAL_GAS = 100000;
 
 async function initiatePartialWithdrawal() {
     let validatorDepositCoins = document.getElementById("txtValidatorDepositCoins").value;

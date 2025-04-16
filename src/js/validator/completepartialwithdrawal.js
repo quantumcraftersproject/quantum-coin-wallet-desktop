@@ -1,4 +1,4 @@
-const COMPLETE_PARTIAL_WITHDRAWAL_GAS = 50000;
+const COMPLETE_PARTIAL_WITHDRAWAL_GAS = 100000;
 
 async function completePartialWithdrawal() {
     offlineSignEnabled = await offlineTxnSigningGetDefaultValue();
