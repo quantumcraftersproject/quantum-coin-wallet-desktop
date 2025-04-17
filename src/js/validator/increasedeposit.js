@@ -1,4 +1,4 @@
-const INCREASE_DEPOSIT_GAS = 100000;
+const INCREASE_DEPOSIT_GAS = 250000;
 
 async function increaseDeposit() {
     let validatorDepositCoins = document.getElementById("txtValidatorDepositCoins").value;
