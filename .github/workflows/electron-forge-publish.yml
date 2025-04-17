@@ -1,9 +1,9 @@
-name: Build/release
+name: Release
 
 on:
   push:
     tags:
-    - '*'    
+    - '*'   
 
 jobs:
   release:
@@ -11,30 +11,28 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest,  ubuntu-latest]
+        os: [windows-latest]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
-        
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11' 
-          
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
-        with:
-          node-version: 21.7.1
 
-      - name: Install Dependencies
-        run: npm install
-    
-      - name: Publish
-        run: npm run publish
-  
+      - name: Download Wallet
+        run: curl -k https://quantumcrafters.org/download/quantumwallet-3.1.8.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.8.Setup.exe --create-dirs
+      
+      - name: Create Release
+        run: |
+          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.8.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.8.Setup.txt
+          
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: qc-release-windows
+          path: |
+              ${{ github.workspace }}/download/*.*
+              
       - name: Release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "out/make/squirrel.windows/x64/*.exe,out/make/*.dmg,out/make/**/*.deb"
+          artifacts: "download/*.exe,download/*.txt"
