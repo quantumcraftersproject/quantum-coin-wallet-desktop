@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "author": "Quantum Coin Community",
+  "author": "Quantum Crafters LLC",
   "license": "MIT",
   "dependencies": {
     "@electron-forge/maker-dmg": "^6.1.1",
@@ -53,6 +53,11 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "name": "quantumwallet",
+        "appCategoryType": "public.app-category.developer-tools",
+        "appCopyright": "Copyright © 2025 Quantum Crafters LLC",
+        "appVersion": "3.1.8",
+        "asar": true,
         "icon": "src/assets/icons/app/icon.ico",
         "out": "dist",
         "osxUniversal": {
@@ -61,47 +66,7 @@
       },
       "makers": [
         {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "quantumwallet",
-            "iconUrl": "https://dogeprotocol.org/img/icon.ico",
-            "setupIcon": "src/assets/icons/app/icon.ico",
-            "loadingGif": "src/assets/icons/loading.gif"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "name": "quantumwallet",
-            "icon": "src/assets/icons/app/icon.icns"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ],
-          "config": {
-            "options": {
-              "icon": "src/assets/icons/app/icon.png"
-            }
-          }
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {
-            "options": {
-              "icon": "src/assets/icons/app/icon.png"
-            }
-          }
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {
-            "options": {
-              "icon": "src/assets/icons/app/icon.png"
-            }
-          }
+          "name": "@electron-forge/maker-zip"
         }
       ]
     }
