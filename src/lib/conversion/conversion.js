@@ -655,7 +655,6 @@ async function postConversionTransaction(quantumWallet) {
 
         if(conversionContext === "h") {
             contractAddress = TOKEN_CONVERSION_CONTRACT_ADDRESS;
-            gas = 65000;
         }
 
         const chainId = currentBlockchainNetwork.networkId;
