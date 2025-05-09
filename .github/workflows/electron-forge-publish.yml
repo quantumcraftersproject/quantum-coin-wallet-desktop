@@ -19,8 +19,9 @@ jobs:
 
       - name: Download Wallet
         run: |
-          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.exe --create-dirs
-          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.dmg --output ${{ github.workspace }}\download\quantumwallet-3.1.10.dmg --create-dirs 
+          mkdir -p ${{ github.workspace }}/download
+          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.exe
+          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.dmg --output ${{ github.workspace }}\download\quantumwallet-3.1.10.dmg 
       - name: Create Release
         run: |
           powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.txt
