@@ -29,7 +29,7 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
-          name: qc-release-quantum-coin-wallet
+          name: qc-release
           path: |
               ${{ github.workspace }}/download/*.*
               
