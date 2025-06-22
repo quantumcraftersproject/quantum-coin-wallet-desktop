@@ -20,12 +20,12 @@ jobs:
       - name: Download Wallet
         run: |
           mkdir -p ${{ github.workspace }}/download
-          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.exe
-          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.10.dmg --output ${{ github.workspace }}\download\quantumwallet-3.1.10.dmg 
+          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.11.Setup.exe --output ${{ github.workspace }}\download\quantumwallet-3.1.11.Setup.exe
+          curl -k https://quantumcrafters.org/download/quantumwallet-3.1.11.dmg --output ${{ github.workspace }}\download\quantumwallet-3.1.11.dmg 
       - name: Create Release
         run: |
-          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.10.Setup.txt
-          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.10.dmg > ${{ github.workspace }}\download\quantumwallet-3.1.10.dmg.txt         
+          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.11.Setup.exe > ${{ github.workspace }}\download\quantumwallet-3.1.11.Setup.txt
+          powershell Get-FileHash ${{ github.workspace }}\download\quantumwallet-3.1.11.dmg > ${{ github.workspace }}\download\quantumwallet-3.1.11.dmg.txt
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
